@@ -1,0 +1,169 @@
+---
+title: "Installera C#" 
+description: Vi installerar en IDE som heter C# SDK och .NET.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import YouTube from '@components/YouTube.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import dotnetLogo from '@assets/dotnetLogo.png';
+
+## Förutsättning
+
+<Figure
+    src={dotnetLogo}
+    height="150px"
+    width="150px"
+    float="right"
+/>
+
+Du har någorlunda nya versioner av följande program installerade:
+
+* Operativsystem Windows/MacOs/Linux
+* Texteditor Visual Studio Code (VS Code)
+* Webbläsare Chrome & Firefox samt OS specifik webbläsare
+* Terminal WSL2 med Ubuntu (Windows)
+* Git
+* Konto på GitHub
+* SSH-nycklar
+
+Detta borde du redan ha från förra läsperioden men saknas något så jobbar du igenom “[Installera kursens labbmiljö](/laromaterial/labbmiljo)” för att få hela labb- och utvecklingsmiljö för kursen.
+
+## Terminalen
+
+Du behöver ha **.NET SDK** (Dotnet Software Development Kit) installerat. Aktuell version på kursen är **10**.
+
+Du kan kolla om du har .NET installerat genom följande kommandon i terminalen.
+
+```shell
+dotnet --version // kolla versionen
+dotnet --help // info om dotnet med flaggor
+```
+
+I den här kursen kör vi programmen vi skapar i terminalen eftersom det är enklare och kan göras på samma sätt på flera plattformar.
+
+### Linux och Windows med WSL2/Ubuntu (från och med 24.04)
+
+Ladda ner den senaste versionen av **.NET** med pakethanteraren **apt** (du behöver använda sudo). Öppna en terminal och kör följande kommandon.
+
+Med .NET SDK (SDK = Software Developers Kit) kan du utveckla appar med .NET. Om du installerar .NET SDK behöver du inte installera motsvarande runtime. Kör följande kommandon för att installera .NET SDK:
+
+```shell
+sudo apt-get update && \
+  sudo apt-get install -y dotnet-sdk-10.0
+```
+
+Första kommandot med *update* uppdaterar listan över tillgängliga paket och deras versioner men installerar inga nya paket. Det kontrollerar bara förändringar i paketlistorna och hämtar nya versioner av befintliga paket.
+
+Det andra kommandot med *upgrade* installerar de senaste versionerna av alla paket i listan.
+
+Det tredje kommandot installerar *.NET version 10*.
+
+:::note
+Om du får problem med installationen, kan du kolla [Install .NET on Linux](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?tabs=dotnet9&pivots=os-linux-ubuntu-2404). Här finns information om hur du installerar om du har en tidigare version av Ubuntu eller använder någon annan Linux.
+:::
+
+### Mac
+
+Ladda ner den senaste versionen av **.NET** med **brew**. Eftersom .NET är en MacOS app bundle så installerar vi med "--cask" så här:
+
+```bash
+brew install --cask dotnet-sdk
+```
+
+Om du får problem med installationen, kan du kolla [Install .NET on macOS](https://learn.microsoft.com/en-us/dotnet/core/install/macos).
+
+Om du redan har installerat .NET och vill uppgradera dess version, till exempel från 8 till 9, gör så här:
+
+```bash
+brew upgrade --cask dotnet-sdk
+```
+
+### Kolla installationen
+
+Kolla om .NET installerats i terminalen. `dotnet --list-sdks` visar alla installationer av .NET. Resultatet av `dotnet --version` visar aktuell version.
+
+```bash
+dotnet --list-sdks
+// Ger till exempel utskriften: 
+// 9.0.119 [/usr/lib/dotnet/sdk]
+// 10.0.112 [/usr/lib/dotnet/sdk]
+dotnet --version
+// Ger utskriften: 10.0.112
+```
+
+Bra, då är det installerat som det ska!
+
+
+## Texteditor - Visual Studio Code
+
+Rekommenderad texteditor är Visual Studio Code som vi kommer att använda för att uppdatera och editera koden.
+
+### Installation
+
+Installera Visual Studio Code, om du inte redan har det.
+
+Installera en extension som heter "C# Dev Kit" från Microsoft. Du klickar på "Extension" och skriver "C# Dev Kit" i sökfältet. Klicka på "Install" och så här ser det ut när "C# Dev Kit" är installerat.
+
+import csharpDevExtension from '@assets/labbmiljo/vscode/csharpDevExtension.png';
+
+<Figure 
+    src={csharpDevExtension}
+    caption="C# Dev Kit extension är installerat."
+/>
+
+## Stäng av AI-hjälpmedel
+
+Det är inte tillåtet att använda AI-hjälpmedel eller liknande som hjälper dig med programmeringen och ger förslag på kod eller avslutar dina rader!
+
+### Stäng av GitHub Copilot - om den är igång
+
+GitHub Copilot är Microsofts egna AI-verktyg som ger förslag på kod medan du skriver. Det är ett verktyg som vi inte vill använda i den här kursen. Det är inte tillåtet att använda AI-verktyg för att generera kod i den här kursen.
+
+Klicka på Copilot-ikonen uppe till höger i VSCode och välj "Disable Copilot" för att stänga av GitHub Copilot.
+
+import extensions_copilot from '@assets/kursrepo-utvecklingsmiljo/extensions_copilot.png';
+
+<Figure 
+    src={extensions_copilot}
+    caption="Stäng av Copilot."
+/>
+
+Klicka på Copilot-ikonen nere till höger i VSCode och välj "Disable Completions" för att stänga av GitHub Copilot automatgenerering.
+
+import extensions_copilot2 from '@assets/kursrepo-utvecklingsmiljo/extensions_copilot2.png';
+
+<Figure 
+    src={extensions_copilot2}
+    caption="Stäng av Copilot."
+/>
+
+### Stäng av Gemini
+
+Gemini är Googles familj av AI-modeller och AI-assistenten (tidigare känd som Bard) som kan hantera text, kod, bilder och ljud.
+
+1. Öppna Extensions (Ctrl+Shift+X eller via menyn Code->Settings->Extensions).
+1. Sök efter Gemini.
+1. Klicka på kugghjulet ⚙️ bredvid tillägget och välj: **Disable**
+
+
+## Sammanfattning
+
+Nu har vi installerat .NET, vilket vi kollat med `dotnet --version`. Dessutom har vi installerat en extension "C# Dev Kit" i Visual Studio Code. Vidare har vi stängt av Copilot och Gemini. Behöver du mer information så läs [Getting Started with C# in VS Code](https://code.visualstudio.com/docs/csharp/get-started).
+
+<LinkCard 
+  title="Tillbaka till - Kom igång"
+  href="/kmom/#labbmiljö"
+/>

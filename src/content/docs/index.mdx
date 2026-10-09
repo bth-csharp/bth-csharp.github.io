@@ -1,0 +1,256 @@
+---
+title: Välkommen till kursen CSharp
+description: Kursplats för kursen Objektorienterad programmering i CSharp vid BTH.
+template: doc
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { YouTube } from 'astro-embed';
+import { Image } from 'astro:assets'
+import Figure from '@components/CustomFigure.astro';
+
+import csharpLogo from '@assets/csharpLogo.jpeg';
+
+import grmImage from '@assets/teacher/grm.jpg';
+import bbeImage from '@assets/teacher/bbe.jpg';
+
+<Figure
+	src={csharpLogo}
+	height="250px"
+	width="250px"
+	float="right"
+/>
+
+Kursen Objektorienterad programmering i CSharp, a.k.a. csharp, lär ut grunderna i objektorienterad programmering genom teori och praktiska lösningar med implementation i programmeringsspråket CSharp (C#).
+
+Kursen har förkunskapskrav på genomgången kurs i programmering om 7,5 hp.
+
+Först så jämför vi Python med C# och tittar mer på C#. Därefter introducerar vi objektorienterad programmering och UML. När vi tränat på klasser och objekt så går vi vidare med bland annat arv och abstrakta klasser. Vi använder testprojekt för att testa vår kod.
+
+
+## Kursmoment
+
+<LinkCard 
+  title="Kursintroduktion"
+  href="/kmom/"
+  description="Här hittar du en introduktion till kursen, hur den är upplagd och vad du kan förvänta dig av den."
+/>
+
+<LinkCard 
+  title="Studieguide"
+  href="/studieguide/"
+  description="Här hittar du artiklar som tar upp olika ämnen runt kopplade studierna."
+/>
+
+<CardGrid>
+
+<LinkCard
+  title="Kmom01: Kom igång med C#"
+  href="/kmom/kmom01"
+  description="Vi startar igång kursen genom att lära oss om grunderna i CSharp."
+/>
+
+<LinkCard
+  title="Kmom02: Introduktion till Objektorienterad programmering och UML"
+  href="/kmom/kmom02"
+  description="Vi börja med objektorienterad programmering i C# och lär oss använda UML klassdiagram."
+/>
+
+<LinkCard
+  title="Kmom03: Mer Objektorienterad programmering och UML"
+  href="/kmom/kmom03"
+  description="Vi fortsätter med OOP och skapar objekt och tittar på relationerna mellan objekten."
+/>
+
+<LinkCard
+  title="Kmom04: Repetition C#, OOP & UML"
+  href="/kmom/kmom04"
+  description="Repetera Kmom01-03 samt gör din kodintervju."
+/>
+
+<LinkCard
+  title="Kmom05: Arv och interface"
+  href="/kmom/kmom05"
+  description="Vi lär oss att använda arv och interface i C#."
+/>
+
+<LinkCard
+  title="Kmom06: Abstrakta klasser och testning"
+  href="/kmom/kmom06"
+  description="Vi tittar på abstrakta klasser och metoder samt lär oss enhetstesta vår kod."
+/>
+
+<LinkCard
+  title="Kmom10: Projekt"
+  href="/kmom/kmom0710"
+  description="Vi arbetar med ett projekt där vi tillämpar allt vi har lärt oss i kursen."
+/>
+
+</CardGrid>
+
+{/* TODO 
+Skapa en intro video för kursen:
+<YouTube id="fBps6BcwrD4" posterQuality="max" />
+
+*/}
+
+
+## Kurslitteratur
+
+Vi kommer att använda denna webbsida som kurslitteratur samt en kursbok som referensmaterial.
+
+I kursen används [C# 12.0 in a Nutshell: The Definitive Reference av Joseph Albahari](laromaterial/böcker). Det är en omfattande referensbok som täcker alla aspekter av C#-programmering, från grundläggande till avancerade ämnen. Vi nöjer med de grundläggande kapitlen i boken men här finns information även för den avancerade programmeraren. Varje vecka finns det läshänvisningar till relevanta kapitel. Boken är tillgänglig gratis online, i länken hittar du mer info om boken och hur du kan komma åt den.
+
+
+## Handledning och stöd
+
+Förutom synkrona lärarledda tillfällen på måndagar (spelas in), onsdagar (spelas in) och torsdagar finns det möjlighet för asynkron handledning via Discord.
+
+
+
+## Fusk och disciplinnämnden
+
+I dokumentet [Fusk och disciplinnämnden](studieguide/fusk) beskrivs förhållningsreglar till plagiarism, fusk och medvetet vilseledande till exempel med AI.
+
+
+
+## Rekommenderad studieplan
+
+Kursen har en [rekommenderad studieplan](https://docs.google.com/spreadsheets/d/16OOQNzkwxVracIpSzQDwztXICV_ta746fc9kSOV4eOE/edit?usp=sharing) som visar en översikt över kursens olika moment och när de i tiden bör utföras för att studenten skall ligga i fas med kursens planering.
+
+I studieplanen visas när rättning sker av respektive inlämnat moment samt när det finns möjligheter att göra restinlämningar.
+
+
+
+## Kursplan
+
+Kursplanen är kursens formella dokument som fastställts av högskolan. När kursen utvärderas görs det mot kursplanen. I kursplanen kan du läsa om kursens klassificering, syfte, innehåll, mål, generella förmågor, lärande och undervisning, bedömning och examination.
+
+Du hittar [kursplanen till DV1701 via BTH's hemsida](https://plan.bth.se/courses/DV1701) och kursen heter "Objektorienterad programmering i CSharp".
+
+
+
+## Betygsättning
+
+Nedan beskrivs betygsättning i kursen.
+
+
+### Betyg A eller B (VG)
+
+Projektet fungerar i stort sett felfritt med så gott som all funktionalitet implementerad, inklusive optionella krav.
+
+Kursmomenten är utförda med utmärkt resultat och redovisade enligt instruktionen. Inget saknas eller är bristfälligt utfört.
+
+Redovisningstexterna är kompletta, väl strukturerade och insiktsfulla. Via redovisningarna ger studenten en utomordentligt god bild av att förstå övningarna och dess innebörd. Studenten har mycket god förmåga att reflektera över kursmomenten, dess innehåll och sitt eget lärande.
+
+
+
+### Betyg C, D eller E (G)
+
+Projektet fungerar väl med grundläggande funktionalitet implementerad. Kanske även något av de optionella kraven implementerade.
+
+Kursmomenten är utförda och redovisade enligt instruktionerna. Inget är undermåligt utfört.
+
+Redovisningstexterna är välskrivna, kompletta och ger en god bild av att studenten har förstått de olika övningarna. Studenten har god förmåga att reflektera över innehållet i övningarna och sin egen insats i kursmomentet.
+
+
+
+### Poängbedömning
+
+Poängfördelningen är uppdelad för projektet 60% och för övriga delar i kursen på 40%.
+
+
+#### Kursmoment & Redovisningstexter
+
+Följande tabell används vid bedömning av genomförda kursmoment och redovisningstexterna. Underlaget är din kompletta me-sida.
+
+| Bedömningspunkt | Poäng | Din poäng |
+|-----------------|-------|-----------|
+| Kursmomenten är utförda enligt instruktion och redovisningstexterna är kompletta. | 30 | |	
+| Kursmomenten är mycket väl utförda och har det lilla extra. Redovisningstexterna är mycket välskrivna, insiktsfulla och visar på en mycket god förmåga att reflektera över kursmomenten, dess innehåll och studentens eget lärande. Denna del används endast om ett betyg står och väger mellan två betyg. | 10 | |	
+| TOTALT | 40 | |	
+
+
+
+#### Projektarbete
+
+Följande tabell används vid bedömning av projektet.
+
+| Bedömningspunkt                                | Poäng | Din poäng |
+| ---------------------------------------------- | ----- | --------- |
+| Krav 1 är implementerat och fungerar felfritt. | 10    |           |
+| Krav 2 är implementerat och fungerar felfritt. | 10    |           |
+| Krav 3 är implementerat och fungerar felfritt. | 10    |           |
+| Krav 4 är implementerat och fungerar felfritt. | 20    |           |
+| Krav 5 är implementerat och fungerar felfritt. | 10    |           |
+| TOTALT                                         | 60    |           |
+
+
+
+
+#### Slutbetyg
+
+Ditt slutbetyg redovisas i tabellen nedan.
+
+| A-F, ECTS | Definition | Poäng nivå |
+|------|------------|------------|
+| A | UTMÄRKT – enastående resultat. | 90+ |
+| B | MYCKET BRA – klart över medelstandard. | 80+ | 
+| C | BÄTTRE ÄN BRA – allmänt bra arbete. | 70+ | 
+| D | BRA – en fullgod prestation. | 60+ | 
+| E | GODKÄNT – resultatet uppfyller minimikriterierna. | 55+ | 
+| FX | KOMPLETTERA – mer arbete krävs innan betyg kan sättas. | 54- | 
+| F | OTILLRÄCKLIGT – (avsevärt) mer arbete krävs. | 50- | 
+
+
+## Ladok
+
+Enligt kursplanen finns ett antal ladokmoment och de är kopplade till kursens kursmoment enligt följande.
+
+| Kursens         | Ladok moment enligt kursplan | Betygsskala |
+| --------------- | ---------------------------- | :---------: |
+| kmom01 + kmom02 + kmom03 | Inlämningsuppgift 1 á 2.5hp  |     U-G     |
+| kmom04 + kmom05 + kmom06 | Inlämningsuppgift 2 á 2.5hp  |     U-G     |
+| Kmom10 | Individuellt projekt á 2.5hp |   A-F, Fx   |
+
+Den sista inlämningen bestämmer kursens slutbetyg vilket utfärdas när samtliga moment godkänts.
+
+
+
+
+## Lärarteam
+    "onlyBuiltDependencies": [
+      "esbuild",
+      
+
+Följande är lärarteamet för kursen.
+
+| Bild    | Vem         | Roll | Kontakt och info |
+|---------|-------------|-------|------------------|
+| <Image src={grmImage} alt="Marie Grahn" width="300" height="300" /> | Marie&nbsp;Grahn (grm) |  Examinator, kursansvarig, lärare    | grm@bth.se, [BTH](https://www.bth.se/staff/marie-grahn-grm/) |
+| <Image src={bbeImage} alt="Betty Bergqvist" width="300" height="300" /> | Betty&nbsp;Bergqvist (bbe) |  lärare    | bbe@bth.se, [BTH](https://www.bth.se/staff/betty-bergqvist-bbe/) |
+
+
+
+
+## Institution
+
+Detta kurstillfälle ägs av [institutionen för datavetenskap (DIDA)](https://www.bth.se/om-bth/institutioner/institutionen-for-datavetenskap).
+
+
+
+## Studentkår och utbildningsförening
+
+Denna kurs ligger inom ramen för [utbildningsföreningen BITS](https://bits.bthstudent.se/) arbete inom [Blekinge Studentkår](https://www.bthstudent.se/). Utbildningsföreningen jobbar med kvalitetssäkring och uppföljning av kvalitet på kurser och program och kan vara samtalspart för studenter.

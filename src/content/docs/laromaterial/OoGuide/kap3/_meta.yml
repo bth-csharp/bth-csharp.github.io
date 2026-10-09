@@ -1,0 +1,4 @@
+# Display this directory first in the sidebar group.
+label: Kapitel 3 - Mer objektorientering
+order: 4
+collapsed: true

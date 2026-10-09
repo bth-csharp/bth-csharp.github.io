@@ -1,0 +1,30 @@
+---
+title: "Kmom02: Tärningsspelet Dice100"
+description: Tärningsspelet Dice100
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import { YouTube } from 'astro-embed';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+import dice from '@assets/img/kmom02/dice.jpeg';
+import classdiagramDie from '@assets/img/kmom02/classdiagramDie.png';
+import classdiagramDiceHand from '@assets/img/kmom02/classdiagramDiceHand.png';
+
+:::danger
+Materialet är inte klart. 
+
+Uppgiften publiceras senare!
+:::

@@ -1,0 +1,150 @@
+---
+title: "Mer om klassdiagram"
+description: Mer om klassdiagram
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import relationer from '@assets/img/kmom03/relationer.png';
+import classdiagramBankWithRelations from '@assets/img/kmom03/classdiagramBankWithRelations.png';
+import allRelations from '@assets/img/kmom03/allRelations.png';
+
+
+UML (Unified Modeling Language) är ett visuellt modelleringsspråk för att beskriva, visualisera, specificera och dokumentera olika delar av system och programvara. Syftet med UML är underlätta kommunikation, förståelse och design av komplexa system och programvara mellan utvecklare, kunder och andra intressenter.
+
+Nu ska vi fortsätta med klassdiagram och se hur vi kan göra för att även visa relationer mellan klasserna.
+
+## Förutsättning
+
+Du kan grunderna i objektorienterad programmering.
+
+## Terminologi
+
+- **UML**: Unified Modeling Language.
+
+- **Strukturdiagram**: (Structure diagram) Statisk representation av strukturen i ett system.
+
+- **Beteendediagram**: (Behavior diagram) Dynamisk bild av systemet som visar vad som händer i systemet.
+
+- **Element**: Representerar olika delar i UML.
+
+- **Kardinalitet** : Antalet objekt som är involverade i en relation.
+
+## Strukturdiagram
+
+Det vanligaste strukturdiagrammet är **klassdiagram** vilket vi redan har tittat på. Klassdiagram visar systemets klasser och dess relationer. Ett annat strukturdiagram är **komponentdiagram** som visar systemets fysiska komponenter inklusive bibliotek, paket och andra moduler samt dess beteende. Sedan finns det även ett **paketeringsdiagram** (package diagram) som används vid leverans av systemet och visar hur systemet är organiserat i paket och namespaces.
+
+## Beteendediagram
+
+Det beteendediagram som vi ska fokusera på är **use case diagram** (användningsfallsdiagram) och beskriver funktionaliteten ur användarens perspektiv. Ett annat vanligt beteendediagram är **sekvensdiagram** som visar hur systemets objekt samverkar i en specifik sekvens över tid. Ett annat vanligt beteendediagram är **tillståndsdiagram** (state diagram) som visar systemet olika objekts tillstånd och övergångarna mellan dessa tillstånd.
+
+## Element i UML
+
+Elementen representerar olika delar som till exempel aktörer, klasser, use cases (användningsfall), aktiviteter, tillstånd och komponenter.
+
+- **aktör**; någon som använder programmet, till exempel en kund till banken.
+- **klass**; en klass med egenskaper och metoder som används för att representera och skapa objekt, till exempel klassen **BankAccount**.
+- **relation**; relationen mellan element, till exempel att klassen **Bank** innehåller ett antal objekt av klassen **BankAccount**.
+- **use case eller användningsfall**; en händelse med en aktör som använder programmet, till exempel kunden vill skapa ett bankkonto.
+- **aktiviteter**; en händelse eller ett steg, till exempel att en kund ber banken skapa ett konto.
+- **livlina**; så länge något element deltar, till exempel börjar ett objekts livlina när objektet skapas.
+- **tillstånd**; beskriver programmets tillstånd, till exempel att ett nytt konto skapats i banken vilket innebär att tillståndet för banken ändrats (antalet konton har ökats med 1).
+- **komponent**; är en del av programmet.
+
+## Relationer
+
+Det finns flera typer av relationer som används i UML för att beskriva beroenden mellan elementen. Här pratar vi om komposition, aggregation och kort om association.
+
+<Figure
+    src={relationer}
+    caption="Bilden visar olika typer av relationer, där association är mest generell och komposition den starkaste relationen."
+    width="600px"
+/>
+
+### Komposition
+
+Komposition innebär att objekt av klassen **A**, innehåller objekt av klassen **B**. När objekt av ägandeklassen **A** upphör så upphör också objekten som den innehåller. Komposition visar en "del-av" relation eller en stark "har-en" relation.
+
+Om vi utgår från [bankexemplet](#bankexemplet) så innehåller banken ett antal bankkonton. Klassen **Bank** innehåller objekt av klassen **BankAccount**. Vi tar med kardinalitet genom att beskriva att en bank (en 1:a vid diamanten på linjen mot **Bank**) kan ha noll eller flera bankkonton (0..n vid linjen mot **BankAccount**). När objektet av klassen **Bank** tas bort så tas även alla objekt av klassen **BankAccount** bort.
+
+Komposition symboliseras av en ifylld diamant/romb som pekar på det ägande objektet, gärna med kardinalitet.
+
+### Aggregation
+
+Aggregation är en svagare typ av "har-en" relation än komposition. Aggregation innebär att ett objekt klassen **A** använder objekt av klassen **B**. Även om objektet av klassen **A** upphör att existera så fortsätter objekten av klassen **B** att existera.
+
+Vi fortsätter med [bankexemplet](#bankexemplet) så har banken anställda. Vi har en klass **Employee**. Klassen **Bank** har anställda och därmed objekt av klassen **Employee**. Vi tar med kardinalitet genom att beskriva att en bank (en 1:a vid diamanten på linjen mot **Bank**) kan ha en eller flera anställda (1..n vid linjen mot **Employee**). Objekten av klassen **Employee** fortsätter att existera när **Bank** upphör.
+
+Aggregation symboliseras av en diamant/romb som inte är ifylld som pekar på det objektet som använder det, gärna med kardinalitet.
+
+### Association
+
+Association är en generell relation som visar att en eller flera klasser har relationer (som inte är komposition eller aggregation) till varandra. Association kan ha en riktning eller rikta åt båda hållen och ha kardinalitet.
+
+Association visar att ett objekt kan ha en relation till ett annat objekt och samarbeta när det behövs men inte nödvändigtvis hela tiden. Vi fortsätter med [bankexemplet](#bankexemplet) så har banken kunder men de kommer och går. Objekt av klassen **Customer** utnyttjar tjänster i banken och då har **Customer** en association med **Bank**. Vi tar med kardinalitet genom att beskriva att en bank (en 1:a vid linjen mot **Bank**) kan ha noll eller flera kunder (0..n vid pilen mot **Customer**).
+
+Association symboliseras av en enkel pil som visar riktningen eller en enkel pil som pekar åt båda hållen om riktningarna på associationen går åt båda hållen. Om det är en enkel pil så pekar den på objektet som används, gärna med kardinalitet.
+
+### Sammanställning av symboler
+
+<Figure
+    src={allRelations}
+    caption="Bilden visar symboler för aggregation, komposition och association."
+    width="500px"
+/>
+
+
+## Bankexemplet
+
+Koden för bankexemplet är uppdaterad för att bättre passa till denna artikeln. Om du vill titta på koden i sin helhet och ladda ner den så kör du `task download-code -- kmom03/MyBank`.
+
+### Klassöversikt
+
+1. **Bank** – huvudklassen som har relationer till de andra tre.
+2. **BankAccount** – används via **komposition**. *Banken skapar bankkonton som är en del av banken.*
+3. **Employee** – används via **aggregation**. *Banken har anställda.*
+4. **Customer** – används via **association**. *Banken betjänar kunder.*
+
+### Relationer - banken
+
+- **Komposition**: **Bank** skapar **BankAccount** som är en del av banken och slutar att existera när banken slutar att existera. **Bank** äger **BankAccount**.
+- **Aggregation**: **Bank** har **Employee** som tillförs utifrån och kan existera utan banken.
+- **Association**: **Customer** använder **Bank** men ingen äger den andra och de existerar oberoende av varandra.
+
+### Klassdiagram med kardinalitet
+
+Här har vi bankexemplet med riktiga symboler och kardinalitet. 
+
+- **Bank** har noll eller flera **BankAccount**
+- **Bank** har en eller flera **Employees**
+- **Bank** har noll eller flera **Customer**
+
+<Figure
+    src={classdiagramBankWithRelations}
+    caption="Bilden visar banken med dess relationer och kardinalitet."
+/>
+
+## Avslutningsvis
+
+PlantUML har använts för [Klassdiagram](https://plantuml.com/class-diagram).
+Det finns andra bra verktyg online för att rita uml diagram, till exempel [draw.io](https://www.draw.io) och [WebSequenceDiagrams](https://www.websequencediagrams.com/).
+
+Om du vill läsa mer om [UML](http://www.uml-diagrams.org/).
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#artiklar"
+/>

@@ -1,0 +1,167 @@
+---
+title: "Värdetyper och referenstyper"
+description: Värdetyper och referenstyper och dess skillnader
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import VardeReferensTyp from '@assets/img/kmom02/VardeReferensTyp.png';
+import VardeReferensTypNy from '@assets/img/kmom02/VardeReferensTypNy.png';
+
+I C# är skillnaden mellan värdetyper (value types) och referenstyper (reference types) en av de viktigaste sakerna i språket. Skillnaden påverkar minne, kopiering av variabler och hur parametrar skickas till metoder.
+
+## Värdetyper (Value Types)
+
+En värdetyp innehåller själva värdet direkt i variabeln.
+
+När du kopierar variabeln kopieras hela värdet.
+
+```csharp title="Exempel värdetyp"
+int a = 10;
+int b = a;
+
+b = 20;
+
+Console.WriteLine(a); // 10
+Console.WriteLine(b); // 20
+```
+
+### Vanliga värdetyper
+
+I C# är dessa värdetyper:
+
+- int
+- double
+- float
+- bool
+- char
+- decimal
+- DateTime
+
+## Referenstyper (Reference Types)
+
+En referenstyp innehåller en referens (adress) till ett objekt i minnet.
+
+När du kopierar variabeln, vid till exempel tilldelning, kopieras referensen till objektet, inte objektet.
+
+```csharp title="Exempel referenstyp"
+class Person
+{
+    private string _name;
+
+    public string GetName() { return this._name; }
+    public void SetName(string newName) { this._name = newName; }
+}
+
+Person person1 = new Person();
+person1.SetName("Anna");
+
+Person person2 = person1;
+
+person2.SetName("Erik");
+
+Console.WriteLine(person1.GetName()); // Erik
+```
+
+### Vanliga referenstyper
+
+I C# är dessa referenstyper:
+
+- class
+- string
+- array
+
+## Skillnad vid metodanrop
+
+### Värdetyp
+
+```csharp
+void Change(int x)
+{
+    x = 100;
+}
+
+int a = 10;
+Change(a);
+
+Console.WriteLine(a); // 10
+```
+
+Kopian ändras, inte originalet.
+
+### Referenstyp
+
+```csharp
+void Change(Person person)
+{
+    person.SetName("Lisa");
+}
+```
+
+Objektet ändras eftersom referensen pekar på samma objekt.
+
+### Viktig detalj: string
+
+string är en referenstyp, men den är immutable (oföränderlig).
+
+```csharp
+string a = "Hej";
+string b = a;
+
+b = "Hej då";
+
+Console.WriteLine(a); // Hej
+```
+
+En ny sträng skapas istället.
+
+### Snabb jämförelse
+
+| Egenskap | Värdetyp | Referenstyp          |
+|----------|----------|----------------------|
+|   Lagrar   |   värde   | referens          |
+| Kopiering	| kopierar värde | kopierar referens |
+| Typiska exempel |	int, double |	class, array, string |
+| Påverkan vid ändring |	påverkar inte andra |	kan påverka andra |  
+
+### Minnet
+
+I C# delas datorns minne upp i två delar stacken (eng. stack) och heapen (eng. heap).  
+**Stacken** innehåller lokala variabler. Värdetyper som int, double och bool lagras vanligtvis direkt där.  
+**Heapen** innehåller objekt. Referenstyper som klasser lagras där, medan variabeln på stacken bara innehåller en referens till objektet.
+ 
+
+<Figure
+    src={VardeReferensTypNy}
+    caption="Skillnad på värdetyp och referenstyp i minnet."
+/>
+
+
+
+## Sammanfattning
+
+- **Värdetyper**; variabeln innehåller värdet
+- **Referenstyper**; variabeln innehåller en referens till ett objekt (adressen till objektet)
+
+:::tip
+Värdetyper kopieras när man tilldelar dem. Referenstyper delar objekt när man tilldelar dem.
+:::
+
+
+<LinkCard 
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02/#artiklar"
+/>

@@ -1,0 +1,53 @@
+---
+title: "Kom igång med ditt kursrepo"
+description: Skapa ditt kursrepo för kursen, ett Git-repo som du kommer att jobba med genom hela kursen.
+author: mos
+revision:
+  "2026-06-08": "(B, grm) Uppdaterad för csharp."
+  "2025-08-15": "(A, aar) Första utkastet."
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+## Förutsättning
+
+En förutsättning för att du skall kunna jobba genom denna guiden är att du har ett studentkonto på BTH och du har ett GitHub konto.
+
+## Guidens innehåll
+
+I denna kursen använder du versionshanteringssystemet Git och webbplatsen GitHub för att jobba med alla övningar och uppgifter i kursen. För att det skall fungera smidigt så behöver du skapa den miljön och denna guiden hjälper dig med det.
+
+I denna guiden får du hjälp med:
+
+<LinkCard 
+  title="Koppla ditt GitHub konto till kursens organisation på GitHub"
+  href="/laromaterial/kursrepo/organisation"
+/>
+
+<LinkCard 
+  title="Klona kursens repo lokalt"
+  href="/laromaterial/kursrepo/skapa-git-repo"
+/>
+
+I kursen kommer vi att referera till ditt Git-repo som ditt "kursrepo".
+
+<LinkCard 
+  title="Tillbaka till - Kom igång"
+  href="/kmom/#kursrepo"
+/>

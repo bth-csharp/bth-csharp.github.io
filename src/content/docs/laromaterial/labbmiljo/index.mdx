@@ -1,0 +1,47 @@
+---
+title: "Installera kursens labbmiljö"
+description: Instruktioner om hur du installerar kursens labbmiljö.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+
+import Figure from '@components/CustomFigure.astro';
+import YouTube from '@components/YouTube.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<YouTube id="b2T_x16RNKo" />
+
+
+Labbmiljön bygger främst på verktyg som är fria och ofta erbjuds i form av öppen källkod.
+
+När val sker så försöker vi finna verktyg som finns på de vanligaste operativsystemen vilka är Windows, Mac och Linux.
+
+Den allmänna labbmiljön för kursen omfattar följande verktyg.
+
+- [Dator](/laromaterial/labbmiljo/dator)
+- [Operativsystem](/laromaterial/labbmiljo/operativsystem)
+- [Webbläsare](/laromaterial/labbmiljo/webblasare)
+- [Texteditor vscode](/laromaterial/labbmiljo/texteditor)
+- [Terminal](/laromaterial/labbmiljo/terminal)
+- [Git](/laromaterial/labbmiljo/git)
+- [GitHub](/laromaterial/labbmiljo/github)
+
+Specifik labbmiljö för kursen är följande verktyg.
+
+- [C# SDK](/laromaterial/labbmiljo/csharp)
+
+<LinkCard 
+  title="Tillbaka till - Kom igång"
+  href="/kmom/#labbmiljö"
+/>

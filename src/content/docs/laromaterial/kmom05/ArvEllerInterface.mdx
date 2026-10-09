@@ -1,0 +1,159 @@
+---
+title: "Övning - Arv eller interface"
+description: Träna på arv eller interface
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+
+Öva på att avgöra om ett problem ska lösas med:
+
+- arv (inheritance)
+- interface
+
+Avgör för varje exempel:
+
+1. Ska detta lösas med arv, interface eller båda?
+2. Motivera kort (1–2 meningar)
+
+## Exempel 1
+
+Du har:
+
+- Dog
+- Cat
+- Bird
+
+Alla:
+
+- har ett namn
+- kan göra ljud
+
+Fråga:
+Ska detta lösas med arv eller interface?
+
+<details>
+
+<summary>
+**Svar - Exempel 1**
+</summary>
+**Arv**: Animal → Dog/Cat/Bird
+
+✔️ Gemensam data + beteende
+✔️ “är en”-relation
+</details>
+
+## Exempel 2
+
+Vissa djur kan tränas:
+
+- Dog ✅
+- Cat ❌
+
+✅ Fråga:
+Ska detta lösas med arv eller interface?
+
+<details>
+
+<summary>
+**Svar - Exempel 2**
+</summary>
+**Interface**: ITrainable
+
+✔️ Alla djur är inte träningsbara
+✔️ Beskriver förmåga, inte identitet
+</details>
+
+## Exempel 3
+
+Du har:
+
+- Car
+- Bike
+- Truck
+
+Alla:
+
+- kan starta
+- har en hastighet
+
+Fråga:
+Arv eller interface?
+
+<details>
+
+<summary>
+**Svar - Exempel 3**
+</summary>
+**Arv**: Vehicle → Car/Bike/Truck
+
+✔️ De är alla typer av fordon
+✔️ delar struktur
+</details>
+
+## Exempel 4
+
+Vissa fordon kan köras elektriskt:
+- ElectricCar ✅
+- ElectricScooter ✅
+- Bike ❌
+
+Fråga:
+Arv eller interface?
+
+<details>
+
+<summary>
+**Svar - Exempel 4**
+</summary>
+**Interface**: Electric
+
+✔️ flera olika klasser kan vara “elektriska”
+✔️ ingen gemensam basklass behövs
+</details>
+
+## Exempel 5
+
+Du vill skapa en klass som:
+
+- lagrar en lista av Animal
+- kan lägga till och hämta djur
+
+Fråga:
+Ska du använda interface här?
+
+<details>
+
+<summary>
+**Svar - Exempel 5**
+</summary>
+**Interface + klass**: Handler
+
+✔️ Interface → kontrakt (IAnimalHandler)
+✔️ Klass → implementation
+</details>
+
+## Extra reflektionsfråga
+
+Kan en klass använda både arv och interface samtidigt? Förklara.
+
+Svar:
+
+- Ja
+- arv → vad den är
+- interface → vad den kan göra
+
+## Enkel minnesregel
+
+**Arv** = vad något är  
+**Interface** = vad något kan göra

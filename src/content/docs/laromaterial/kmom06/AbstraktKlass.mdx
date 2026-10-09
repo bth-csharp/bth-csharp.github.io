@@ -1,0 +1,184 @@
+---
+title: "Abstrakta klasser och metoder - ett exempel"
+description: Abstrakta klasser och metoder
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+
+
+## Ett exempel, hyra fordon
+
+Vi har ett program där du med ett terminalprogram kan hyra fordon. Programmet består av följande klasser:
+
+```text
+Menu
+  ↓ (använder)
+VehicleHandler
+  ↓ (arbetar mot)
+Vehicle (abstract)
+  ↑        ↑
+ Car     Bike
+```
+
+- Menu: menyklass som sköter all in- och utmatning samt känner bara till VehicleHandler
+- VehicleHandler: innehåller logiken, lista fordon, hyra fordon etc samt känner bara till den abstrakta klassen Vehicle.
+- Vehicle: en abstrakt klass som beskriver vad alla fordon kan göra
+- Car: ärver från Vehicle och innehåller detaljer om bilar
+- Bike: ärver från Vehicle och innehåller detaljer om cyklar
+
+### Bra design
+
+- I huvudprogrammet skapas listan med objekt av typen Vehicle
+- I huvudprogrammet skapas ett objekt av klassen VehicleHandler listan med fordon som inparametern
+- I huvudprogrammet skapas ett menyobjekt med inparametern handlern som inparameter
+- VehicleHandler ansvarar för hur fordon används, inte vilka som finns med.
+- Detaljer om bilar och cyklar skickas till menyn via abstrakta klassen Vehicle och VehicleHandlern
+
+### Dålig design
+
+- Menu känner till Car eller Bike
+- Menu äger VehicleHandler
+- Fordon skapas i VehicleHandler
+- Att i Menu eller VehicleHandler fråga om "if fordon is Bike"
+
+### Kod
+
+```csharp
+class BookingQuestion
+{
+    public string Text { get; }
+    public Action<bool> ApplyAnswer { get; }
+
+    public BookingQuestion(string text, Action<bool> applyAnswer)
+    {
+        Text = text;
+        ApplyAnswer = applyAnswer;
+    }
+}
+
+abstract class Vehicle
+{
+    public abstract List<BookingQuestion> GetBookingQuestions();
+}
+
+class Bike : Vehicle
+{
+    public bool Helmet { get; set; }
+    public bool Electric { get; set; }
+
+    public override List<BookingQuestion> GetBookingQuestions()
+    {
+        return new List<BookingQuestion>
+        {
+            new BookingQuestion(
+                "Vill du boka cykelhjälm? (j/n)",
+                answer => Helmet = answer
+            ),
+            new BookingQuestion(
+                "Vill du ha elcykel? (j/n)",
+                answer => Electric = answer
+            )
+        };
+    }
+}
+
+class Car : Vehicle
+{
+    public bool Trailer { get; set; }
+
+    public override List<BookingQuestion> GetBookingQuestions()
+    {
+        return new List<BookingQuestion>
+        {
+            new BookingQuestion(
+                "Vill du boka släp? (j/n)",
+                answer => Trailer = answer
+            )
+        };
+    }
+}
+
+class Handler
+{
+    private List<Vehicle> _vehicles;
+
+    public void StartBooking(List<Vehicle> vehicles)
+    {
+        _vehicles = vehicles;
+    }
+
+    public List<BookingQuestion> GetBookingQuestions()
+    {
+        return _currentVehicle.GetBookingQuestions();
+    }
+
+    public void FinishBooking()
+    {
+        // här kan fordonet sparas, bokas, etc.
+    }
+}
+
+class Meny
+{
+    private Handler _handler;
+
+    public Meny(Handler handler)
+    {
+        _handler = handler;
+    }
+
+    public void BookVehicle()
+    {
+        foreach (var question in _handler.GetBookingQuestions())
+        {
+            Console.WriteLine(question.Text);
+            bool answer = ReadYesNo();
+            question.ApplyAnswer(answer);
+        }
+
+        _handler.FinishBooking();
+    }
+
+    private bool ReadYesNo()
+    {
+        while (true)
+        {
+            string input = Console.ReadLine()?.Trim().ToLower();
+            if (input == "j") return true;
+            if (input == "n") return false;
+            Console.WriteLine("Svara j eller n.");
+        }
+    }
+}
+
+// I Program.cs
+List<Vehicle> vehicles = new List<Vehicle>
+{
+    new Car(),
+    new Bike()
+};
+Handler handler = new Handler(vehicles);
+Meny meny = new Meny(handler);
+
+handler.StartBooking(new Bike()); // eller new Car()
+meny.BookVehicle();
+```
+
+## Sammanfattning
+
+Menyklassen vet bara **hur** man pratar med systemet. Meny är gränssnittet.  
+Handlern vet **vad** systemet kan göra. Handlern är hjärnan.  
+Fordonen vet **hur de fungerar**. Fordonen är detaljerna.  
+

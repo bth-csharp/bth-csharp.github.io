@@ -1,0 +1,11 @@
+{
+    "tableOfContents.onThisPage": "På denna sida",
+    "tableOfContents.overview": "Översikt",
+    "search.label": "Sök",
+    "themeToggle": {
+        "useDark": "Mörkt",
+        "useLight": "Ljust",
+        "themeToggle.auto": "Automatiskt"
+    },
+    "editLink.label": "Redigera sida"
+}

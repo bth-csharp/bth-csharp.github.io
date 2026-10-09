@@ -1,0 +1,246 @@
+---
+title: "Objektorienterad programmering"
+description: Mer om OO och att använda objekt i objekt
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import car from '@assets/img/kmom03/car.png';
+
+Objektorienterad programmering handlar om att organisera och strukturera kod på ett sätt som efterliknar verkliga objekt och deras relationer till varandra. För objekten skapar vi egna datatyper (klasser) och bestämmer hur de ska bete sig och interagera med omvärlden, inklusive andra objekt.
+
+Nu när vi kan skapa klasser och objekt kan vi börja använda objektorientering på riktigt.  I det här avsnittet tittar vi på tre viktiga tekniker:
+
+- Objekt i objekt
+- Information Hiding
+- Statiska attribut och metoder
+
+
+## Objekt i objekt
+
+När vi modellerar verkligheten består saker ofta av andra saker.
+
+En bil har en motor, så här kan klassen **Engine** se ut.
+
+```csharp
+public class Engine
+{
+    private int _horsePower;
+
+    public Engine(int horsePower)
+    {
+         this._horsePower = horsePower;
+    }
+}
+```
+
+En bil har en modell och en motor och därför innehåller klassen **Car** ett motorobjekt och en sträng som beskriver bilens modell.
+
+```csharp
+public class Car
+{
+    private string _model;
+    private Engine _engine;
+
+    public Car(string model, Engine engine)
+    {
+        this._model = model;
+        this._engine = engine;
+    }
+}
+```
+
+Nu kan vi använda objekten **Car** och **Engine** i vårt huvudprogram `Program.cs`. Först skapar vi ett objekt av klassen **Engine# och sen skapar vi ett objekt av klassen **Car** som heter `car1` med `engine`. Om vi inte behöver objektet `engine` så kan vi hellre skapa det direkt som i `car2`.
+
+```csharp title="Testa klasserna i Program.cs"
+Engine engine = new Engine(150);
+
+Car car1 = new Car("Volvo", engine);
+Car car2 = new Car("Porsche", new Engine(300));
+```
+
+Vi har skapat ett objekt av klassen **Car** med ett attribut `_model` som pekar på strängen "Volvo" och ett attribut `_engine` som pekar på ett objekt av typen Engine. Variabelnamnet `car1` pekar ut vårt objekt. *Istället för pekar ut kan vi säga refererar till.*  
+Vi har byggt upp följande struktur :
+
+```csharp
+car1
+│
+├── _model = "Volvo"
+│
+└── _engine
+    │
+    └── _horsePower = 150
+```
+
+Fördelarna är att motorobjektet `engine` kan återanvändas till flera bilobjekt.
+
+## Information hiding
+
+Information hiding innebär att ett objekt gömmer sina interna data för omvärlden. Istället för att låta andra objekt ändra variabler direkt erbjuder objektet metoder som styr hur informationen får användas. På så sätt kan objektet skydda sig mot ogiltiga värden och oväntade fel.
+
+För att omvärlden ska kunna veta antalet hästkrafter som ett motorobjekt har, behöver vi lägga till en get-metod.
+
+```csharp
+public class Engine
+{
+    private int _horsePower;
+
+    public Engine(int horsePower)
+    {
+        this._horsePower = horsePower;
+    }
+
+    public int GetHorsePower()
+    {
+        return this._horsePower;
+    }
+}
+```
+
+```csharp title="Testa klasserna i Program.cs"
+Engine engine = new Engine(150);
+
+Car car1 = new Car("Volvo", engine);
+
+Console.WriteLine(car1.GetHorsePower());
+// utskriften blir: 150
+```
+
+När vi skapar ett motorobjekt vet vi antalet hästkrafter men hur vet vi om användaren matar in ett realistiskt värde. Då kan vi lägga ett villkor i konstruktorn att antalet hästkrafter får värdet 1 om omvärlden matar in ett tal som är mindre än 1.
+
+```csharp
+public class Engine
+{
+    private int _horsePower;
+
+    public Engine(int horsePower)
+    {
+        this._horsePower = horsePower;
+        if (horsePower < 1)
+        {
+            this._horsePower = 1;
+        }
+    }
+
+    public int GetHorsePower()
+    {
+        return this._horsePower;
+    }
+}
+```
+
+```csharp title="Testa klasserna i Program.cs"
+Engine engine = new Engine(-150);
+
+Car car1 = new Car("Volvo", engine);
+
+Console.WriteLine(car1.GetHorsePower());
+// utskriften blir: 1
+```
+
+## Statiskt attribut och metoder
+
+Ett statiskt attribut tillhör klassen istället för ett specifikt objekt. Precis som vanliga attribut bör statiska attribut ofta vara privata. Genom att använda publika statiska metoder kan klassen själv kontrollera hur informationen läses och ändras. Detta är ett exempel på information hiding för statiska data.
+
+Vi antar att alla bilar har 4 hjul och då är det ett bra exempel på något som är lika för alla objekt av klassen **Car**. Då gör vi antalet hjul till en konstant `NUMBER_OF_WHEELS` så att alla objekt av klassen **Car** har samma antal hjul.
+
+Ett lämpligt statiskt attribut kan vara antalet bilar `_numberOfCars`, alltså antalet objekt av klassen **Car** som skapats.
+
+```csharp
+public class Car
+{
+    private const int NUMBER_OF_WHEELS = 4;
+    private static int _numberOfCars = 0;
+
+    private string _model;
+    private Engine _engine;
+
+    public Car(string model, Engine engine)
+    {
+        this._model = model;
+        this._engine = engine;
+        _numberOfCars++;
+    }
+
+    public static int GetNumberOfCars()
+    {
+        return _numberOfCars;
+    }
+
+    public static int GetNumberOfWheels()
+    {
+        return NUMBER_OF_WHEELS;
+    }
+}
+```
+
+```csharp title="Testa klasserna i Program.cs"
+Engine engine = new Engine(150);
+
+Car car1 = new Car("Volvo", engine);
+
+Console.WriteLine(Car.GetNumberOfWheels());
+// utskriften blir: 4
+Console.WriteLine(Car.GetNumberOfCars());
+// utskriften blir: 1
+```
+
+## Relationer mellan objekt
+
+### Aggregation
+
+I exemplet ovan skapas motorobjektet utanför bilklassen och skickas in i bilklassen. Det kan skickas in på två sätt. Det ena är att skapa ett motorobjekt och spara det i en variabel och skicka in variabeln när bilobjektet skapas, som i `car1` i exemplet ovan. Det andra är att skapa ett motorobjekt direkt när vi skapar bilobjektet, som i `car2` i samma exempel. Det senare kallas **dependency injection** och handlar om att ett objekt får de objekt det behöver utifrån, istället för att skapa dem själv.
+
+Samma motor skulle teoretiskt kunna användas av flera objekt. Om vi skrotar bilen kan vi återanvända motorn i en annan bil. Vi kan säga att en bil använder en motor, men äger inte nödvändigtvis dess livscykel.
+
+### Komposition
+
+Vid komposition så äger bilobjektet motorobjektet och det skapas inuti bilobjektet. När bilobjektet slutar att existera så slutar även motorobjektet att existera.
+
+Vi kan säga att en bil har en egen motor som är en del av bilen.
+
+```csharp
+public class Car
+{
+    private string _model;
+    private Engine _engine;
+
+    public Car(string model)
+    {
+        this._model = model;
+        this.__engine = new Engine(150);
+    }
+}
+```
+
+### Hur skiljer vi på aggregation och komposition?
+
+**Komposition:** är stark koppling (äger en) och har new inne i klassen
+
+**Aggregation:** är en koppling (har en) och objekt skickas in i klassen, antingen via konstruktorn eller någon annan metod på klassen.
+
+
+## Sammanfattning
+
+<Figure
+    src={car}
+    caption="Klasserna Car och Engine och hur de används."
+/>
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#artiklar"
+/>

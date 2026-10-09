@@ -1,0 +1,50 @@
+---
+title: GitHub
+description: Skaffa ett konto på GitHub.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import YouTube from '@components/YouTube.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<YouTube id="LzOa1vIFMxE" />
+
+
+Webbverktyget GitHub används för att hantera dina Git-repon. Du behöver skaffa ett konto på GitHub.
+
+Du behöver också koppla ditt konto så att BTH vet vilket konto du vill använda för dina studier.
+
+
+
+## GitHub
+
+Webbverktyget [GitHub](https://github.com/) är ett verktyg som hjälper dig att publicera ett Git-repo så att andra kan komma åt det.
+
+I kurserna används GitHub och du behöver därför skapa ett eget konto på GitHub. Det är kostnadsfritt. Ta hjälp av informationen på webbplatsen och skapa ett konto och logga in på webbplatsen.
+
+
+
+{/* ## Koppla ditt konto på GitHub till BTH
+
+När du är klar med ditt konto så besöker du följande sida på BTH's webbplats.
+
+* "[Koppla ditt GitHub konto till BTH](https://bth.se/XXX)" (LÄNK BRUTEN, INVÄNTAR RIKTIG LÄNK)
+
+Det material du skapar i kursen kommer att placeras på en organisation på GitHub som ägs av BTH och ditt material kommer att vara privat för dig och dina lärare. */}
+
+<LinkCard 
+  title="Tillbaka till - Kursintroduktion"
+  href="/kmom/"
+/>

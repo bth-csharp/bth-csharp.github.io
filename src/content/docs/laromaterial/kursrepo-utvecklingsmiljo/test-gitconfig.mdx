@@ -1,0 +1,178 @@
+---
+title: "Skapa en PR i Canvas-uppgiften Test gitconfig" 
+description: Nu är vi klara och har installerat alla delar i utvecklingsmiljön, så här långt.
+author: aar
+revision:
+    "2025-08-14": "(B, aar) Lagt till verifiering av koppling till Canvas."
+    "2025-06-26": "(A, mos) Första utkastet."
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import YouTube from '@components/YouTube.astro';
+import { Steps } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+Då är vi klara med att installera den delen av utvecklingsmiljön som hjälper dig att komma igång med kursens första kmom. Nu ska vi testa kopplingen mellan Canvas och GitHub som du ska använda för inlämningsuppgifterna.
+
+## Verifiera ditt repo
+
+Om du vill kontrollera om ditt repo är rätt uppsatt så kör du:
+
+```console title="Testa om ditt repo är ok."
+task check-repo-setup
+```
+
+Här bör alla tester gå igenom, precis som de gjorde när du körde `task setup` efter att du klonat ditt repo på GitHub.
+
+Du kan också kolla på din commit-historiken med `git log` att du har commits med all kod. Där bör du hitta din commit "Update the file README with info about me" när du uppdaterade README.md för att lägga till på GitHub.
+
+
+## Verifiera kopplingen till Canvas
+
+Nu när vi har installerat utvecklingsmiljön så ska vi också verifiera att den är kopplad till Canvas. Nu ska vi göra Canvas-uppgiften "Test gitconfig" genom att skapa en pull request (PR) i GitHub. GitHub uppdaterar därefter Canvas-uppgiften "Test gitconfig" automatiskt.
+Vi använder pull request används för att att lämna in uppgifter som en lärare sen rättar. 
+
+:::note
+Det ska stå **bth-csharp** hos dig istället för bth-python som i bilderna nedan.
+:::
+
+### Gå till din kod på GitHub
+
+Du gör detta med hjälp av GitHub. Se till att du har pushat ditt lokala kursrepo till GitHub och öppna ditt kursrepo på GitHub i webbläsaren.  
+Klicka på "Pull requests" i navbaren.
+
+import test1ny from '@assets/kursrepo-utvecklingsmiljo/test1ny.png';
+
+<Figure 
+    src={test1ny}
+    caption="Ditt kursrepo på GitHub."
+/>
+
+
+
+### Gå till Pull requests
+
+När du har klickat på "Pull requests" i navbaren, så ser det ut så här.
+
+import test2ny from '@assets/kursrepo-utvecklingsmiljo/test2ny.png';
+
+<Figure 
+    src={test2ny}
+    caption="Pull requests."
+/>
+
+Klicka på "New Pull Request".
+
+Alla filer du har skapat finns bara på `main` branchen. Med Pull request kan vi kopiera den koden till en annan branch. Nu ska du välja vilken branch du ska kopiera den till.
+
+### Välj brancher att jämföra
+
+Välj branch `bth/submit/test-gitconfig` genom att klicka på knappen med `base:main` (1) och välja branchen  `bth/submit/test-gitconfig` (2).
+
+import test3ny from '@assets/kursrepo-utvecklingsmiljo/test3ny.png';
+
+<Figure 
+    src={test3ny}
+    caption="Välj test-gitconfig branchen."
+/>
+
+### Öppna en PR
+
+Nu kan du se alla de commits och dess data som ska flyttas till `bth/submit/test-gitconfig` branchen. Klicka på `Create pull request`.
+
+import test4ny from '@assets/kursrepo-utvecklingsmiljo/test4ny.png';
+
+<Figure 
+    src={test4ny}
+    caption="Skapa PR."
+/>
+
+### Ge din PR en titel
+
+Ge din PR en titel, exempelvis "Test connection", och klicka sen igen på `Create pull request`.
+
+import test5ny from '@assets/kursrepo-utvecklingsmiljo/test5ny.png';
+
+<Figure 
+    src={test5ny}
+    caption="Välj en titel och skapa PR."
+/>
+
+### En ny PR är öppnad
+
+Nu har din PR skapats. Skrolla ner på sidan så borde du se något som bilden nedanför. Du kanske behöver ladda om sidan för att det ska synas. Efter några sekunder eller någon minut (det varierar hur lång tid det tar) ska det stå `All checks have passed`. Om det inte gör det har något gått fel. Det är svårt att säga vad av allt som kan gått fel. Du kan klicka på den knappen och tas till fel utskriften, du kan försöka tolka det för se vad som gått fel, annars kontakta en lärare för hjälp.
+
+import test6ny from '@assets/kursrepo-utvecklingsmiljo/test6ny.png';
+
+<Figure 
+    src={test6ny}
+    caption="Kolla att testerna har passerat."
+/>
+
+### Kolla Canvas
+
+Om allt har gått bra ska du automatiskt ha fått ett betyg på uppgiften `Test gitconfig` i Canvas. Gå till Canvas sidan för kursen och kolla om du har fått ett betyg och en kommentar på den uppgiften. Klicka på kommentartecknet för att läsa kommentaren.
+
+import test7ny from '@assets/kursrepo-utvecklingsmiljo/test7ny.png';
+
+<Figure 
+    src={test7ny}
+    caption="Kolla att du har G och kommentar på Canvas."
+/>
+
+Om du inte har fått betyg `G` och en kommentar har något gått fel, kontakta en lärare.
+
+### Stäng din PR
+
+Avsluta med att gå tillbaka till din pull request och avsluta den. Klicka på `Close pull request`.
+
+import test8ny from '@assets/kursrepo-utvecklingsmiljo/test8ny.png';
+
+<Figure 
+    src={test8ny}
+    caption="Stäng PR på GitHub."
+/>
+
+Bra jobbat, nu är du klar med utvecklingsmiljön.
+
+
+
+## Vanliga fel
+
+### There isn’t anything to compare
+
+När du ska skapa en PR mot bth/submit/test-gitconfig får du inte skapa den för att `bth/submit/test-gitconfig and main are entirely different commit histories.`.
+
+import errorImage from '@assets/kursrepo-utvecklingsmiljo/end-pr-error.png';
+
+<Figure
+    src={errorImage}
+    caption="Går inte att skapa PR."
+/>
+
+Då gör du bara en ny ändring i ditt lokala git repo. Du kan till exempel uppdatera `README.md` och pusha ändringarna, se [Uppdatera fil i git repot](../gitadd) om du behöver hjälp med kommandona.
+
+#### Försök skapa en PR
+
+Nu, om allt har gått bra ska du kunna skapa en PR. Jobba igenom denna artikel igen [från början](#_top).
+
+<LinkCard 
+  title="Tillbaka till - Utvecklingsmiljö i ditt kursrepo"
+  href="/laromaterial/kursrepo-utvecklingsmiljo"
+/>

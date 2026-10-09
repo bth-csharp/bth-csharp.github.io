@@ -1,0 +1,231 @@
+---
+title: "Introduktion till abstrakta klasser"
+description: Enkel OOP-struktur i C# med klasserna Menu, AnimalHandler, Animal, Dog och Cat
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+## Vanlig basklass och abstrakt basklass
+
+En vanlig basklass i C# kan instansieras (new), innehålla implementerad funktionalitet och subklasser kan ärva från basklassen och utöka basklassen. En vanlig basklass erbjuder med virtual subklassen att implementera eller utöka basklassens metod men det är bara ett erbjudande.
+
+En abstrakt basklass kan inte instansieras och subklasser måste ärva den för att implementera den abstrakta basklassen. En abstrakt basklass kan innehålla både färdiga metoder och abstrakta metoder (utan implementation). Subklassen som ärver en abstrakt basklass måste implementera basklassens abstrakta metoder.
+
+Syftet med en vanlig basklass är att återanvända kod medan syftet med en abstrakt basklass är att definiera en struktur.
+
+## Interface och abstrakt basklass
+
+Ett interface är ett kontrakt mellan två klasser och innehåller bara metodsignaturer. En klass kan implementera flera interface. Ett interface kan inte instansieras. Använd ett interface när du beskriver beteende och har flera olika typer som ska kunna göra samma sak.
+
+En abstrakt klass kan inte heller instansieras och innehåller både färdig kod och krav genom abstrakta metoder. Använd en abstrakt klass när du har en gemensam grund och vill återanvända kod.
+
+Enkel minnesregel är:
+
+- Interface → kan göra
+- Abstrakt klass → är en typ av
+
+Sammanfattningsvis är:
+
+- Interface = krav utan implementation
+- Abstrakt klass = blandning av krav och färdig kod
+- Interface → flera per klass
+- Abstrakt klass → endast en
+
+
+## Exempel med abstrakt basklass
+
+Animal är en abstrakt basklass.
+Cat och Dog ärver från Animal.
+AnimalHandler arbetar endast mot typen Animal och känner inte till Cat eller Dog.
+Menu har en AnimalHandler och dess relation är aggregation. Menu känner inte till några djurklasser alls och har alltså ingen relation med Animal eller dess subklasser.
+Menu får sin AnimalHandler i konstruktorn, ett design mönster som kallas "dependency injection". 
+**Dependency Injection (DI)** är ett sätt att hantera beroenden mellan klasser.
+Istället för att en klass själv skapar de objekt den behöver, får den dem tilldelade utifrån.
+Det gör att koden blir:
+- mindre hårt kopplad
+- lättare att ändra
+- enklare att testa
+En klass fokuserar på vad den ska göra, inte hur dess beroenden skapas.
+
+### Arvshierarkin 
+
+Vi börjar med att implementera basklassen **Animal** i arvshierarkin och gör den abstrakt.
+
+```csharp title="Den abstrakta basklassen Animal"
+public abstract class Animal
+{
+    private string _name;
+
+    protected Animal(string name)
+    {
+        this._name = name;
+    }
+
+    public abstract void MakeSound();
+}
+```
+
+Nu implementerar vi den abstrakta basklassen med två subklasser **Cat** och **Dog**.
+
+```csharp title="Subklassen Cat"
+public class Cat : Animal
+{
+    private static int _catCounter = 0;
+
+    public Cat(string name) : base(name)
+    {
+        Cat._catCounter++;
+    }
+
+    public static int GetNoOfCats()
+    {
+        return Cat._catCounter;
+    }
+
+    public override void MakeSound()
+    {
+        Console.WriteLine($"{Name} säger: Mjau!");
+    }
+}
+```
+
+```csharp title="Subklassen Dog"
+public class Dog : Animal
+{
+	private string _breed;
+
+	public Dog(string name, string breed) : base(name)
+    {
+        this._breed = breed;
+    }
+
+    public override void MakeSound()
+    {
+        Console.WriteLine($"{Name} säger: Voff!");
+    }
+}
+```
+
+### Handlern
+
+Vi fortsätter med att implementera en handler **AnimalHandler** som hanterar djuren.
+
+```csharp title="Klassen AnimalHandler"
+public class AnimalHandler
+{
+    private List<Animal> animals = new();
+
+    public void AddAnimal(Animal animal)
+    {
+        animals.Add(animal);
+    }
+
+    public void ShowAnimals()
+    {
+        foreach (Animal animal in animals)
+        {
+            animal.MakeSound();
+        }
+    }
+}
+```
+
+### Meny
+
+Nu implementerar vi en klass **Menu** som hanterar in- och utmatning och har en handler. Handlern **AnimalHandler** skapas i huvudprogrammet och skickas in då ett objekt av klassen **Menu** skapas.
+
+```csharp title="Klassen Menu" 
+public class Menu
+{
+    private AnimalHandler _handler;
+
+    public Menu(AnimalHandler handler)
+    {
+        this._handler = handler;
+    }
+
+    public void Start()
+    {
+        Console.WriteLine("Alla djur:");
+        _handler.ShowAnimals();
+    }
+}
+```
+
+Så här använder vi klasserna i huvudprogrammet:
+
+```csharp title="Huvudprogrammet Program.cs"
+AnimalHandler handler = new AnimalHandler();
+
+handler.AddAnimal(new Cat("Misse"));
+handler.AddAnimal(new Dog("Fido"));
+handler.AddAnimal(new Cat("Simba"));
+
+Menu menu = new Menu(handler);
+
+menu.Start();
+```
+
+### Klassdiagram
+
+```text
+        Animal
+           ^
+           |
+    +------+------+
+    |             |
+   Cat           Dog
+
+AnimalHandler
+  |
+  +-- List<Animal>
+
+Menu
+  |
+  +-- AnimalHandler
+```
+
+### Beroenden
+
+```text
+Menu ---> AnimalHandler ---> Animal
+                             ^     ^
+                             |     |
+                            Cat   Dog
+```
+
+## Sammanfattning 
+
+I kmom05 lärde vi oss hur man bygger program med hjälp av klasser, arv, interfaces och komposition.
+Då låg fokus på att förstå hur objekt fungerar och hur de samarbetar.
+
+Nu tar vi nästa steg.
+I verkliga program räcker det inte att koden fungerar – den behöver också vara:
+- lätt att ändra
+- enkel att testa
+- flexibel över tid
+
+Därför introducerar vi i kmom06 begrepp som:
+- abstrakta klasser
+- aggregation (introducerades i artikeln [Mer om klassdiagram](/laromaterial/kmom03/relationer) i kmom03)
+- dependency injection
+
+Dessa begrepp hjälper oss att förbättra designen på det vi redan kan bygga.
+*I början skapade vi själva de objekt vi behövde.
+Nu lär vi oss att ta emot dem utifrån istället.*
+
+Detta gör att våra program blir mindre beroende av specifika implementationer och mer anpassningsbara.
+
+**Kort sammanfattning:**  
+- Kmom05, Steg 1: Hur bygger vi fungerande kod?
+- Kmom06, Steg 2: Hur gör vi koden bättre och mer flexibel?

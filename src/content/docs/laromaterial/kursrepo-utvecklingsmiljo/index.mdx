@@ -1,0 +1,70 @@
+---
+title: "Utvecklingsmiljö i ditt kursrepo" 
+description: Förbered ditt kursrepo genom att installera och konfigurera den utvecklingsmiljön du behöver.
+author: mos
+revision:
+    "2025-06-24": "(A, mos) Första utkastet."
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import YouTube from '@components/YouTube.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+## Förutsättning
+
+För att genomföra denna guiden behöver du tillgång till ditt kursrepo som du skapar. I denna guiden kommer jag att använda kursrepot `csharp-abcd25` som exempel.
+
+Innan du börjar jobba i guiden så öppnar du en terminal och flyttar till katalogen för ditt kursrepo.
+
+```bash
+# ersätt abcd25 med din akronym 
+
+cd dbwebb-kurser/csharp-abcd25
+```
+
+## Guidens innehåll
+
+I guiden får du hjälp med alternativt information om:
+
+<LinkCard 
+  title="Information om konfigurationsfilen `.editorconfig` för inställningar i vscode"
+  href="/laromaterial/kursrepo-utvecklingsmiljo/editorconfig"
+/>
+
+<LinkCard 
+  title="Information om filen `.gitignore` för att ignorera vissa filer och kataloger från att inkluderas i ditt repo"
+  href="/laromaterial/kursrepo-utvecklingsmiljo/gitignore"
+/>
+
+<LinkCard 
+  title="Skapa en PR i Canvas-uppgiften Test gitconfig"
+  href="/laromaterial/kursrepo-utvecklingsmiljo/test-gitconfig"
+/>
+
+<LinkCard 
+  title="Checklista för att kolla om du är klar"
+  href="/laromaterial/kursrepo-utvecklingsmiljo/avslutningsvis"
+/>
+
+Nu är du klar du klar med allt och kan sätta igång med kursen!
+
+<LinkCard 
+  title="Tillbaka till - Kom igång"
+  href="/kmom/#utvecklingsmiljö"
+/>

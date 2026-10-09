@@ -1,0 +1,35 @@
+---
+title: Operativsystem
+description: De operativsystem som främst stöds i kursen.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import YouTube from '@components/YouTube.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<YouTube id="1M0s7neb9Wc" />
+
+Du kan använda operativsystemen för Windows, Mac eller någon variant av Linux/Unix. Du undviker enklast eventuella problem genom att hålla dig till de senaste versionerna av operativsystemen. Börja med se till att du har den allra senaste utgåvan för ditt operativsystem.
+
+Om du kör Windows, se då till att göra det som en användare som har Administratörsrättigheter. Subsystem for Linux (WSL) används för att få tillgång till en Linux‑miljö direkt i Windows, inklusive en terminal där vi kör shell‑programmet Bash.
+
+När lärarteamet väljer Linux-datorer så är det numer ofta Ubuntu. Men är du en van Linuxanvändare så kan du välja fritt bland distributionerna men var medveten om att instruktioner som skrivs är testade på Ubuntu. Alla Linux-system har naturligtvis en terminal och ofta är det shell-programmet Bash.
+
+Operativsystemet macOS är en variant av ett Unix-baserat operativsystem i botten och ett eget användargränssnitt ovanpå (förenklat uttryckt). Även i macOS hittar vi därmed en Unix-baserad terminal och där finns numer en bash-kompatibel shell som heter zsh.
+
+<LinkCard 
+  title="Tillbaka till - Kursintroduktion"
+  href="/kmom/"
+/>

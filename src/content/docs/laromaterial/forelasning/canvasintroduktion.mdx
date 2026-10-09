@@ -1,0 +1,49 @@
+---
+title: "Introduktion till Canvas och länkar" 
+description: ""
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { YouTube } from 'astro-embed';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+En introduktion till Canvas och länkar som är relevanta för kursen Objektorienterad programmering i CSharp.
+
+<YouTube
+    id="M0Fs3yc1O0M" 
+/>
+
+_Föreläsning. Introduktion till Canvas och länkar (med Marie).
+
+Videon är 6 minuter lång.
+
+
+
+## Resurser
+
+Resurser som används, eller är relevanta, för de områden som föreläsningen behandlar.
+
+Resurser för att komplettera, bredda eller fördjupa föreläsningen.
+
+
+* [Canvas](https://canvas.bth.se)
+
+<LinkCard 
+  title="Tillbaka till - Kursintroduktion"
+  href="/kmom/#introduktion-till-kursen"
+/>

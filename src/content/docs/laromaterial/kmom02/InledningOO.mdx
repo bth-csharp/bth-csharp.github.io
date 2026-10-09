@@ -1,0 +1,147 @@
+---
+title: "Introduktion till Objektorienterad programmering"
+description: Genomgång om C#
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import bank from '@assets/img/kmom02/Bank.png';
+import kortlek from '@assets/img/kmom02/kortlek.jpg';
+
+Objektorienterad programmering handlar om att organisera och strukturera kod på ett sätt som efterliknar verkliga objekt och deras relationer till varandra. För objekten skapar vi egna datatyper (klasser) och bestämmer hur de ska bete sig och interagera med omvärlden, inklusive andra objekt.
+
+En klass är en gruppering av variabler och metoder och används som mall för de objekt som skapas av klassen. Klassen representerar en sammansatt datatyp för vilken det är möjligt att skapa objekt. Objekten sägs vara av den aktuella klasstypen. Varje objekt av klassen har en egen uppsättning av variablerna men med sina egna värden. Alla objekt kan "utföra" de metoder som finns specificerade i klassen.
+
+Tänk dig en bank som erbjuder sina kunder konton i banken. Varje konto i banken är ett objekt och dess egenskaper(tillstånd/data) och beteende(operationer/metoder) beskrivs i en klass. Vi bestämmer alltså datatypen, det vill säga klassen, för konton och därefter kan vi skapa valfritt antal objekt av denna datatyp.
+
+Varje konto har egenskaper som kontonummer, innehavare och saldo. Dessa egenskaper kallas vanligtvis instansattribut eller medlemsvariabler i objektorienterad programmering. Utöver egenskaper kan varje konto också utföra olika åtgärder såsom att sätta in pengar, ta ut pengar och få veta saldot. Detta kallas kontots beteende och representeras av metoder eller funktioner i objektorienterad programmering. Dessa kallas vanligtvis instans/medlems-metoder eller instans/medlems-funktioner.
+
+<Figure
+    src={bank}
+    caption="Klassen Bank och klassen Konto"
+    width="450px"
+/>
+
+När vi skapar konto-objekt är det rimligt att vi anger vilken innehavaren är och vilken summa som motsvarar saldot. Kontonumret däremot är något som genereras. När konto-objekt är skapade kan vi använda metoder för att sätta in pengar, ta ut pengar och få veta saldot på dessa. När en metod används "knyts" den till det ett specifikt objekt.
+
+Variabler och metoder inom en klass kallas gemensamt för medlemmar. Vi kan för varje medlem bestämma vilken åtkomst den ska ha (privat, skyddad eller publik). Det vanliga är att medlemsvariabler är privata, vilket innebär att ingen utanför objekten kommer åt dessa, och medlemsmetoder är publika, vilket innebär att dessa är tillgängliga utanför objekten. Skyddade medlemmar återkommer vi till senare när vi går igenom konceptet arv.
+
+För vårt exempel med konto så vill inte att det ska vara möjligt att "kliva in i objektet" och påverka kontonummer, innehavare eller saldo. Vi gör dessa privata för att undvika detta.
+
+Däremot vill vi att det ska vara möjligt att anropa metoder för att sätta in pengar, ta ut pengar och få veta saldot. Dessa gör vi därför publika. I metoden för att ta ut pengar kan vi till exempel göra kontroll av att man inte kan ta ut mer pengar än det som finns på kontot (vilket ju hade varit möjligt om saldot varit publikt).
+
+Genom att skapa klasser åstadkommer vi **encapsulation** (inkapsling), vilket innebär att vi skapar en enhet som buntar ihop data (variabler) och funktionalitet (metoder) som bearbetar och påverkar denna data.
+När vi dessutom bestämmer vilken åtkomst olika medlemmar i klassen ska ha, kan vi uppnå **information hiding** (informationsgömning). Vi döljer helt enkelt vissa medlemmar genom att göra dem privata (oftast variabler men även metoder med funktionalitet som inte ska synas) och visar endast medlemmar som ska vara tillgängliga genom att göra dem publika (oftast metoder). 
+
+En av de stora fördelarna med objektorienterad programmering är att den tillåter oss att skapa modulär och återanvändbar kod. Istället för att skriva samma kod för olika delar av vår applikation, kan vi definiera klasser (som vi kan skapa objekt av) med egenskaper och beteende som kan återanvändas.
+
+På så sätt kan vi skapa komplexa system som är lättare att förstå och underhålla, eftersom de efterliknar den verkliga världen och hur vi interagerar med objekt och deras relationer i den.
+
+## Åtkomstnivåer
+
+Det finns tre åtkomstnivåer:
+
+- public, öppet för alla
+- private, endast tillgängligt inuti klassen
+- protected, endast för egna klassen och eventuella subklasser (mer om det senare i kursen)
+
+## Namngivning
+
+I C# använder vi "Camel case" för variabler, vilket innebär att variabelnamnet börjar med liten bokstav och varje nytt ord i namnet börjar med stor bokstav. Exempel på variabelnamn är `numberOfCars`, `bankAccounts`, `bookTitle` och `index`. Vi har också lärt oss att vi använder "Pascal case" för metoder, vilket innebär att metodnamnet börjar med stor bokstav och varje nytt ord i namnet börjar också med stor bokstav. Exempel på metodnamn är `Description`, `GetAllCars`, `SetNewInterest` och `CheckIfAdult`.
+
+I C# använder vi "Pascal case" för klassnamn och "Camel case" för variabler. En klass kan innehålla variabler som tillhör objekten (det vi hittills berört) vilka ofta benämns attribut eller instansvariabler men även variabler som tillhör klassen s.k. klassvariabler. En klassvariabel är statisk och är tillgänglig för alla objekt som skapats av den aktuella klassen.
+
+Alla namn ska vara på engelska!
+
+| Namn     | Namnkonvention | Exempel             |
+|----------|----------------|---------------------|
+| variabel | Camel case     | numberOfCars        |
+| konstanter | Versaler (Pascal case) | NUMBER_OF_CARS (NumberOfCars) |
+| metod    | Pascal case    | GetAllCars          |
+| klasser  | Pascal case    | Car, BankAccount    |
+| publik medlemsvariabel | Pascal case    | NumberOfCars    |
+| privat medlemsvariabel | Camel case med understreck först | _numberOfCars |
+| protected medlemsvariabel | Camel case med understreck först | _numberOfCars |
+| property  | Pascal case    | NumberOfCars    |
+| namespace  | Pascal case    | Car.src    |
+| interface (gränssnitt) | I + Pascal case     | ICars        |
+
+**Notera** att namnkonvention för konstanter egentligen följer "Pascal case" för C# men eftersom det i de flesta andra språk använder stora bokstäver med bindestreck mellan orden använder vi det här också.
+
+Oftast är det "Pascal case" som gäller förutom på variabelnamn, parametrar till metoder och klassvariabler (både statiska och medlemsvariabler). Det står inget i Microsoft guidelines vad som gäller specifikt för skyddade (protected) variabler och metoder men enligt praxis så gör de flesta på samma sätt när det gäller skyddade medlemmar som för privata medlemmar.
+
+### Exempel
+
+```csharp
+namespace MyNamespace.src;
+
+public class MyClass
+{
+    private int _myMember;
+    public int MyPublicMember;
+
+    public MyClass(int myNumber1, int myNumber2)
+    {
+        this._myMember = myNumber1;
+        this.MyPublicMember = myNumber2;
+    }
+
+    public int MyMethod(int increase)
+    {
+        const int MY_CONST = 10;
+        int myVariable;
+
+        myVariable = MY_CONST + increase;
+        
+        return myVariable;
+    }
+}
+```
+
+Läs mer om [namngivning i C#](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names). Tänk på att inte använda reserverade ord, som till exempel string till variabelnamn. Läs mer om [reserverade ord i C#](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/).
+
+## Exempel med en kortlek
+
+Klasserna är ritningar för objekt och objekten är konkreta instanser av dessa klasser. Klassen definierar vilka egenskaper och metoder varje objekt ska ha.
+
+<Figure
+    src={kortlek}
+    caption="Kortlek med 52 spelkort"
+    width="400px"
+/>
+
+Vi skapar en klass för att representera ett spelkort **Card** där ett spelkort har egenskaperna valör och färg. Metoderna i klassen blir *skapa spelkort*, *visa valör* och *visa färg*.
+
+Den andra klassen vi skapar ska representera en kortlek **DeckOfCards**. Här kan egenskapen att hålla antalet spelkort vara relevant och även möjligheten att hantera/lagra 52 spelkort. Metoder i klassen kortlek kan vara *skapa kortlek*, *blanda kortlek* och *ta ut det översta kortet*.
+
+Vi representerar spelkorten i klassen **DeckOfCards** med en array som består av 52 objekt av klassen **Card**. När vi skapar ett objekt av klassen **DeckOfCards** så skapas också 52 objekt av klassen **Card**. 
+
+## Överlagring
+
+Vi kan i en klass ha samma namn på flera metoder så länge metoderna har olika parameterlistor. Detta kallas **överlagring (overloading)**. Parameterlistorna kan skilja sig åt avseende antal parametrar, ordning på parametrarna eller datatypen på parametrarna. Vi kan t.ex ha en metod `Print()` som skriver en bestämd text, en metod `Print(string what)` som skriver ut innehållet i `what`, en metod `Print(int nr)` som skriver en bestämd text det antal gånger som `nr` innehåller och dessutom en metod `Print(int nr, string what)` som `nr` gånger skriver ut innehållet i `what`. Beroende på argumenten vid anrop identifieras den version av Print-metoden som har en parameterlista som matchar argumenten.
+
+## Sammanfattning
+
+* Objekt skapas utifrån en ritning, en klass. Jämför med att en maträtt skapas ifrån ett recept.
+* Varje objekt har egenskaper (variabler) och beteenden (metoder).
+* I C# använder vi "Pascal case" för klassnamn och metoder samt "Camel case" för variabler.
+* För medlemsvariabler i klasser använder vi "Pascal case" för publika och "Camel case" med understreck först för privata.
+* En klass ha samma namn på flera metoder så länge metoderna har olika parameterlistor.
+
+<LinkCard 
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02/#artiklar"
+/>

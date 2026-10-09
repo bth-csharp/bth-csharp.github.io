@@ -1,0 +1,162 @@
+---
+title: "Kmom06: Abstrakta klasser och enhetstestning"
+description: Sjätte kmomet.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { YouTube } from 'astro-embed';
+import { Steps } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+import var1Image from '@assets/img/kmom01/infoUserHW.png';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+I detta kursmoment tittar vi på fler begrepp inom objektorienterad programmering som
+abstrakta klasser och abstrakta metoder och enhetstester med NUnit.
+
+{/*
+## Förberedelser
+
+Innan du börjar med kmom06 så behöver du ha jobbat igenom [Kmom05](/kmom/kmom05).
+
+:::note
+Du har förkunskaper som motsvarar innehållet i Kmom05.
+:::
+
+## Läs & Studera
+
+Här kan du på egen hand studera och förbereda dig inför övningar och uppgifter.
+
+
+### Artiklar
+
+<Steps>
+
+1. Lär dig om kodanalys i artikeln [Kodanalys](/laromaterial/kmom06/kodanalys). Artikeln ger exempel på dålig kod och bra kod och beskriver skillnaden.
+
+1. Läs och jobba igenom [Kapitel 3 - Mer objektorientering](/laromaterial/ooguide/kap3/) i guiden [Kom igång med objektorienterad programmering i C#](/laromaterial/ooguide/).
+
+1. Lär dig mer om skillnaden på `const` och `readonly` i artikeln [Skillnad på const och readonly](/laromaterial/kmom06/constvsreadonly).
+
+1. Lär dig mer om mjukvaruutveckling i artikeln [Olika metoder för mjukvaruutveckling](/laromaterial/kmom06/agilutveckling).
+
+</Steps>
+
+#### Artiklar - extra läsning
+
+<Steps>
+
+1. Titta gärna igenom artikeln [Introduktion till rekursion](/laromaterial/kmom06/recursion).
+
+1. Läs och jobba igenom artikeln om enhetstester med C# och NUnit [C# - testning del 2](/laromaterial/kmom05/testningdel2).
+
+1. Lär dig mer om att läsa och skriva JSON data till filer i [Filer med JSON data](/laromaterial/kmom06/filejson). Vi tittar också på intern klass.
+
+1. Läs och jobba igenom artikeln om kodtäckning med [.NET reportgenerator](/laromaterial/kmom05/kodtackning).
+
+</Steps>
+
+
+## Seminarie
+
+*(Cirka 3 studietimmar)*
+
+Seminariet är en lärarledd övning där vi diskuterar kod i grupp och uppgifterna gås igenom av en lärare.  
+Kort före seminariet skickas en länk till de uppgifter och frågor som vi kommer att arbeta med under seminariet.
+
+Läs [om seminarier](/laromaterial/seminarium/).
+
+Jobba igenom [seminarium kmom06](/laromaterial/seminarium/kmom). Det görs på onsdagens lektion.
+
+
+## Övningar & Uppgifter
+
+Övningar är träning inför uppgifterna. Uppgifter skall utföras och redovisas.
+
+### Övningar
+
+<Steps>
+
+1. Läs och jobba igenom innehållet i artikeln om enhetstester och NUnit från ett tidigare kursmoment [C# - testning](/laromaterial/kmom02/testningdel1).
+
+1. Läs och jobba igenom artikeln [Automatiskt dokumentera C# kod](/laromaterial/kmom06/autodocstrings) för att lära dig automatgenerera XML-kommentarerna som dokumenterar din C# kod.
+
+</Steps>
+
+#### Övningar - extra
+
+<Steps>
+
+1. Läs och jobba igenom artikeln [Filer - läs och skriv asynkront](/laromaterial/kmom06/asyncfile) för att lära dig att läsa och skriva asynkront till filer.
+
+</Steps>
+
+
+### Uppgifter
+
+Följande uppgifter skall utföras självständigt och utan hjälpmedel. Resultatet skall redovisas enligt [Resultat & Redovisning](#resultat--redovisning).
+
+:::danger
+Varje uppgift ska lösas med de C# konstruktioner som vi går igenom i respektive kmom.
+:::
+
+<Steps>
+
+1. På Canvas, gör quizzet `Kmom06 quiz`.
+
+1. Uppgiften är att refaktorera planeringsverktyget **MyPlanner** från kmom05, se [**MyPlanner2**](/laromaterial/uppgift/kmom06) och lägga till enhetstester.
+Spara alla filer under `kmom06`.
+
+</Steps>
+
+
+## Resultat & Redovisning
+
+Läs [instruktionen om hur du skall redovisa](/laromaterial/instruktion/resultat-och-redovisning).  
+
+Utöver en vanlig inlämning ska du också göra en [Pull Request](/laromaterial/instruktion/gor-en-pr). Titta speciellt på kapitel [PR kmom06](/laromaterial/instruktion/gor-en-pr#pr-kmom06) för att tolka resultatet.
+
+Gör en inlämning i **Canvas** med länken till din PR.
+
+## Målet med kmom06
+
+Efter att ha jobbat igenom kmom06 så bör du kunna:
+
+* mer om abstrakta klasser och abstrakta metoder
+* skriva enhetstester med NUnit
+* skillnaden på const och readonly
+* dokumentera din kod
+
+Om du gjort extra så kan du även:
+
+* mer om kodanalys
+  * se kritiskt på din kod och göra kodanalys
+  * använda inbyggda kodanalysen i .NET
+* mer om mjukvaruutveckling
+  * vattenfallsmetoden
+  * agilutveckling
+  * Kanban
+* mer om att läsa och skriva till fil asynkront med **StreamReader** och **StreamWriter**
+*/}
+
+<LinkCard 
+  title="Tillbaka till startsidan"
+  href="/"
+/>

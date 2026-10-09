@@ -1,0 +1,295 @@
+---
+title: "Introduktion till UML och klassdiagram"
+description: Introduktion till UML och klassdiagram
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import umlLogo from '@assets/umlLogo.png';
+import uml_diagrams from '@assets/img/kmom02/uml_diagrams.png';
+import classdiagramMyClass from '@assets/img/kmom02/classdiagramMyClass.png';
+import classdiagramBankAccountSimple from '@assets/img/kmom02/classdiagramBankAccountSimple.png';
+import classdiagramBankAccount from '@assets/img/kmom02/classdiagramBankAccount.png';
+import MyBank from '@assets/img/kmom02/MyBank.png';
+
+<Figure
+    src={uml_diagrams}
+    caption="Exempel på ett stort UML diagram"
+    width="600px"
+/>
+
+UML står för Unified Modeling Language, det är ett visuellt modelleringsspråk för att specificera, konstruera och dokumentera artefakter i ett system.  
+Det brukar användas på tre sätt:
+
+1. Som en sketch: Informell och ofta inte fullständig, hand sketch eller på whiteboard. Används för att utforska problem.
+2. Som en ritning: Används för
+    - reverse engineering, för att förstå existerande kod.
+    - att se hur ny kod ska genereras.
+3. Som ett programmeringsspråk: Det finns färdiga verktyg som genererar kod baserat på UML.
+
+
+Vi kommer fokusera på det diagram som kallas **Klassdiagram**.
+
+
+## Terminologi
+
+<Figure
+    src={umlLogo}
+    height="150px"
+    width="150px"
+    float="right"
+/>
+
+- **UML**: Unified Modeling Language.
+
+- **Strukturdiagram**: Structure diagram på engelska. Statisk representation av strukturen i ett system.
+
+- **Klassdiagram**: Statisk representation av den objektorienterade vyn av ett system. Visar vilka klasser systemet består av och relationer mellan dessa.
+
+## Strukturdiagram
+
+Strukturdiagram representerar strukturen, de statiska aspekterna, i ett system och visar upp artefakter som måste existera i systemet och hur de relaterar till varandra.
+De statiska delarna representeras av klasser, gränssnitt, komponenter och noder. Det är ett sätt att dokumentera arkitekturen. Med arkitektur menar vi hur koden är uppbyggd.  
+Det vanligaste strukturdiagrammet är *Klassdiagram*.
+
+### Klassdiagram
+
+Klassdiagram representerar den objektorienterade vyn av ett system. I objektorienterad programmering försöker göra en modell av verkligheten där vi ser allt som objekt, det vill säga vi kan lätt  göra kopplingar till saker i verkligheten.
+
+En klass i klassdiagrammet ritas som en ruta med tre delrutor. I den översta rutan skrivs namnet på klassen och ibland typen som kan vara en klass (det finns även andra typer men nu känner vi bara till klass) och det visar vi med ett C. I mellersta delrutan finns klassens variabler och nedersta delrutan klassens metoder.
+
+<Figure
+    src={classdiagramMyClass}
+    caption="Klassdiagram MyClass"
+    width="250px"
+/>
+
+Vi använder följande symboler för att visualisera ovanstående:
+
+- **\-** Privat åtkomstnivå - endast tillgänglig för medlemmar inom den aktuella klassen. (Röd ruta i PlantUML)
+
+- **#** Skyddad åtkomstnivå - endast tillgänglig för medlemmar inom den aktuella klassen och dess subklasser. (Gul romb i PlantUML)
+
+- **\+** Publik åtkomstnivå - tillgänglig för alla andra klasser och objekt. (Grön cirkel i PlantUML)
+
+- Understruket namn betyder att attributet/metoden är statisk, det vill säga tillhör klassen istället för objekten.
+
+Skyddad åtkomstnivå, *protected*, är användbar vid arv (innebär att en klass kan ärva egenskaper och beteenden från en annan klass) vilket vi går igenom senare i kursen.
+
+### Exempel klassdiagram
+
+Vi återknyter till bankkonto som används i samband med [Introduktion till Objektorienterad programmering](/website/laromaterial/kmom02/inledningoo) som exempel. Om vi ska definiera vad ett bankkonto är kan vi identifiera information och funktionalitet som finns kopplat till ett bankkonto. Vi har information/data i variabler och funktionalitet i metoder.
+
+Till ett bankkonto kan vi bland annat förvänta oss att följande data finns: namnet på innehavaren, hur mycket pengar som finns på kontot och vad banken heter som kontot tillhör (namnet på banken borde logiskt ligga i en bankklass istället men vi har med det för att visa hur en konstant kan användas). Vanlig funktionalitet är bland annat att kunna sätta in och ta ut pengar.
+
+#### Enkelt klassdiagram
+
+Nu kan vi använda UML och klassdiagram för att rita upp/dokumentera denna struktur. Vi bryr oss inte om faktiska exempel på värden/data, utan vi vill bara dokumentera strukturen och förväntad typ av data. Nedanför kan du se ett enkelt klassdiagram över strukturen hos bankkontot som beskrevs ovanför.
+
+<Figure
+    src={classdiagramBankAccountSimple}
+    caption="Förenklat klassdiagram för BankAccount"
+    width="250px"
+/>
+
+
+Nu har vi en statiskt bild som visar samma sak (och lite till) som texten ovanför. Det vi kan anse saknas är förklaringar av de olika "variablerna" och "metoderna". Bilden förutsätter att vi förstår vad dessa motsvarar. Här är det viktigt med förklarande namn så att man förstår vad metoderna utför och vad variablerna representerar. I detta förenklade klassdiagram ser vi att till exempel att det ska vara möjligt att sätta in pengar (metoden Deposit()) men vi inser att det även kommer att behövas summan pengar som ska sättas in (vilket kommer att motsvara en parameter till metoden senare).
+
+Enkla klassdiagram kan användas i början av implementeringen då vi kanske inte vet parametrar och returtyper. Det kan jämföras med pseudokod relaterat till programkod. Fyll i ditt klassdiagram med all information (datatyper, returtyper, parametrar till metoder) så snart det är möjligt.
+
+#### Ordentligt klassdiagram
+
+Ett riktigt klassdiagram innehåller mer information än det simplifierade. Där visas också datatypen på informationen och returvärdet från funktionerna. De olika informationsnamnen som finns kopplad till det vi modellerar kallar vi **attribut** och funktionaliteten kallar vi **metoder**. Bankkontot har tre attribut och sju metoder (varav en av dessa skapar ett Bankkonto-objekt).
+
+Vi kan också visa om något i strukturen ska vara dolt, det vill säga inte tillgängligt eller synligt, utanför objektet. Saldo och kontonummer kan anses vara känsliga och vi vill skydda dessa från okontrollerad påverkan, det vill säga det ska inte gå att ändra eller läsa hur som helst. Då gör vi attributet _balance och attributet _accountNumber **privat**. Medlemmar (attribut och metoder) som ska vara åtkomliga görs **publika**.
+
+Det finns också viss typ av data som vi vill ska vara samma för all konton som finns, det vill säga alla konto-objekt delar på denna data. Om vi tänker oss att alla konton vi skapar/jobbar med tillhör samma bank, kan vi markera att attributet för bankens namn, ska delas av alla bankkonton. Sådana attribut (som delas av alla objekt) kallas **statiska attribut**. 
+
+Det omvända gäller för ägare och saldo som uppenbarligen ska vara individuella attribut för varje konto. Dessa attribut kallas **instansattribut**.
+
+#### Klassdiagram BankAccount
+
+Nedanför kan ni se ett "ordentligt" klassdiagram över bankkontot.
+
+<Figure
+    src={classdiagramBankAccount}
+    caption="Ordentligt klassdiagram för BankAccount med datatyper och inparametrar"
+    width="400px"
+/>
+
+
+Diagrammet visar att klassen *BankAccount* har följande attribut (variabler):
+
+- `_nextAccountNumber` är ett privat statisk fält som används för att generera unika kontonummer.
+- `Bank_Name` är en publik konstant som lagrar namnet på banken.
+- `_owner` är ett skyddat (protected) attribut som innehåller en sträng med ägarens namn.
+- `_balance` är ett privat attribut som innehåller ett decimal värde med kontots saldo.
+- `_accountNumber` är ett privat attribut som innehåller en sträng med kontonumret.
+
+Diagrammet visar följande om metoderna:
+
+- `BankAccount(name: string, initialBalance: decimal)` är en publik konstruktor som skapar ett nytt BankAccount-objekt.
+- `GetOwner()` är en publik metod som returnerar innehavarens namn.
+- `GetBalance()` är en publik metod som returnerar kontosaldo.
+- `GetAccountNumber()` är en publik metod som returnerar kontonumret.
+- `Deposit(decimal amount)` är en publik metod för att sätt in pengar på kontot och som returnerar en bool beroende på om det gick bra eller dåligt. Dessutom har den en inparameter *amount* som är ett decimaltal och beloppet som ska sättas in.
+- `Withdraw(decimal amount)` är en publik metod för att ta ut pengar från kontot och som returnerar en bool beroende på om det gick bra eller dåligt. Dessutom har den en inparameter *amount* som är ett decimaltal och är beloppet som ska tas ut.
+- `PrintAccountDescription` är en publik metod som skriver ut information om bankkontot.
+
+#### PlantUML
+
+De klassdiagrammen som visas i denna artikel har skapats med [online PlantText](https://www.planttext.com/).
+För att generera klassdiagrammet för *BankAccount* i online PlantText krävs denna input:
+
+```csharp
+@startuml
+
+class BankAccount {
+    - {static} _nextAccountNumber: int
+    + {static} <<constant>> BANK_NAME: string = "Dbwebb Bank"
+    - _owner: string
+    - _balance: decimal
+    - _accountNumber: string
+
+    + BankAccount(name: string, initialBalance: decimal)
+    + GetOwner(): string
+    + GetBalance(): decimal
+    + GetAccountNumber(): string
+    + Deposit(amount: decimal): bool
+    + Withdraw(amount: decimal): bool
+    + PrintAccountDescription(): void
+}
+
+@enduml
+```
+
+#### Implementation BankAccount
+
+Vi skapar ett terminalprogram som heter `MyBank` och skapar klassen **BankAccount** i src katalogen. Nedanför kan ni se hur koden för klassdiagrammet med **BankAccount** ser ut i C#.
+
+```csharp title="Klassen BankAccount har följande kod och ligger i filen MyBank/src/BankAccount.cs"
+namespace MyBank.src;
+
+public class BankAccount
+{
+    private static int _nextAccountNumber = 100000;
+    public const string BANK_NAME = "Dbwebb Bank";
+    private string _owner;
+    private decimal _balance;
+    private string _accountNumber;
+
+    public BankAccount(string name, decimal initialBalance)
+    {
+        this._owner = name;
+        this._balance = initialBalance;
+        this._accountNumber = _nextAccountNumber.ToString();
+        this._nextAccountNumber++;
+    }
+
+    public string GetOwner()
+    {
+        return this._owner;
+    }
+
+    public decimal GetBalance()
+    {
+        return this._balance;
+    }
+
+    public string GetAccountNumber()
+    {
+        return this._accountNumber;
+    }
+
+    public bool Deposit(decimal amount)
+    {
+        bool okDeposit = false;
+
+        if (amount > 0)
+        {
+            this._balance += amount;
+            okDeposit = true;
+        }
+        return okDeposit;
+    }
+
+    public bool Withdraw(decimal amount)
+    {
+        bool okWithdraw = false;
+
+        if (this._balance >= amount)
+        {
+            this._balance -= amount;
+            okWithdraw = true;
+        }
+        return okWithdraw;
+    }
+
+    public void PrintAccountDescription()
+    {
+        Console.WriteLine($"Kontot med nummer {this._accountNumber} skapades till {this._owner} med saldot {this._balance} kr.");
+    }
+}
+```
+
+För att testa klassen skapar vi objekt av klassen och anropar dess metoder Program.cs. Vi lägger till "using MyBank.src" för visa att alla klasser i MyBank/src kan användas i huvudprogrammet.
+
+```csharp title="Följande kod i Program.cs testar klassen BankAccount"
+using MyBank.src;
+
+BankAccount account1 = new BankAccount("Marie", 1000);
+BankAccount account2 = new BankAccount("Betty", 2000);
+string bankName = BankAccount.BANK_NAME;
+
+Console.WriteLine($"\nThe name of the bank is {bankName}");
+Console.WriteLine($"Account {account1.GetAccountNumber()} was created for {account1.GetOwner()} with {account1.GetBalance()} initial balance.");
+Console.WriteLine($"Account {account2.GetAccountNumber()} was created for {account2.GetOwner()} with {account2.GetBalance()} initial balance.");
+
+bool ok = account1.Deposit(-100);
+Console.WriteLine($"Deposit for account {account1.GetAccountNumber()} with -100 went good? {ok}");
+ok = account1.Deposit(100);
+Console.WriteLine($"Deposit for account {account1.GetAccountNumber()} with 100 went good? {ok}");
+Console.WriteLine($"Account {account1.GetAccountNumber()} was created for {account1.GetOwner()} with {account1.GetBalance()} balance.");
+
+ok = account1.Withdraw(10000);
+Console.WriteLine($"Deposit for account {account1.GetAccountNumber()} with 10000 went good? {ok}");
+ok = account1.Withdraw(300);
+Console.WriteLine($"Deposit for account {account1.GetAccountNumber()} with 300 went good? {ok}");
+Console.WriteLine($"Account {account1.GetAccountNumber()} was created for {account1.GetOwner()} with {account1.GetBalance()} balance.");
+```
+
+Så här ser det ut i terminalen när "dotnet run" körs:
+
+<Figure
+    src={MyBank}
+    caption="Resultatet av *dotnet run* för exemplet med MyBank"
+    width="600px"
+/>
+
+## Sammanfattning
+
+Vi har introducerats till UML klassdiagram vilket är ett bra sätt att visa hur klassen ser ut. Klassens namn skrivs i översta delrutan. I mittersta delrutan visar vi klassens variabler med åtkomstnivå, namn och typ. I den nedersta rutan visar vi klassens metoder med åtkomsttyp, metodnamn med eventuella inparametrar och returtyp. Det finns mer att lära sig om klassdiagram men det kollar vi på i senare kmom.
+
+Det finns bra verktyg online för att skapa egna uml diagram, kolla in [draw.io](https://www.draw.io). Vill du hellre generera klassdiagram utifrån din kod, så finns en programvara som heter PlantUML. Eller så använder du [online PlantText](https://www.planttext.com/).
+
+För att läsa mer om klassdiagram kolla här, [Class diagrams](http://www.uml-diagrams.org/class-diagrams-overview.html).
+
+Skapa gärna ett projekt **MyBank** under kmom02 och testkör koden. Om du vill titta på koden i sin helhet och ladda ner den så kör du `task download-code -- kmom02/MyBank`.
+
+<LinkCard 
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02/#artiklar"
+/>

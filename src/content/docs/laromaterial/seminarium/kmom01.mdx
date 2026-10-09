@@ -1,0 +1,266 @@
+---
+title: "Kmom01"
+description: "Kom igång med C#"
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { YouTube } from 'astro-embed';
+import Figure from '@components/CustomFigure.astro';
+import { Icon } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Detta seminarium tar upp följande områden: grundläggande C#
+
+## Förberedelser
+
+Läs [Om seminarier](../).
+
+## <Icon name="open-book" class="inline-icon" label="Interpret code" /> Teori
+
+1. Vad är skillnaden mellan while och do...while?
+
+1. Hur är en for-loop uppbyggd?   
+
+1. Vad är skillnaden mellan == och = i C#?
+
+1. Vad händer om du försöker använda en oinitierad lokal variabel i C#?
+
+1. Vad innebär att C# är ett statiskt typat språk?
+
+1. Vad är skillnaden mellan en värdetyp och en referenstyp i C#?
+
+1. Beskriv vad skillnaden mellan en array och en lista i C#. 
+
+1. Vad finns på varje index i arrayen `numbers` efter följande deklaration `int[] numbers = new int[3]`?
+
+1. Vad finns på varje index i arrayen `names` efter följande deklaration `string[] names = new string[5]`?
+
+1. Är det möjligt att utöka en befintlig array med några "platser"? Om ja - hur gör man? Om nej - varför? 
+
+
+## <Icon name="open-book" class="inline-icon" label="Interpret code" /> Tolka kod
+
+1. Vad gör följande kod och vad blir utskriften och varför?
+
+```csharp
+int x = 5;
+int y = x++;
+Console.WriteLine(y);
+```
+
+2. Vad gör följande kod och vad blir utskriften och varför?   
+
+```csharp
+int x = 5;
+int y = ++x;
+Console.WriteLine(y);
+```
+
+3. Vad gör följande kod? Blir utskriften 2 eller 2.5. Förklara varför?
+
+```csharp
+double x = 5 / 2;
+Console.WriteLine(x);
+```
+
+4. Är följande kod korrekt? Om ja - vad blir utskriften? Om nej - varför?
+
+```csharp
+int x = 10;
+if (× < 2)
+{
+    int x = 20;
+    Console.WriteLine(x);
+}
+```
+
+  
+5. Vad gör följande kod och vad blir utskriften och varför?
+
+```csharp
+bool a = true;
+bool b = false;
+bool result = a && b || a;
+Console.WriteLine(result);
+
+```
+
+6. Vilken utskrift ger följande kod? Hur kan den omformuleras så att en for-loop används i stället för en while-loop?  
+
+ ```csharp
+string[] words = { "I", "am", "happy", "!" };
+int i =0; 
+while (i < words.Length)
+{
+    Console.WriteLine(words[i]);
+    i++;
+}
+
+ ```
+
+
+## <Icon name="seti:csharp" class="inline-icon" label="Write code" /> Praktisk uppgift
+
+Börja med att planera er lösning, vilken kod behövs och vilka datatyper er data kommer ha i de olika stegen. Efter ni har en plan, skriv koden. Använd frågorna nedanför för att planera koden ni behöver för att lösa uppgiften.
+
+- Går det att identifiera delproblem som kan lösas för att testa tidigt?
+  - Vilka delproblem i så fall?
+  - Hur kan du testa dessa?
+- Ge förslag på lämpliga variabler och vilken datatyp de ska innehålla
+- Vilken/Vilka språkkonstruktion/er behövs?
+- Vad börjar du med?
+- Formulera en lösning i [pseudo-kod](https://sv.wikipedia.org/wiki/Pseudokod)
+- diskutera alternativa lösningar
+
+### Uppgifter
+
+1. Gör ett program som hanterar bedömning av olika sorters glassar.I detta fall är det maximala antalet olika glassar som kan bedömas 10.
+Metoder ska definieras och användas för att hantera olika delproblem.
+
+Exempelkörning:  
+
+Användarinmatning visas med kursiv text.  
+
+Hur många glassar ska bedömas (max 10)? 6  
+
+Mata in namnen på de 6 glassarna:  
+<i>Magnum mandel</i>
+*Storstrut*  
+*Piggelin*  
+*88:an*  
+*Nogger*  
+*Cornetto jordgubb*  
+
+
+Ge bedömning (1-5):  
+Magnum mandel : *5*  
+Storstrut : *2*  
+Piggelin : *2*  
+88:an: *5*  
+Nogger : *4*  
+Cornetto jordgubb: *3*  
+  
+Fler bedömningar (J/N)? *J*  
+  
+Ge bedömning (1-5):  
+Magnum mandel : *4*  
+Storstrut : *1*  
+Piggelin : *4*  
+88:an: *5*  
+Nogger : *3*  
+Cornetto jordgubb: *2*  
+  
+Fler bedömningar (J/N)? *N*  
+  
+Antalet genomförda bedömningar är 2  
+Medelvärdet för varje glass blev  
+
+Magnum mandel : 4.5  
+Storstrut : 1.5  
+Piggelin : 3  
+88:an: 5  
+Nogger : 3.5  
+Cornetto jordgubb: 2.5  
+
+Glassen som fick högst poäng är 88:an.  
+Glassen som fick lägst poäng är Storstrut.  
+
+Krav:  
+- En konstant ska användas för det maximala antalet glassar (10)
+- Arrayer (inte listor) ska användas 
+- Både for och while-loop ska ingå i lösningen
+- Metoder för att hantera delproblem ska ingå:
+  - mata in namnen på glassarna
+  - genomföra en bedömning av alla glassar
+  - presentera glassarna och deras genomsnittliga bedömningar
+  - bestämma index för den glass som har fått bäst/sämst poäng
+
+Använd följande "stomme" och fyll på med kod i metoderna.
+
+```csharp
+using System;
+
+const int MAX = 10;
+static void InputIceCreams(string[] iceCreams, int nrOfIceCreams)
+{
+
+}
+
+static void AddPoints(string[] iceCreams, int[] totalpoints, int nrOfIceCreams)
+{
+
+}
+
+static void ShowResult(string[] iceCreams, int[] totalpoints, int nrOfIceCreams, int nrOfMadeGradings)
+{
+
+}
+
+static int IndexBestIceCream(int[] totalPoints, int nrOfIceCreams)
+{
+
+}
+
+static int IndexWorstIceCream(int[] totalPoints, int nrOfIceCreams)
+{
+
+}
+
+static (int, int) IndexBestAndWorstIceCream(int[] totalPoints, int nrOfIceCreams)
+{
+    // denna eller IndexBestIceCream och IndexWorstIceCream
+}
+
+string[] iceCreams = new string[MAX];
+int[] totalPoints = new int[MAX];
+
+int nrOfIceCreams;
+Console.WriteLine($"Hur många glassar ska bedömas (max {MAX})?");
+string? input = Console.ReadLine(); // samma sak som string input = Console.ReadLine() ?? "";
+while (string.IsNullOrEmpty(input) || !int.TryParse(input, out nrOfIceCreams))
+{
+    Console.WriteLine("Inte korrekt inmatning. Försök igen!");
+    input = Console.ReadLine();
+}
+
+int nrOfGradings = 0;
+InputIceCreams(iceCreams, nrOfIceCreams);
+
+bool done = false;
+while (!done)
+{
+    AddPoints(iceCreams, totalPoints, nrOfIceCreams);
+    nrOfGradings++;
+    Console.WriteLine("Fler bedömningar (J/N)?");
+    input = Console.ReadLine();
+    if (input != "J")
+        done = true;
+}
+
+ShowResult(iceCreams, totalPoints, nrOfIceCreams, nrOfGradings);
+Console.WriteLine("Glassen som fick högst poäng är "
+    + iceCreams[IndexBestIceCream(totalPoints, nrOfIceCreams)]);
+Console.WriteLine("Glassen som fick lägst poäng är "
+    + iceCreams[IndexWorstIceCream(totalPoints, nrOfIceCreams)]);
+
+// alternativt
+// (int, int) result = IndexBestAndWorstIceCream(totalPoints, nrOfIceCreams);
+// Console.WriteLine($"Glassen som fick högst poäng är {iceCreams[result.Item1]}"); 
+// Console.WriteLine($"Glassen som fick lägst poäng är {iceCreams[result.Item2]}");
+```
+
+<LinkCard
+  title="Tillbaka till - Kmom01"
+  href="/kmom/kmom01"
+/>

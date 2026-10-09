@@ -1,0 +1,385 @@
+---
+title: "Filer"
+description: Läsa från och skriva till filer
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import filer from '@assets/img/kmom03/filer.jpg';
+import shoppingList from '@assets/img/kmom03/shoppingList.png';
+
+Data sparas i datorns minne under tiden programmet är exekveras och försvinner när programmet avslutas. För att programmet ska komma i samma läge igen, måste samma data matas in igen. För att undvika det kan vi spara undan denna data på en fil. När programmet startar så läser det in data från filen och vi kommer direkt till samma läge utan inmatningar. Nu kan vi fortsätta med inmatningar om vi vill och innan programmet avslutas så sparar vi ner data på fil. De vanligaste I/O-operationerna (Input/Output) är att läsa från en fil och att skriva till en fil.
+
+Tänk ett program som hanterar en shoppinglista med möjlighet att mata in produkter och antal av respektive produkt. När vi startar programmet första gången så är shoppinglistan tom och vi lägger till produkter med antal. När programmet avslutas sparas detta ner till en fil. Nästa gång vi startar programmet ligger innehållet i shopping listan kvar och vi kan fylla på listan. Programmet med shoppinglistan skulle inte vara särskilt användbart om vi var tvungna att fylla i den från början varje gång.
+
+<Figure
+    src={filer}
+    caption="Bilden visar kataloger och filer i en dator"
+    width="500px"
+/>
+
+## Filer i C#
+
+Det finns olika alternativ för I/O-operationer på fil i C#. De vanligaste är att använda File-klassen samt StreamReader och StreamWriter.
+
+Den inbyggda klassen **File** ligger i namespacet System.IO och erbjuder statiska metoder för att skapa, kopiera, ta bort, flytta och öppna en enskild fil. Eftersom metoderna är statiska så anropar vi dem från klassen. För att till exempel anropa den statiska metoden WriteAllText() som finns i klassen File skriver vi "File.WriteAllText()". Vi har två möjligheter när vi skriver till fil; antingen genom att skriva över allt innehåll i filen (med WriteAllText) eller genom att lägga till data sist i filen (med AppendAllText). Läs- och skrivmetoder på File-klassen öppnar filen och stänger den sedan automatiskt när metoderna är klara.
+
+Klassen **StreamReader** läser in data från en textfil och klassen **StreamWriter** skriver data till en textfil. De är kraftfulla när det gäller att hantera textinnehåll, särskilt för att läsa eller skriva rad för rad. **StreamReader** och **StreamWriter** är effektiva för stora filer då de använder buffrad läsning/skrivning. I denna artikel kommer vi endast gå igenom klassen **File**.
+
+
+## Läs och skriv text - kodexempel
+
+Vi ska skriva till fil och läsa från fil med hjälp av den inbyggda klassen **File**.
+
+<Figure
+    src={shoppingList}
+    caption="Bilden visar en shoppinglista."
+    width="500px"
+/>
+
+
+När vi handlar är det lätt att glömma vad vi ska handla och hur många av varje produkt vi ska handla. Vi kan jämföra det vi kommer ihåg i huvudet just nu med det som sparas i datorn medan ett program exekveras. När vi gör något annat så försvinner allt eller delar av det vi tänkt handla från vårt huvud. Det är då vi gör en shoppinglista med de varor vi ska handla. Det är dags att göra ett program där vi kan spara varor som ska handlas.
+
+På varje rad i shoppinglistans vill vi visa produkten som ska handlas och det antal som ska handlas av denna produkt. Shoppinglistan kan till exempel se ut så här:
+
+```shell
+Min shoppinglista
+kaffe 2
+te 1
+```
+
+### Skapa klassen för att läsa och skriva till fil
+
+Gör ett projekt i kmom03 som heter "FileApp".
+
+```shell
+dotnet new console -n FileApp
+```
+
+Skapa en klass med namnet **Simple** med ett privat attribut för filnamn `_filename` och en konstruktor. Tänk på att lägga till "@" före filnamnet för att specialtecken som normalt används för att ange kontrollsekvenser (till exempel \n för ny rad) ska betraktas som bokstavliga tecken istället för att tolkas.
+
+```csharp
+// kmom03/FileApp/src/Simple.cs
+namespace FileApp.src;
+
+public class Simple
+{
+    private string _filename;
+
+    public Simple(string filename)
+    {
+        this._filename = @filename;
+    }
+
+    // Spara en rad på fil
+
+    // Läs från fil
+
+    // Presentera shoppinglistan
+}
+```
+
+Lägg till pseudokod för att visa att det ska skapas 
+* en metod som sparar på fil - `Save`
+* en metod som läser från fil - `Read`
+* en metod som presenterar shoppinglistan - `Present`  
+
+Varje metod ska utföra en specifik uppgift och därför låter vi t.ex inte metoden `Save` som läser från fil visa innehållet. Det hanteras i stället i metoden `Present`. 
+
+### Spara på fil
+
+Vi bygger ihop användarens input "produkt och antal" till en sträng och skickar in strängen i metoden `Save`. I `Save` lägger vi till strängen sist i filen och tillför ett radavslut. Vi använder klassen **File** och, som vi tidigare konstaterade, är metoderna för att läsa och skriva statiska, varför vi anropar dem via klassen. Metoden `AppendAllText` öppnar filen, lägger till strängen med radavslut och sen stänger filen automatiskt när den är klara. Om filen inte finns, så skapar `AppendAllText` en ny fil.
+
+Klassen **Environment** är en klass som ger oss information om din dator. "Environment.OSVersion" ger information om operativsystemet och "Environment.UserName" returnerar användarnamnet på din användare. "Environment.NewLine" är ett radavslut och beroende på vilken plattform du kör på så använder "Environment.NewLine" plattformens radavslut. För Linux och Mac är det "\n" och för Windows är det "\r\n". Detta använder vi när vi skriver på filen.
+
+```csharp
+// kmom03/FileApp/src/Simple.cs
+namespace FileApp.src;
+
+public class Simple
+{
+    ...
+    // Spara raden line på fil
+    public void Save(string line)
+    {
+        try
+        {
+            // Spara raden line med radavslut sist i filen vars namn pekas ut i this._filename
+            File.AppendAllText(this._filename, line + Environment.NewLine);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine($"Behörighet att öppna filen saknas: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"Ett IO (input/output fel inträffade): {ex.Message}");
+        }
+    }
+    ...
+}
+```
+
+Eftersom det kan gå fel vid läsning och skrivning till fil, lägger vi det inom en `try-catch-sats`. Om det går fel i `try-blocket` så kastas ett undantag/exception som fångas i `catch-blocket`. Läs mer om [Exceptions](./Exception.md). Nu fångar vi två vanliga fel vid I/O-operationer (Input/Output); **UnauthorizedAccessException** och **IOException**. **UnauthorizedAccessException** kastas om filen har fel behörighet, till exempel om du inte har skrivrättigheter på filen. **IOException** är ett generellt fel för I/O-operationer.
+
+För att testköra om metoden `Save` fungerar skapar vi ett objekt av klassen **Simple** och sparar ner en sträng på en fil namngiven "simpleList.txt".
+
+```csharp
+// kmom03/FileApp/Program.cs
+using FileApp.src;
+
+Simple shoppingList = new Simple("simpleList.txt"); 
+shoppingList.Save("EnTestprodukt 3");
+shoppingList.Save("EnAnnanTestprodukt 2");
+```
+
+Testkör programmet (dotnet run) och öppna därefter filen "simpleList.txt" och kontrollera att raderna som skrivits till filen via anropet av metoden `Save` finns i filen med en tom rad i slutet.
+
+```csharp
+// kmom03/FileApp/simpleList.txt
+EnTestprodukt 3
+EnAnnanTestprodukt 2
+
+```
+
+Bra, då kan vi spara till fil!
+
+### Läs från fil
+
+Vi fortsätter med läsning från fil. Först skapar vi en variabel av typen `string[]` och initierar den med en tom array genom `Array.Empty()<string>()`. Variabeln ska användas för att "ta emot" den array av strängar som kommer att returneras vid läsningen. Vi fortsätter att använda klassen **File** och läser alla rader i filen med metoden `ReadAllLines`.Vi kontrollerar först om filen existerar med `File.Exists` och utför i så fall läsningen. Denna del placeras inom en `try-catch-sats` och vi har då möjlighet att fånga eventuella fel som kan uppstå. I detta fall testar vi om filen finns men om vi inte gör det behöver vi ha en ett `catch-block` för att fånga **FileNotFoundException**.
+
+```csharp
+// kmom03/FileApp/src/Simple.cs
+namespace FileApp.src;
+
+public class Simple
+{
+    ...
+    // Läs från fil och returnera en array med strängar
+    private string[] Read()
+    {
+        string[] list = Array.Empty<string>(); 
+
+        try
+        {
+            // Testa om filen finns
+            if (File.Exists(this._filename))
+            {
+                list = File.ReadAllLines(this._filename);
+            }
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine($"Behörighet att öppna filen saknas: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"Ett IO (input/output fel inträffade): {ex.Message}");
+        }
+
+        return list;
+    }
+
+    // Presentera shoppinglistan i terminalen
+    public void Present()
+    {
+        string[] list = Array.Empty<string>();
+
+        list = this.Read();
+
+        if (list.Length == 0)
+        {
+            Console.WriteLine("Listan är tom");
+            return;
+        }
+        Console.WriteLine("Din lista");
+        foreach (string line in list)
+        {
+            Console.WriteLine(line);
+        }
+    }
+}
+```
+
+I metoden `Present` kollar vi först om arrayen är tom och i så fall skrivs texten "Listan är tom" ut. Annars skrivs innehållet i listan ut.
+
+För att testköra om metoden `Present` och därmed också metoden `Read` använder vi ett objekt av klassen **Simple** som anropar metoden `Present` för.
+
+```csharp
+// kmom03/FileApp/Program.cs
+using FileApp.src;
+
+Simple shoppingList = new Simple("simpleList.txt"); 
+shoppingList.Save("Testprodukt 3"); Kommentera bort denna rad
+shoppingList.Save("EnAnnanTestprodukt 2"); Kommentera bort denna rad
+shoppingList.Present();
+```
+
+Terminalen bör visa:
+
+```shell
+Din shoppinglista
+EnTestprodukt 3
+EnAnnanTestprodukt 2
+
+```
+
+Då har vi testat att skriva ut innehållet i filen om det finns innehåll. Nu testar vi att kommentera bort raderna som börjar med `shoppingList.Save` och kör igen.
+
+Terminalen bör visa:
+
+```shell
+Listan är tom
+```
+
+En test som är bra att göra är att försöka läsa från en fil som inte finns. Ta bort "simpleList.txt" och kör igen. Det bör bli samma resultat som ovan eftersom vi skapar en tom array i metoden `Read` och om filen inte finns så läser vi inte från den heller.
+
+Bra, då kan vi läsa från fil!
+
+### Utöka huvudprogrammet
+
+Då testar vi vår klass genom att fylla i huvudprogrammet. Vi börjar med att skapa ett objekt av klassen vi skapade med filnamnet "simpleList.txt". Vi presenterar shoppinglistan i början och slutet av programmet. Inmatningen av varor sker i en loop som avslutas om vi trycker "ENTER" (enter/retur-tangenten) eftersom det då resulterar i en tom sträng (""). Vi gör en inmatning för produkten och en inmatning för antalet produkter.
+
+Vi har initierat "quantity" med `string.Empty` som är en statisk egenskap som representerar en tom sträng (egentligen samma som ""). Vi har initierat "product" med "". Båda dessa varianter är alltså möjliga.
+
+Det betyder att vi visar kompilatorn att vi har koll på att referenstypen string kan vara "null". Variabeln "product" kan ha en sträng men den kan också vara null. Det är vanligt att göra så vid inmatningar för att visa att variabeln kan bli "null".
+Läs mer om referenstyper som kan vara "null" i [Nullable reference types (C# reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types). Även värdetyper som int, double, bool och char kan vara "nullable" och det kan du läsa mer om i [Nullable value types (C# reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types). -->
+
+```csharp
+// kmom03/FileApp/Program.cs
+using FileApp.src;
+
+Simple shoppingList = new Simple("simpleList.txt"); 
+shoppingList.Present();
+
+while (true)
+{
+    string product = "";
+    string quantity = string.Empty;
+
+    Console.Write("\nAnge produktnamn (eller ENTER för att sluta): ");
+    product = Console.ReadLine();
+    if (product == "") 
+    { 
+        break;
+    }
+    Console.Write("\nAnge antal: ");
+    quantity = Console.ReadLine();
+
+    string saveInput = product + " " + quantity;
+    shoppingList.Save(saveInput);
+}
+
+shoppingList.Present();
+```
+
+Loopar med `while (true) och break` kan vara enkla att förstå och användbara för program som körs kontinuerligt. Nackdelarna är att risken för en oändlig loop som leder till hög resursanvändning. Ofta är det tydligare och bättre att använda en flagga som tydligt berättar om när loopen körs och när den bryts eftersom logiken ofta blir uppenbar avseende själva iterationen.
+
+Lite bättre kod med en flagga.
+
+```csharp
+// kmom03/FileApp/Program.cs
+using FileApp.src;
+
+Simple shoppingList = new Simple("simpleList.txt"); 
+shoppingList.Present();
+bool enterProduct = true;
+
+while (enterProduct)
+{
+    string product = "";
+    string quantity = string.Empty;
+
+    Console.Write("\nAnge produktnamn (eller ENTER för att sluta): ");
+    product = Console.ReadLine() ?? "";
+    if (product == "") 
+    { 
+        enterProduct = false; // För att avsluta yttre loopen
+    }
+    else
+    {
+        Console.Write("\nAnge antal: ");
+        quantity = Console.ReadLine() ?? string.Empty;
+
+        string saveInput = product + " " + quantity;
+        shoppingList.Save(saveInput);
+    }       
+}
+
+shoppingList.Present();
+```
+
+Kolla att shoppinglistan är tom första gången du startar programmet. Testa därefter att köra programmet och lägg till någon produkt. Starta sedan programmet igen och för att se att shoppinglistan innehåller den eller de produkter som lades till. Glöm inte att titta på textfilen som innehåller shoppinglistan för att se om den har rätt innehåll och rätt format.
+
+### Textfilen med shoppinglistan
+
+Formatet på filen `simpleList.txt` kan se ut så här:
+
+```csharp
+kaffe 2
+te 1
+```
+
+### Metoder på klassen File
+
+Några vanliga metoder i klassen **File**:
+
+
+- **File.Exists** används för att kontrollera om en fil finns på den angivna sökvägen.
+- **File.WriteAllText** används för att skriva strängar till en fil. Om filen redan finns kommer innehållet att skrivas över. Om filen saknas så skapar WriteAllText en ny fil.
+- **File.AppendAllText** används för att lägga till strängar till en befintlig fil. Vi använder AppendAllText eftersom vi vill lägga till saker i vår shoppinglista. Om filen saknas så skapar AppendAllText en ny fil.
+- **File.ReadAllText** används för att läsa innehållet i en fil som en enda sträng.
+- **ReadAllLines** används för att läsa innehållet i en fil och returnera det som en array med strängar.
+- **WriteAllLines** används för att skriva ner en array med strängar till en fil.
+
+**ReadAllText**, **AppendAllText** och **WriteAllText** öppnar filen och stänger dessutom filen automatiskt när metoden är klar.
+
+## Kopiera filen till dit programmet körs
+
+Din kod ligger i projektmappen men den körs från bin-katalogen och dit vill vi kopiera vår fil. Vi använder flaggan `PreserveNewest` så att filen bara kopieras om den ändrats. Det finns även en flagga `always` som kopierar varje gång programmet körs men det är onödigt.    
+Det här gör vi genom att kopiera in nedanstående till projektets csproj-fil.
+
+```csharp title="Lägg följande info i projektets csproj-fil."
+  <ItemGroup>
+    <None Include="simpleList.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+```
+
+Här är en bild som förtydligar:
+
+```bash
+Projektmapp
+ ├── Program.cs
+ ├── tasks.txt   // du redigerar här
+ └── bin/
+     └── Debug/
+         └── net9.0/
+             ├── app.exe
+             └── tasks.txt  // programmet använder DENNA
+```
+
+## Sammanfattning
+
+Då har vi tittat på hur vi kan skriva till filer genom att använda oss av klassen **File**. Första delen av koden till shoppinglistan hittar du [här](./../../../CodeExamples/kmom03/FileApp/). Resten kommer i nästa övning om Exceptions.
+
+Detta är ett exempel på hur vi kan läsa och skriva till fil. Det finns mer exempel här i referensmanualen [File Class](https://learn.microsoft.com/en-us/dotnet/api/system.io.file?view=net-9.0).
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#övningar"
+/>

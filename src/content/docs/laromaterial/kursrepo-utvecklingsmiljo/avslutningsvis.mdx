@@ -1,0 +1,75 @@
+---
+title: "Check om klar ✅"
+description: Nu är vi klara och har installerat alla delar i utvecklingsmiljön, så här långt.
+author: grm
+revision:
+    "2025-10-22": "(A, grm) Första utkastet."
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Task from '@components/Task.astro';
+import TaskList from '@components/TaskList.astro';
+import RewardMessage from '@components/RewardMessage.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Innan du börjar med kursen, se till att du har installerat följande verktyg.
+
+*När sidan laddas om så försvinner de ifyllda rutorna!*
+
+
+## Labbmiljön
+
+Om dessa startar så är det ok.
+
+<TaskList>
+  <Task completed={false}>Dator med operativsystem</Task>
+  <Task completed={false}>Webbläsare, minst Chrome och Firefox Developers Edition</Task>
+  <Task completed={false}>Texteditor, VS Code</Task>
+  <Task completed={false}>Terminal (WSL2 Ubuntu för windows användare)</Task>
+  <Task completed={false}>git är installerat(kolla med git --version)</Task>
+  <Task completed={false}>GitHub och konto (kan du logga in är det ok)</Task>
+  <Task completed={false}>SSH-nycklar på plats (kunde du pusha i webtec och/eller python är det ok)</Task>
+  <Task completed={false}>SSO ok (koppla upp dig med SSO, se GitHub)</Task>
+  <Task completed={false}>C# och .NET är installerat version 10 (kolla med dotnet --version)</Task>
+</TaskList>
+
+## Kursrepo
+
+<TaskList>
+  <Task completed={false}>Tillgång till organisationen `bth-csharp` (kolla att du ser `bth-csharp` när du klickar på din användare och organisationer på GitHub)</Task>
+  <Task completed={false}>Ditt kursrepo på GitHub med `csharp-abcd25` finns</Task>
+  <Task completed={false}>Lokalt Git-repo skapat (kolla genom att köra `git status` i katalogen `dbwebb-kurser/csharp-<akronym>`)</Task>
+</TaskList>
+
+## Kursrepo utvecklingsmiljö
+
+<TaskList>
+  <Task completed={false}>Att task är installerat (kolla med `task --version`)</Task>
+  <Task completed={false}>Testa att skapa en PR. Gör uppgiften "Test gitconfig" i Canvas.</Task>
+</TaskList>
+
+## Canvas
+
+<TaskList>
+  <Task completed={false}>Uppgiften "GitHub invite" är godkänd</Task>
+  <Task completed={false}>Uppgiften "Test gitconfig" är godkänd</Task>
+  <Task completed={false}>Uppgiften "Fuskpolicy" är godkänd</Task>
+</TaskList>
+
+<RewardMessage />
+
+<LinkCard 
+  title="Tillbaka till - Utvecklingsmiljö i ditt kursrepo"
+  href="/laromaterial/kursrepo-utvecklingsmiljo"
+/>

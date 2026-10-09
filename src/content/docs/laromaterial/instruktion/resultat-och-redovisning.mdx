@@ -1,0 +1,155 @@
+---
+title: "Resultat och redovisning" 
+description: No description.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import { YouTube } from 'astro-embed';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+Som ett sista steg i varje kursmoment skall du redovisa. Gör så här.
+
+
+<YouTube
+    id="PNOoxc8yvyQ"
+    title="Marie visar hur du lämnar in ett kursmoment."
+/>
+
+:::note
+PS! För kmom03, kmom06 och kmom10 skall du även göra en pull request (PR) på GitHub. Läs mer i [Gör en PR](/laromaterial/instruktion/gor-en-pr/).
+:::
+
+## Kör testerna
+
+Dubbelkolla att du är klar med kursmomentet med kommandot `task check-ready -- kmom<X>`, där X motsvarar numret på kmom:et. Om det är något som är fel kommer du få tips om hur du kan lösa det. Du kan till exempel få fel på att det saknas en tagg på din inlämning. Information om taggar finns nedan i [Tagga och pusha ditt repo](#tagga-och-pusha-ditt-repo).
+
+Om inte tipsen hjälper, testar du att uppdatera din kursmiljö och pushar eventuella ändringar och kör om testerna.
+
+```bash title="Uppdatera din kursmiljö"
+task download-taskfile
+task setup 
+```
+
+## Gör veckans quiz
+
+Varje kmom har ett quiz på Canvas som ska göras och klaras av. Kmom01 har dessutom ett quiz om fusk som ska klaras av först.
+ 
+
+## Tagga och pusha ditt repo
+
+Lägg till en tagg till ditt repo och pusha sedan både taggen och ditt repo. En tagg är ett bokmärke som pekar på en viss commit i Git. Taggen pekar ut den senaste versionen av din inlämning av ett kmom.
+
+Du kan använda följande versioner för dina taggar.
+
+| Version | Kmom   |
+|---------|--------|
+| v01.0   | kmom01 |
+| v02.0   | kmom02 |
+| v03.0   | kmom03 |
+| v04.0   | kmom04 - ingen kodinlämning |
+| v05.0   | kmom05 |
+| v06.0   | kmom06 |
+| v10.0   | kmom10 |
+
+Tagga ditt repo så här.
+
+```bash title="Lägg till en tagg på ditt repo med versionsnummer."
+git tag -a v01.0 -m "Ready with kmom01"
+```
+
+Om du gör ändringar så taggar du din nya inlämning med ett högre versionsnummer, till exempel v01.1, om du senast använde v01.0. Du kan se vilka taggar du har med kommandot `git tag`.
+
+Nu kan du pusha både tagg och repo till GitHub.
+
+```bash title="Pusha repo inklusive taggar."
+git push
+git push --tags
+```
+
+När du pushar din tagg görs en kontroll med bland annat validering och tester lokalt innan pushen. Om något går fel, tas taggen bort och du får tips om vad du kan göra för att fixa till det. Fixa felen och kör om tester och validering, se början av denna artikel.
+
+Som ett sista steg i din inlämning så kan du kontrollera att GitHub verkligen innehåller den allra senaste versionen av din kod och att testerna passerar.
+
+
+### Kolla att testerna passerar på GitHub
+
+:::note
+Bilderna visar exempel från bth-python, nu är det **bth-csharp** som gäller.
+:::
+
+När du laddade upp din tagg till GitHub började den automatiskt köra testerna och validera din kod. Gå till ditt repo i webbläsaren och klicka på `Actions` fliken.
+
+
+import wf1 from '@assets/img/instruktion/click_action.png';
+
+<Figure 
+    src={wf1}
+    caption="Gå till Actions fliken"
+/>
+
+Nu kan du se kommentaren på din senaste commit och tagg numret du satte.
+
+Beroende på hur snabb du var på att gå till denna fliken kommer du ha olika symboler före commit meddelande. På bilden nedanför är det en gul prick. Det byter att testerna körs nu och resultatet är inte klart. Om den är grön med en bock betyder det att testerna är klara och allt är korrekt. Om den är röd med ett kryss betyder det att något gick fel.
+
+import wf2 from '@assets/img/instruktion/click_workflow.png';
+
+<Figure 
+    src={wf2}
+    caption="Gå till Actions fliken"
+/>
+
+Oavsett vilken symbol det är kan du klicka på den. Då kommer du till följande bild som visa en översikt av vad som har gjorts. Om det ser ut som på bilden nedanför och det är grönt, då är du klar och kan jobba vidare med kursen.
+
+import wf3 from '@assets/img/instruktion/workflow_success.png';
+
+<Figure 
+    src={wf3}
+    caption="Gå till Actions fliken"
+/>
+
+Om det inte är grönt utan rött istället som på bilden nedanför, hoppa vidare till [Actions testerna blir fel](#actions-testerna-blir-fel). Varningar behöver du inte bry dig om.
+
+## Återkoppling och bedömning
+
+Det sker ingen betygsättning, bedömning eller återkoppling när du är klar och lämnar in kmom01 och kmom02.
+
+**När du lämnar in kmom03** kontrolleras att du uppfyller kraven i kmom01, kmom02 och kmom03. Du får betyget `G` när du är godkänd och du får `Ux` om det är något som saknas eller behöver uppdateras. Om du får betyget `U` om inlämningen bedöms vara otillräcklig och att avsevärt mer arbete krävs. För att få poäng i Ladok krävs `G` på kmom03.
+
+Det sker ingen betygsättning, bedömning eller återkoppling när du är klar och lämnar in kmom05.
+
+**När du lämnar in kmom06** kontrolleras att du uppfyller kraven i kmom05 och kmom06. Du får betyget `G` när du är godkänd och du får `Ux` om det är något som saknas eller behöver uppdateras. Om du får betyget `U` om inlämningen bedöms vara otillräcklig och att avsevärt mer arbete krävs. För att få poäng i Ladok krävs `G` på kmom04 kodintervjun samt `G` på kmom06.
+
+**När du lämnar in kmom10** kontrolleras att du uppfyller de grundläggande kraven. Du är själv ansvarig för att testa att ditt program uppfyller kraven. Kmom10 (projektet) rättas först när du har godkänt på kmom03, kodintervjun i kmom04 och kmom06. Därefter får du ditt godkända betyg A-E eller Fx för komplettering eller F för underkänt. Betyget på kmom10 blir också ditt slutbetyg på kursen.
+
+## Vanliga fel
+
+### Actions testerna blir fel
+
+Din kod klarar inte av testerna eller koden validerar inte. Klicka på steget som är rött, då kommer du vidare till vad som har gått fel.
+
+- Läs igenom loggen.
+- Uppdatera din kod lokalt (kör `task download-all`).
+- Kör tester för att kolla att din lösning har funkat.
+- Skapa en ny commit.
+- Skapa en ny tagg och ladda upp till GitHub som visas under [Tagga och pusha ditt repo](#tagga-och-pusha-ditt-repo). PS. nu ska du inte använda samma tagnummer som förut. Öka siffran som det beskrivs i texten. T.ex. om du fixar ett fel på din kmom01 inlämning som har taggats med `v01.0`ska den ändras till `v01.1`. Om du behöver göra en till fix efter detta, öka siffran till `v01.2`.
+
+<LinkCard 
+  title="Tillbaka till startsidan"
+  href="/"
+/>

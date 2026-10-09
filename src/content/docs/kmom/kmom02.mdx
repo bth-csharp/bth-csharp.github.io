@@ -1,0 +1,177 @@
+---
+title: "Kmom02: Introduktion till Objektorienterad programmering och UML"
+description: Andra kmomet.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { YouTube } from 'astro-embed';
+import { Steps } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+import dieClass5 from '@assets/img/kmom02/ClassDie5.png';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+Nu ska vi börja med objektorienterad programmering i C#. Objektorienterad programmering (OOP) fokuserar på att organisera kod i klasser, vilket motsvarar en slags sammansatt datatyp, och skapa objekt av dessa klasser som representerar verkliga eller abstrakta enheter. I OOP betraktas programmet som en samling av dessa objekt som interagerar med varandra genom att skicka meddelanden. Dessa objekt har egenskaper (variabler) och beteenden (metoder).
+
+Ett objekt skapas utifrån en ritning eller beskrivning, en så kallad klass.
+
+Vi ska också lära oss att använda UML klassdiagram som visar klassernas egenskaper och beteenden.
+
+<Figure
+    src={dieClass5}
+    caption="Klassen Die och objektet Die5."
+/>
+
+
+## Förberedelser
+
+Innan du börjar med kmom02 så behöver du ha jobbat igenom [Kmom01](/kmom/kmom01).
+
+:::note
+Du har förkunskaper som motsvarar innehållet i Kmom01.
+:::
+
+## Läs & Studera
+
+Här kan du på egen hand studera och förbereda dig inför övningar och uppgifter.
+
+:::tip
+När du ska jobba med kursen är det lättast om du öppnar VS Code från terminalen innan du börjar jobba.  
+Tänk på att rensa bort "solution-filer" med ändelsen ".sln". Det ställer bara till det i VS Code.  
+Om VS Code stryker under ett klassnamn med rött i Program.cs trots korrekt namespace och programmet går att köra så är det bara att strunta i den varningen. VS Code tipsar om att öppna bara det aktuella projektet i ett eller eller via “Command Palett” (CTRL-Shift-P) och välj “Developer: Reload Window” men det röda kommer tillbaka ibland ändå.
+:::
+
+
+### Artiklar
+
+*(Cirka 3-5 studietimmar)*
+
+<Steps>
+
+1. Läs igenom artikeln [Introduktion till Objektorienterad programmering](/laromaterial/kmom02/inledningoo).
+
+1. Läs igenom artikeln [Värdetyper och referenstyper](/laromaterial/kmom02/vardereferenstyp).
+
+1. Läs igenom artikeln [Introduktion till UML och klassdiagram](/laromaterial/kmom02/umlklassdiagram).
+
+</Steps>
+
+#### Extra läsning
+
+<Steps>
+
+1. Läs (skumma) igenom följande kapitel i boken **C# 12.0 in a Nutshell: The Definitive Reference**:
+    * kapitel 3 Creating Types in C# delkapitel "Classes"
+
+1. Bekanta dig med C# dokumentationen, kika i [C# language documentation](https://learn.microsoft.com/en-us/dotnet/csharp/) och titta runt.
+
+</Steps>
+
+## Seminarie
+
+*(Cirka 3-4 studietimmar)*
+
+Seminariet är en lärarledd övning där vi diskuterar kod i grupp och uppgifterna gås igenom av en lärare.  
+Kort före seminariet skickas en länk till de uppgifter och frågor som vi kommer att arbeta med under seminariet.
+
+Läs [om seminarier](/laromaterial/seminarium/).
+
+Jobba igenom [seminarium kmom02](/laromaterial/seminarium/kmom). Det görs på onsdagens lektion.
+
+
+## Övningar & Uppgifter
+
+Övningar är träning inför uppgifterna. Uppgifter skall utföras och redovisas.
+
+
+### Övningar
+
+*(Cirka 3-5 studietimmar)*
+
+Använd mappen `practice` i kmom02-katalogen för att skriva övningskod.
+
+<Steps>
+
+1. Öva på värdetyper och referenstyper i [Värdetyper och referenstyper - övningar](/laromaterial/kmom02/vardereferenstypovning)
+
+1. Öva på klass, objekt och attribut med mera i [Klasser och objekt - övningar](/laromaterial/kmom02/klassobjektovning)
+
+1. Gör ett program i C# med klasser. [Skapa menyprogram med klasser](/laromaterial/kmom02/skapamenyapp2).
+
+</Steps>
+
+#### Extra övningar
+
+<Steps>
+
+1. Läs och jobba igenom [Introduktion - Klasser och objekt](/laromaterial/ooguide/intro/) i guiden [Kom igång med objektorienterad programmering i C#](/laromaterial/ooguide/). Öppna gärna i en ny flik.
+
+1. Enhetstesta klassen **Helpers** från uppgiften ovan. Det gör vi i artikeln [C# - testning](/laromaterial/kmom02/testningdel1).
+
+</Steps>
+
+### Uppgifter
+
+*(Cirka 8-10 studietimmar)*
+
+Följande uppgifter skall utföras självständigt och utan hjälpmedel. Resultatet skall redovisas enligt [Resultat & Redovisning](#resultat--redovisning).
+
+:::danger
+Varje uppgift ska lösas med de C# konstruktioner som vi går igenom i respektive kmom.
+
+Först när du har läst artiklarna och gjort övningarna, är det dags för uppgifter.
+:::
+
+<Steps>
+
+1. På Canvas, gör quizzet `Kmom02 quiz`.
+
+1. Gör uppgiften "[Tärningsspelet Dice100](/laromaterial/uppgift/kmom02)". Använd gärna flödesschema eller pseudokod för problemlösningen.  
+Spara alla filer under `kmom02`.
+
+</Steps>
+
+
+## Resultat & Redovisning
+
+Läs [instruktionen om hur du skall redovisa](/laromaterial/instruktion/resultat-och-redovisning). Öppna gärna i en ny flik.    
+I denna kursen har vi ingen redovisningstext utan quiz att klara av istället.
+
+## Målet med kmom02
+
+Efter att ha jobbat igenom kmom02 så bör du kunna:
+
+* grunderna i objektorienterad programmering
+  * klasser och objekt
+  * namespace
+  * åtkomstnivåerna; private och public men även känna till protected
+  * använda objekt inom andra objekt
+* grunderna i UML klassdiagram
+
+Om du gjort extra så kan du även:
+
+* grunderna i enhetstestning med dotnet och NUnit
+  * använda ett testprojekt
+  * skapa ett testprojekt
+
+<LinkCard 
+  title="Tillbaka till startsidan"
+  href="/"
+/>

@@ -1,0 +1,200 @@
+---
+title: "Sortera"
+description: Sortera information
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Den här koden initierar en array och en lista med heltalsvärden, sorterar dem med deras respektive sorteringsmetoder (Array.Sort() för arrayer och `List<T>.Sort()` för listor). Därefter skrivs de sorterade resultaten ut. Du kan se hur enkelt det är att sortera en array och att sortera en lista i C#. Metoden Array.Sort() sorterar elementen i en array, medan metoden `List<T>.Sort()` sorterar elementen i en lista. Båda sorteringsmetoderna utför sorteringen genom att omorganisera elementen i arrayen respektive listan som ska sorteras, vilket kallas att det sker *in-place*. Det innebär helt enkelt att det inte skapas någon ny array eller ny lista utan "orginalet" sorteras.
+
+## Skapa appen för sortering
+
+Vi skapar en ny terminal app med `dotnet new console -n SortApp`. Koden skriver vi i `Program.cs` och kör appen genom att gå ner i dess katalog och köra `dotnet run`.
+
+## Kodexempel, sortera heltal
+
+Uppgiften är att sortera dessa heltal; `5, 2, 9, 1, 3`.
+
+### Exempel med Array
+
+```csharp
+// Methods
+static void PrintArray(int[] arr)
+{
+    foreach (var item in arr)
+    {
+        Console.Write(item + " ");
+    }
+    Console.WriteLine("\n");
+}
+
+// Main program
+// Sorting with Arrays
+int[] array = { 5, 2, 9, 1, 3 };
+Console.WriteLine("Array before sorting:");
+PrintArray(array);
+
+Array.Sort(array); // anropar den statiska metoden Sort och skickar in arrayen
+
+Console.WriteLine("Array after sorting:");
+PrintArray(array);
+```
+
+### Exempel med List
+
+```csharp
+// Methods
+static void PrintList(List<int> list)
+{
+    foreach (var item in list)
+    {
+        Console.Write(item + " ");
+    }
+    Console.WriteLine("\n");
+}
+
+// Main program
+// Sorting with Lists
+List<int> list = new List<int> { 5, 2, 9, 1, 3 };
+Console.WriteLine("List before sorting:");
+PrintList(list);
+
+list.Sort(); // anropar metoden Sort() för list-objektet
+
+Console.WriteLine("List after sorting:");
+PrintList(list);
+```
+
+### Skillnad array och List
+
+Fördelarna med en array är snabb åtkomsttid. En array har en fast storlek och den är därför oflexibelt. En array har ingen egentlig funktionalitet men Array-klassen erbjuder en del sådan såsom till exempel `Sort()`-metoden.
+
+Fördelarna med List är att den är dynamisk avseende storlek och den har en rik funktionalitet. List har något långsammare åtkomsttid och ökad minnesanvändning.
+
+## Kodexempel, sortera strängar
+
+### Strängar i bokstavsordning
+
+En lista med strängar, `"Marie", "Betty", "Andreas"`, ska sorteras i bokstavsordning.
+
+```csharp
+// Methods
+static void PrintStringList(List<string> list)
+{
+    foreach (var item in list)
+    {
+        Console.Write(item + " ");
+    }
+    Console.WriteLine("\n");
+}
+
+// Main program
+// Sortering array with names (strings)
+List<string> names = new List<string> { "Marie", "Betty", "Andreas" };
+
+Console.WriteLine("List with names before sorting:");
+PrintStringList(names);
+
+names.Sort();
+
+Console.WriteLine("List with names after sorting:");
+PrintStringList(names);
+```
+
+### Strängar sorterade efter ett heltal i som inleder strängarna
+
+Lista med strängar, `"2 hej", "10 hej", "1 hej", "3 hej"`, ska sorteras i nummersordning. Resultatet ska bli `1 hej 2 hej 3 hej 10 hej`.
+
+```csharp
+// Methods
+static void PrintStringList(List<string> list)
+{
+    foreach (var item in list)
+    {
+        Console.Write(item + " ");
+    }
+    Console.WriteLine("\n");
+}
+
+// Main program
+// Sortering array with strings after a substring, the number
+List<string> strings = new List<string> { "2 hej", "10 hej", "1 hej", "3 hej" };
+
+Console.WriteLine("List before sorting:");
+PrintStringList(strings);
+
+strings.Sort();
+
+Console.WriteLine("List after sorting:");
+PrintStringList(strings);
+```
+
+Efter sortering får vi ordningen `1 hej 10 hej 2 hej 3 hej` vilket inte är det vi önskar. Strängar sorteras tecken för tecken och därför placeras båda strängarna med en inledande 1:a före den med inledande 2:a. En lösningen är att plocka ut första delen, det vill säga fram till blank-tecken, av varje sträng och omvandlar den till ett heltal för att därefter sorterar på dessa heltal. 
+Metoden för att ta fram första delen i strängen (den som innehåller siffror) kallar vi `GetNumber`.
+
+Metoden `Sort` kan ta en "Comparison", en metod som jämför två tal eller två strängar. Vi kallar vår metod `CompareStrings` och låter den ta emot två strängar. I metoden anropar vi `GetNumber` för att hämta talen och därefter jämför vi dessa med metoden `CompareTo` för att bestämma talens ordning.
+
+```csharp
+// Methods
+static void PrintStringList(List<string> list)
+{
+    foreach (var item in list)
+    {
+        Console.Write(item + " ");
+    }
+    Console.WriteLine("\n");
+}
+
+static int GetNumber(string inputStr)
+{
+    return int.Parse(inputStr.Split(' ')[0]);
+}
+
+static int CompareStrings(string x, string y)
+{
+    int numX = GetNumber(x);
+    int numY = GetNumber(y);
+
+    return numX.CompareTo(numY);
+}
+
+// Main program
+// Sortering array with strings after a substring, the number
+List<string> strings = new List<string> { "2 hej", "10 hej", "1 hej", "3 hej" };
+
+Console.WriteLine("List before sorting:");
+PrintStringList(strings);
+
+strings.Sort();
+
+Console.WriteLine("List after sorting:");
+PrintStringList(strings);
+
+strings.Sort(CompareStrings);
+
+Console.WriteLine("List after sorting with comparison:");
+PrintStringList(strings);
+```
+
+## Sammanfattning
+
+Då har vi lärt oss att sortera arrayer och List-objekt med både heltal och strängar. Vi har dessutom lärt oss att göra en "Comparison"-metod för att anpassa sorteringen.
+
+Här hittar du mer om [sortering med Array](https://learn.microsoft.com/en-us/dotnet/api/system.array.sort?view=net-9.0) och [sortering med List](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=net-9.0).
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#övningar"
+/>

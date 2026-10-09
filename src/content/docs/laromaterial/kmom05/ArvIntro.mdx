@@ -1,0 +1,207 @@
+---
+title: "Introduktion Arv"
+description: Introduktion Arv
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+Vad är arv (inheritance)? Det kan också kallas specialisering eller utökning (extension).
+Arv innebär att en klass kan ärva egenskaper och metoder från en annan klass.
+
+Vi får då:
+
+- gemensam kod
+- tydlig struktur
+- möjlighet att specialisera beteende
+
+## Basklass och subklass
+
+Basklass → den generella klassen  
+Subklass → en mer specifik version
+
+Exempel:
+
+Animal = **basklass**  
+Dog, Cat = **subklasser**
+
+
+## Relation
+
+En hund är en Animal
+En katt är en Animal
+
+
+```csharp title="Exempel basklassen Animal"
+public class Animal
+{
+    private string _name;
+
+    public Animal(string name)
+    {
+		this._name = name;
+    }
+
+	public string GetName()
+	{
+		return this._name;
+	}
+	
+	public virtual void ShowInfo()
+	{
+		Console.WriteLine($"Name: {this._name}");
+	}
+
+    public virtual void MakeSound()
+    {
+        Console.WriteLine("Some animal sound");
+    }
+}
+```
+
+```csharp title="Exempel subklassen Dog"
+public class Dog : Animal
+{
+	private string _breed;
+
+	public Dog(string name, string breed) : base(name)
+    {
+        this._breed = breed;
+    }
+
+	public override void ShowInfo()
+    {
+		base.ShowInfo();
+        Console.WriteLine($"Breed: {this._breed}");
+    }
+
+    public override void MakeSound()
+    {
+		base.MakeSound();
+        Console.WriteLine("Woof!");
+    }
+}
+```
+
+```csharp title="Exempel subklassen Cat"
+public class Cat : Animal
+{
+    private static int _catCounter = 0;
+
+    public Cat(string name) : base(name)
+    {
+        Cat._catCounter++;
+    }
+
+    public static int GetNoOfCats()
+    {
+        return Cat._catCounter;
+    }
+
+    public override void MakeSound()
+    {
+        Console.WriteLine("Meow!");
+    }
+}
+```
+
+## Override
+
+**override** används för att ändra beteendet i en subklass. **virtual** i basklassen visar att subklassen kan ändra beteendet.
+Samma metod ger olika resultat.
+
+## Polymorfism
+
+Polymorfism betyder "många former". Inom objektorienterad programmering (OOP) i C# innebär det att olika klasser kan dela samma basklass, men ändå ha unika implementationer av samma metod. Det låter programmet hantera objekt via en gemensam basklass, vilket ger flexibel och lättunderhållen kod.
+
+Du kan ha:
+
+```csharp
+List<Animal>
+
+som innehåller olika typer:
+animals.Add(new Dog());
+animals.Add(new Cat());
+
+Och ändå skriva:
+animal.MakeSound();
+```
+
+Rätt metod körs automatiskt. Om exempelvis objektet är av typen Dog så körs metoden i Dog och om den saknas körs metoden i Animal.
+
+### Två huvudtyper av polymorfism
+
+1. Statisk polymorfism (Kompileringstid)  
+Uppnås genom metodöverlagring (method overloading). Det innebär att du har flera metoder med samma namn men med olika parametrar (antal eller datatyp) i samma klass. C# avgör vilken metod som ska köras baserat på vilka argument du skickar in.
+2. Dynamisk polymorfism (Körtid)  
+Uppnås genom att överskugga en metod (method overriding). Du låter en subklass ärva från en basklass och skriva om en specifik metod för att passa dess behov. Detta görs med nyckelorden **virtual** (i basklassen) och **override** (i subklassen)
+
+
+## base
+
+**base** används för att anropa basklassens metod och används för att bygga vidare på basklassens beteende.
+
+## Test av våra klasser
+
+```csharp title="Exempel i Program.cs"
+List<Animal> animals = new List<Animal>();
+
+Dog dog = new Dog("Rex", "Labrador");
+Cat cat = new Cat("Misse");
+
+animals.Add(dog);
+animals.Add(cat);
+Console.WriteLine($"Number of cats: {Cat.GetNoOfCats()}");
+
+foreach (Animal animal in animals)
+{
+	animal.ShowInfo();
+	animal.MakeSound();
+}
+
+// ger utskriften:
+// Name: Rex
+// Breed: Labrador
+// Some animal sound
+// Woof!
+// Name: Misse
+// Meow!
+```
+
+## För- och nackdelar
+
+### Fördelar
+
+- kodåteranvändning, gemensam kod i basklassen kan återanvändas i subklassen exempelvis med base
+- polymorfism, för att specialisera eller ändra beteendet i subklassen med virtual och override
+- tydlig struktur, statiskt typat leder till att arv gör modeller tydliga och säkra. Exempel: Animal a = new Dog(); Kompilatorn vet att Dog är ett Animal.
+- bra stöd i språket
+
+### Nackdelar
+
+- endast en basklass (single inheritance)
+- hård koppling, Om du ändrar basklassen, kan du behöva ändra många subklasser.
+- risk för fel design, använda arv där det inte passar. Exempel: class Car : Engine // fel men det borde vara: Car har en Engine (komposition)
+- svårare att ändra
+
+### Använd arv i OOP
+
+- tydlig “är en”‑relation
+- gemensam data + beteende
+- behov av polymorfism
+
+## Sammanfattning
+
+- **Arv** används när klasser har något gemensamt
+- Subklasser kan ändra beteende med **override**
+- **base** återanvänder kod
+- **Polymorfism** gör att samma kod funkar för olika typer

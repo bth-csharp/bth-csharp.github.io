@@ -1,0 +1,244 @@
+---
+title: "C# - testning"
+description: Introduktion till C# - enhetstestning
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import nunitLogo from '@assets/nunitLogo.png';
+
+Vi ska börja titta på testning i C#.
+
+<Figure
+    src={nunitLogo}
+    height="150px"
+    width="150px"
+    float="right"
+/>
+
+Testing är processen att validera programmets funktionalitet. Funkar programmet på det sätt vi önskar? Funkar det enligt kraven? Vi vill verifiera att resultatet blir det vi förväntade oss.
+Testing är också processen att identifiera defekter eller programmeringsfel i vårt program. Blir det exekveringsfel om vi använder programmet fel, till exempel matar in en bokstav när programmet frågar efter en siffra?
+
+## Varför testning?
+
+Testningen funkar som ett kvalitetsbevis att koden gör det den ska. Vi kan ha manuella tester, som vi ofta kör efter en testplan, och dessutom automatiska tester. Automatiska tester är testkod som testar programmet och kan köras om och om igen.
+
+## Olika typer av testning
+
+Det finns olika typer av testning. Här är några exempel:
+
+- Enhetstest, varje enhet testas för sig. En enhet kan vara en modul, en funktion eller en klass. En funktion i detta fall är ett fristående kodavsnitt som inte är associerat till ett objekt eller en klass.
+- Integrationstest, testar om olika enheterna funkar ihop
+- Systemtest, testar hela systemet
+- Acceptanstest, kunden testar programmet för att kunna godkänna det.
+
+## Varför enhetstester?
+
+Enhetstester hittar fel i programmet tidigt. Oftast automatiseras enhetstesterna och blir då snabba och enkla att köra. Enhetstesterna utgår ofta från krav på enheten och blir då ett kvalitetsbevis på att allt funkar som det ska. Vid uppdatering eller refaktorisering (omstrukturering) av koden kan det smyga sig in fel och då hittas dessa fel om vi har bra enhetstester.
+
+## Enhetstester
+
+Varje enhetstest ska vara oberoende av andra enheter och omvärlden och verifiera en liten del av enheten (till exempel klassen) genom assertmetoder. Enhetstesterna kan startas manuellt eller schemaläggas. Det är en fördel om varje testfall är kort och endast har en assertmetod. Testfallen delas upp i arrange, act och assert. I arrange förbered testfallet och förutsättningarna för testet skapas. I act anropas metoden som ska testas och i assert så verifieras resultatet med en assertmetod.
+
+## Verktyg för enhetstester
+
+Det finns olika verktyg för enhetstester i C#. De mest populära är xUnit, NUnit och MSTest. XUnit och NUnit är open source, gratis och till för alla programmeringsspråk i .NET-plattformen. MSTest är integrerad i Visual Studio, vilket vi inte kommer använda men det finns en gratis open source version som heter MSTest V2.
+
+Vi kommer att använda NUnit som testar varje enhet oberoende. NUnit har några begrepp som är bra att känna till:
+
+- testfixture; är en klass som innehåller en eller flera tester. Den markeras med `[TestFixture]`.
+- testfall; är en metod på testklassen som markeras med `[Test]`.
+- testprogram; är ett program som ansvarar för att köra alla tester och rapportera testresultaten.
+
+Läs mer om [NUnit](https://docs.nunit.org/articles/nunit/intro.html).
+
+## Skapa ett NUnit-testprojekt i MenuApp2
+
+Vi börjar med att flytta oss med `cd` till samma katalog som programmet vi ska testa ligger i. I vårt fall ligger `MenuApp2` i katalogen kmom02/practice.
+Först skapar vi ett testprojekt som vi kallar `MenuApp2.Tests` och samtidigt skapas en tom testfil som heter `UnitTest1.cs`. Vi byter namn på till `HelpersTest.cs` och uppdateras klassens namn till **HelpersTest**.
+
+```shell title="Skapa ett testprojekt med NUnit som heter MenuApp2 i katalogen kmom02/practice"
+dotnet new nunit -n MenuApp2.Tests 
+cd MenuApp2.Tests
+mv UnitTest1.cs  HelpersTest.cs
+```
+
+Med dotnet new NUnit fixar vi så att vi får tillgång till Microsofts test.SDK och NUnit testramverk och dess finesser. Nu har vi tillgång till alla assertmetoder. Assertmetoder använder vi för att verifiera ett resultat med ett förväntat värde i ett testfall. Om vi har en metod som vid en viss input ska returnera "Valid" så jämför vi med det förväntade värdet "Valid" och om de är lika så går testfallet bra.
+
+```shell title="Katalogstrukturen i MenuApp2.Tests"
+tree -L 1
+// Ger utskriften
+.
+├── HelpersTest.cs
+├── MenuApp2.Tests.csproj
+└── obj
+```
+
+Testprojektet `MenuApp2.Tests` ska testa klasserna i `MenuApp2` För att `MenuApp2.Tests` ska känna till `MenuApp2` så behöver vi lägga till en referens i projektfilen för `MenuApp2.Tests` som pekar ut projektet vars kod vi vill testa. Vi pekar ut `MenuApp2` genom att ange pathen till dess projektfil.
+
+```shell title="Lägg till en referens till MenuApp2 i projektfilen för MenuApp2.Tests"
+dotnet add reference ../MenuApp2/MenuApp2.csproj
+```
+
+Ta gärna en snabbtitt i MenuApp2/MenuApp2.csproj och se att referensen till projektfilen *MenuApp2.csproj* ligger där.
+Så där ja, nu har vi ett testprojekt *MenuApp2.Tests* där vi kan lägga till klasser med testfall.
+
+## Skapa testfall
+
+### Assertmetoder
+
+Det finns två olika modeller för att skriva assertions i NUnit; "Constraint model" och "Classic model". Vi kommer att använda "Constraint model" då den fortfarande utvecklas och har tydligare felmeddelanden. En annan fördel med "Constraint model" är att syntaxen är mer läsbar och att du kan kombinera flera villkor.  
+Formatet på en assertmetod ser ut så här:
+
+```csharp
+Assert.That(värde att testa, assertmetod/constraint)
+```
+
+Exempel på assertmetoder:
+
+```csharp
+Assert.That(actual, Is.GreaterThan(0).And.LessThan(100));
+Assert.That(list, Has.Count.EqualTo(3));
+Assert.That(name, Does.StartWith("Marie"));
+Assert.That(value, Is.InRange(10, 20));
+```
+
+### Testa GetRandomNumberFrom10To20
+
+Då börjar vi med att testa vår klassmetod GetRandomNumberFrom10To20. Vi gör 2 testfall, ett som testar att talet vi får är mindre eller lika med 20 och nästa testfall testar att talet vi får är större eller lika med 10.
+**OBS** Dubbelkolla att namespacet är samma som klassen vi testar! Klassen **Helpers** har namespace `MenuApp2.src` och då använder vi det.
+
+```csharp title="Lägg till 2 testfall i testklassen HelpersTest i testprojektet MenuApp2.Tests"
+namespace MenuApp2.src;
+
+[TestFixture]
+public class HelpersTest
+{
+    [Test]
+    public void TestIfGetRandomNumberIsGreaterOrEqualTo10()
+    {
+        int no = Helpers.GetRandomNumberFrom10To20();
+
+        Assert.That(no, Is.GreaterThanOrEqualTo(10));
+    }
+
+    [Test]
+    public void TestIfGetRandomNumberIsSmallerOrEqualTo20()
+    {
+        int no = Helpers.GetRandomNumberFrom10To20();
+
+        Assert.That(no, Is.LessThanOrEqualTo(20));
+    }
+}
+```
+
+Nu ska vi testköra våra testfall. Vi väljer att ange hela sökvägen till testprojektets projektfil. Då slipper vi göra en "solution file" som är Visual Studio specifik eftersom vi inte använder den utvecklingsplattformen. En "solution file" innehåller information om hur projektet är organiserat, vilka projektfiler som är inkluderade, vilka inställningar och konfigurationer som är gemensamma samt versionskontroll.
+
+Vi kan effektivt organisera och arbeta med flera projekt inom en dotnet-baserad utvecklingsmiljö utan att använda en "solution file". Det ger oss flexibilitet att hantera våra projekt på ett sätt som passar våra behov och vårt arbetssätt.
+
+Kör detta i terminalen, stå i MenuApp2.Tests.
+
+```shell title="I terminalen i katalogen MenuApp2.Tests kör vi testerna så här:"
+dotnet test
+// ger utskriften:
+...
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 23 ms - MenuApp2.Tests.dll (net7.0)
+```
+
+**Om vi får fel:**
+
+- Om vi glömmer att göra klassen Helpers.cs i `MenuApp2/src` public, så får vi nedanstående felmeddelandet "error CS0122: 'Helpers' is inaccessible due to its protection level".
+
+- Om vi får felet "error CS0103: The name 'Helpers' does not exist in the current context" beror det på att vi glömt lägga till referensen till projektet `MenuApp2`.
+
+- Om vi får felet "error CS0234: The type or namespace name 'Helpers' does not exist in the namespace 'MenuApp2'" så har vi fel namespace i testklassen HelpersTest.
+
+
+### Testa CheckIfAdult
+
+Nu lägger vi till två testfall för att testa klassmetoden CheckIfAdult. Ett för att testa att vi får strängen "Du är inte myndig" om åldern som matas in i metoden är mindre än 18 och det andra för att testa vad som returneras när ålder är över 18.
+
+```csharp title="Lägg till följande testfall i klassen HelpersTest"
+namespace MenuApp2.src;
+
+[TestFixture]
+public class HelpersTest
+{
+...
+    [Test]
+    public void TestIfCheckIfAdultOkWhen12()
+    {
+        string message = Helpers.CheckIfAdult(12);
+
+        Assert.That(message, Is.EqualTo("Du är inte myndig"));
+    }
+
+    [Test]
+    public void TestIfCheckIfAdultOkWhen44()
+    {
+        string message = Helpers.CheckIfAdult(44);
+
+        Assert.That(message, Is.EqualTo("Grattis - du är myndig"));
+    }
+}
+```
+
+## Få en sammanfattning av testerna
+
+`dotnet test` körs alltid i tyst läge vilket innebär att så lite som möjligt skrivs ut. Men för att få en bra sammanfattning av vilka testfall som körs, så kan man köra testerna enligt nedan:
+
+```shell title="Få ut mer information med dotnet test genom flaggan logger"
+dotnet test --logger "console;verbosity=normal"
+// Ger utskriften
+...
+NUnit Adapter 4.6.0.0: Test execution complete
+  Passed TestIfCheckIfAdultOkWhen12 [< 1 ms]
+  Passed TestIfCheckIfAdultOkWhen44 [< 1 ms]
+  Passed TestIfGetRandomNumberIsGreaterOrEqualTo10 [2 ms]
+  Passed TestIfGetRandomNumberIsSmallerOrEqualTo20 [< 1 ms]
+
+Test Run Successful.
+Total tests: 4
+     Passed: 4
+ Total time: 0,9899 Seconds
+```
+
+## Repetition av dotnet kommandona
+
+- dotnet clean; rensa innan du bygger om
+- dotnet format; formatera koden
+- dotnet run; kompilerar, bygger och kör igång programmet
+- dotnet test --logger "console;verbosity=normal"; kör testerna med snygg utskrift
+
+## Sammanfattning
+
+Nu har vi tittat på enhetstestning C#:  
+
+- enhetstester är kvalitetsbevis på en enhet, till exempel en klass.
+- vi har provat att använda NUnit för enhetstestning.
+- vi har lärt oss att få mer användbar information från testerna.
+- vi har också lärt oss att köra testerna med dotnet test
+- vi har lärt oss hur vi skapar ett testprojekt "MenuApp2.Tests" som testar klasserna i vårt projekt "MenuApp2".
+
+Nu har vi tittat lite på enhetstester för att få mer förståelse om testfall och enhetstestning. Vi tittar mer på enhetstestning i kmom05.
+
+<LinkCard 
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02/#övningar"
+/>

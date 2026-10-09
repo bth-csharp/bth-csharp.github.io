@@ -1,0 +1,65 @@
+---
+title: "Om studieguide" 
+description: No description.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Här hittar du artiklar som tar upp olika ämnen runt kopplade studierna.
+
+<LinkCard 
+  title="Fusk, AI och medvetet vilseledande"
+  href="/studieguide/fusk"
+/>
+
+<LinkCard 
+  title="Hur ber man om hjälp med kod i chatten?"
+  href="/studieguide/fraga-hjalp"
+/>
+
+<LinkCard 
+  title="3-veckors upprop"
+  href="/studieguide/3v-upprop"
+/>
+
+<LinkCard 
+  title="Använda AI som stöd i dina studier"
+  href="/studieguide/anvand-ai"
+/>
+
+<LinkCard 
+  title="Deadline"
+  href="/studieguide/deadline"
+/>
+
+<LinkCard 
+  title="Jag hamnar efter"
+  href="/studieguide/hamnar-efter"
+/>
+
+<LinkCard 
+  title="Lärarstöd och handledning"
+  href="/studieguide/lararstod-och-handledning"
+/>
+
+<LinkCard 
+  title="Studieteknik och Studievägledning"
+  href="/studieguide/studieteknik"
+/>
+
+<LinkCard 
+  title="Tillbaka till startsidan"
+  href="/"
+/>

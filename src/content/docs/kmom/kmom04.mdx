@@ -1,0 +1,121 @@
+---
+title: "Kmom04: Repetition C#, OOP & UML"
+description: Fjärde kmomet.
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { YouTube } from 'astro-embed';
+import { Steps } from '@astrojs/starlight/components';
+import { Icon } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+:::danger
+Materialet är inte klart. Avvakta!
+:::
+
+I detta kursmoment ska du repetera allt du lärt har dig i de tre första kursmomenten. Du ska dessutom redovisa dina kunskaper i C#, objektorienterad programmering och UML. Detta genomförs i en **muntlig kodintervju**, där du visar att du har den kunskap som förväntas. Det innebär att du ska kunna arbeta med programmering på motsvarande nivå utan att behöva använda generativ-AI. Detta är viktigt för fortsatta studier och arbetslivet där generativ-AI kan och bör användas men kräver att du har tillräcklig kunskap för att värdera, omarbeta och argumentera för lösningar som AI-genereras.
+
+"Repetition är kunskapens moder" är ett ordspråk som betyder att upprepad övning är nödvändig för att lära sig och behärska något. Ordspråket kommer ursprungligen från latinets "Repetitio est mater studiorum" och betonar att kunskap byggs upp och befästs genom att upprepa information, vilket skapar bestående minnen och färdigheter.
+
+## Förberedelser
+
+Innan du börjar med kmom04 så behöver du ha jobbat igenom:
+
+- [Kmom01](/kmom/kmom01)
+- [Kmom02](/kmom/kmom02)
+- [Kmom03](/kmom/kmom03)
+
+Du förväntas kunna de mest av innehållet i kmom01-03. Så passa på att repetera dem!
+
+
+### Att göra
+
+:::note
+Ladda ner en ny taskfile `task download-taskfile` för att kunna ladda ner labbarna.
+:::
+
+<Steps>
+
+1. Repetera C# med [labbar](/laromaterial/kmom04/lab).
+
+1. Repetera problemlösning med klasser, objekt och UML klassdiagram genom [övningsuppgifter](/laromaterial/kmom04/objects).
+
+1. Du får möjligheten att visa dina kunskaper i en kodintervju. Läs mer om [Kodintervju](#kodintervju).
+
+</Steps>
+
+## Kodintervju
+
+Syftet är att studenten ska visa upp sina kunskaper om innehållet i kmom01-03. Studenten får därmed möjlighet att visa för sig själv och för lärarna att den kan innehållet i kmom01-03.
+
+:::note
+Se till att vara väl förberedd!
+
+Du får bara 2 försök att klara kodintervjun under pågående kursomgång.  
+Kodintervjun måste vara godkänd för att du ska få göra projektet.
+:::
+
+### Innehåll
+
+Det kommer att bli 4-5 frågor från följande områden:
+
+- Datatyper i C# (int, double, string, array, lista etc)
+- Kodsyntax C#
+- Villkor (if-satser, logiska operatorer ev switch etc)
+- Iteration (for-loop, while etc)
+- Metoder
+- Begrepp som klass, objekt, attribut, metod
+- Åtkomstnivåerna
+- Överlagring
+- UML klassdiagram med klasser, attribut, metoder samt dess åtkomstnivåer och relationer
+- Skillnaden på komposition, aggregation och association
+
+#### Detta kommer inte på kodintervjun
+
+- Testning
+- Felhantering
+- Läsa och skriva från fil
+
+### Förkunskapskrav till kodintervjun i Canvas
+
+Förkunskapskrav (uppfyllda innan kodintervjun början):
+
+- kmom01-03 quiz godkända (G i Canvas)
+- kmom03 PR med labels; `submitted` och `test-passed` (PR-länk inlämnad Canvas)
+
+Det kontrolleras på morgonen vid 8-tiden samma dag som intervjun. Ej uppfyllda krav ger Ux på kodintervjun. Om du inte uppfyllt kraven, avbokar du din tid.
+
+### Hur går det till?
+
+Vi lärare ställer frågorna. Tid ca 10-15 min.  
+Du kopplar upp dig på Zoom eller kommer till sal. Du får ett mail på Canvas med en Zoomlänk om du har gjort förkunskapskraven.
+Du svarar på frågorna utan hjälpmedel.
+
+### Tillgängliga tider
+
+Boka tid i kalendern i Canvas! Finns tillgängliga tiden för vecka 48. Fler tider kommer att vara tillgängliga i v51! Därefter hänvisar vi till tider i mars och maj inför respektive inlämning i try 2 och try 3.
+
+## Målet med kmom04
+
+Efter att ha jobbat igenom kmom04 så har du:
+
+- repeterat innehållet i kmom01-03
+- genomfört en muntlig kodintervju som visat att du har kunskaper motsvarande innehållet i kmom01-03
+
+<LinkCard 
+  title="Tillbaka till startsidan"
+  href="/"
+/>

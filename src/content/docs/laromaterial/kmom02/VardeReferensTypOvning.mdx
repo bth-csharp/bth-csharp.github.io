@@ -1,0 +1,229 @@
+---
+title: "Värdetyper och referenstyper - övningar"
+description: Värdetyper och referenstyper och dess skillnader - övning
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import VardeReferensTyp from '@assets/img/kmom02/VardeReferensTyp.png';
+
+
+I C# är skillnaden mellan värdetyper (value types) och referenstyper (reference types) en av de viktigaste sakerna i språket. Därför ska vi träna genom dessa övningsuppgifter.
+
+Skapa ett console-projekt och testa koden eller kör i en onlinekompilator.
+
+## Övning 1 - Temperaturregistrering
+
+Vi har en klass som används vid temperaturmätning i Celsius och klassen ser ut så här. 
+
+```csharp title="Klassen Sensor"
+class Sensor
+{
+    public double _temperature;
+
+    public double GetTemperature() { return this._temperature; }
+    public void SetTemperature(double newTemperature) { this._temperature = newTemperature; }
+}
+```
+
+Vi har följande kod i huvudprogrammet.
+
+```csharp title="Huvudprogrammet, kod i Program.cs"
+double temp1 = 20.0;
+double temp2 = temp1;
+
+Sensor sensor1 = new Sensor();
+sensor1.SetTemperatur(20.0);
+
+Sensor sensor2 = sensor1;
+
+temp2 = 30.0;
+sensor2.SetTemperatur(30.0);
+
+Console.WriteLine(temp1);        // ?
+Console.WriteLine(temp2);        // ?
+Console.WriteLine(sensor1.GetTemperature()); // ?
+Console.WriteLine(sensor2.GetTemperature()); // ?
+```
+
+Frågor att besvara:
+
+- Varför ändras inte temp1 när temp2 ändras?
+- Varför ändras _temperature i sensor1 när _temperature i sensor2 ändras?
+
+<details>
+<summary>Svar Övning 1</summary>
+
+| Variabel | Värde | Förklaring              |
+|----------|----------|----------------------|
+| temp1 | 20.0 | double är en värdetyp → kopieras. |
+| temp2 | 30.0 | Vi ändrade den direkt. |
+| sensor1.GetTemperature() | 30.0 | Sensor är referenstyp → sensor1 och sensor2 pekar på samma objekt. |
+| sensor2.GetTemperature() | 30.0 | Ändringen görs i samma objektet som både sensor1 och sensor2 pekar på. |
+
+**Förklaring**
+
+- temp1 och temp2 ligger på separata minnesplatser → ändringar sprids inte.
+- sensor1 och sensor2 är referenser till samma Sensor-instans → ändringar syns på båda.
+
+</details>
+
+
+## Övning 2 - Poängräknare för ett spel
+
+Vi har en poängräknare för ett spel och klassen ser ut så här. 
+
+```csharp title="Klassen Player"
+
+class Player
+{
+    private string _name;
+    private int _playerScore;
+
+    public string GetName() { return this._name; }
+    public void SetName(string newName) { this._name = newName; }
+    public int GetPlayerScore() { return this._playerScore; }
+    public void SetPlayerScore(int newPlayerScore) { this._playerScore = newPlayerScore; }
+}
+```
+
+Vi har följande kod i huvudprogrammet.
+
+```csharp title="Huvudprogrammet, kod i Program.cs"
+Player person1 = new Player();
+person1.SetName("Alice");
+person1.SetPlayerScore(10);
+
+Player person2 = person1;
+
+person2.SetName("Bob");
+person2.SetPlayerScore(99);
+
+Console.WriteLine(person1.GetName());            // ?
+Console.WriteLine(person1.GetPlayerScore()); // ?
+```
+
+Frågor att besvara:
+
+- Varför påverkas person1 av ändringen som görs på person2?
+- Vad blir poängen för person1?
+
+<details>
+<summary>Svar Övning 2</summary>
+
+| Variabel | Värde | Förklaring              |
+|----------|----------|----------------------|
+| person1.GetName() | "Bob" | Player är klass → person1 och person2 pekar på samma objekt. |
+| person1.GetPlayerScore() | 99 | Variablerna person1 och person2 är av referenstyp och pekar på samma objekt. _playerScore är en värdetyp int men eftersom den ligger som ett attribut i ett objekt ändras den via referensen. |
+
+
+</details>
+
+
+## Övning 3 - Bankkonto och saldohistorik
+
+Vi har ett bankkont med historik och klassen ser ut så här. 
+
+```csharp title="Klassen BankAccount"
+class BankAccount
+{
+    
+    private int _balance;
+    private List<int> _history = new List<int>();
+
+    public int GetBalance() { return this._balance; }
+    public void Deposit(int amount)
+    { 
+        this._balance += amount;
+        this.AddToHistory(this._balance)
+    }
+    public bool Withdraw(int amount)
+    {
+        bool withdrawOk = false;
+        if ( this._balance >= amount )
+        {
+            this._balance -= amount;
+            this.AddToHistory(this._balance);
+            withdrawOk = true;
+        }
+        return withdrawOk;
+    }
+    public List<int> GetTransactionHistory()
+    {
+        List<int> transactions = [];
+        foreach (int balance in this._history)
+        {
+            transaction.Add(balance);
+        }
+
+        return transactions;
+    }
+    private void AddToHistory(int newBalance) { this._history.Add(newBalance); }
+}
+```
+
+Vi har följande kod i huvudprogrammet.
+
+```csharp title="Huvudprogrammet, kod i Program.cs"
+BankAccount account1 = new BankAccount();
+account1.SetBalance(100);
+account1.AddToHistory(account1._balance);
+
+BankAccount account2 = account1;
+
+account2.IncreaseBalance(50);
+account2.AddToHistory(account2._balance);
+
+Console.WriteLine(account1.GetBalance());        // ?
+Console.WriteLine(account2.GetBalance());        // ?
+Console.WriteLine(account1.GetHistoryCount()); // ?
+Console.WriteLine(account2.GetHistoryCount()); // ?
+```
+
+Frågor att besvara:
+
+- Varför skiljer sig hanteringen av _balance och _history?
+- Vad händer om två konton delar listan?
+
+<details>
+<summary>Svar Övning 3</summary>
+
+| Variabel | Värde | Förklaring              |
+|----------|----------|----------------------|
+| account1.GetBalance() |   150   | _balance ligger i samma objekt (referenstyp). |
+| account2.GetBalance() |   150   | account1 och account2 pekar på samma objekt.  |
+| account1.GetHistoryCount() |   2   | Listan är samma objekt för account1 och account2. |
+| account2.GetHistoryCount() |   2   | Ändringen gjordes i samma lista. |
+
+**Förklaring**
+
+- BankAccount är en klass → account1 och account2 pekar på samma objekt av typen BankAccount.
+- Variablerna account1 och account2 är av referenstyp.
+- _history är en lista (referenstyp) → listan delas också.
+- Alla ändringar syns genom båda variablerna.
+
+</details>
+
+## Sammanfattning
+
+- **Värdetyper**; variabeln innehåller värdet
+- **Referenstyper**; variabeln innehåller en referens till ett objekt (adressen till objektet)
+
+
+<LinkCard 
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02/#övningar"
+/>

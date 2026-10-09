@@ -1,0 +1,20 @@
+---
+title: "Kapitel 2 - Arv och klassrelationer"
+description: Kapitel 2 - Arv och klassrelationer med innehållsförteckning
+sidebar:
+    order: 3
+---
+
+Precis som i naturens värld kan vi inom programmering ärva egenskaper från en “förälder”. En klass kan ärva metoder och attribut från en annan klass, dess objekt kallas ofta för förälder- och barn-objekt. De korrekta termerna är basklass (förälder) och subklass (barn). När man kan beskriva relationen mellan två klasser som “är-en” resulterar det oftast i en arvsrelation.
+Kan man beskriva relationen som "har-en" är relationen istället komposition eller aggregation. Komposition och aggregation används när ett objekt innehåller ett annat objekt. Om kopplingen mellan objekten är stark, så är det komposition. Är relationen svagare så är det aggregation.
+
+Vi tittar på de olika relationerna och några fler begrepp inom den objektorienterade världen.
+
+
+## Innehåll
+
+- [När kan/ska man använda arv?](/laromaterial/ooguide/kap2/arv)
+- [Överskuggning av metoder](/laromaterial/ooguide/kap2/overskuggning)
+- [Information hiding del 2](/laromaterial/ooguide/kap2/information_hiding_2)
+- [Komposition och aggregation](/laromaterial/ooguide/kap2/komposition_aggregation)
+- [Mera arv](/laromaterial/ooguide/kap2/arv_2)

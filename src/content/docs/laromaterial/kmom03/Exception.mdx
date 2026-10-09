@@ -1,0 +1,170 @@
+---
+title: "Exceptions"
+description: Exceptions
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Om vi försöker utföra division med 0 så genererar det ett fel och programmet kraschar. Det finns två sätt att förhindra detta.
+
+1. Vi kontrollerar med en if-sats om talet som motsvarar nämnaren är 0 eller ej. Endast om talet är skilt från 0 utför vi divisionen. Detta kallas "Control Flow First" eller kontroll first vilket innebär att vi använder logik och villkor för att kontrollera flödet så att inga fel kan uppstå.
+
+2. Vi utför beräkningen och om division med 0 utförs kastar programmet ett undantag eller exception (som faktiskt är ett objekt). Vi fångar undantaget och utför lämplig åtgärd för  och programmet ska kunna fortsätta utan att krascha. Detta kallas undantagshantering eller "Exception Control Flow".
+
+## Exceptions i C#
+
+I C# används exceptions för att hantera felaktiga eller oväntade situationer som kan uppstå under exekvering. När ett fel inträffar kastas ett undantag, vilket ger oss möjlighet att i koden hantera felet på ett kontrollerat sätt.
+
+```csharp
+try
+{
+    // Kod som kan kasta ett exception
+    int result = Divide(10, 0);
+}
+catch (DivideByZeroException ex)
+{
+    // Ta hand om ett exception
+    Console.WriteLine("Error: " + ex.Message);
+}
+```
+
+## Vanliga exceptions
+
+I C# och .NET-ramverket finns det många inbyggda undantag (exceptions) som används för att hantera olika fel som kan uppstå när vi kör vårt program. Exceptions är temporära objekt av olika typer som till exempel `DivideByZeroException`.
+Här är några av de vanligaste undantagen i C#.
+
+| Namn     | Beskrivning               |
+|----------|-----------------------|
+| System.Exception | Detta är basklassen för alla undantag i C#.  |
+| System.DivideByZeroException | Kastas när du försöker dividera ett tal med noll. |
+| System.FormatException | Kastas när du försöker konvertera en sträng till ett annat format som det inte stöder.|
+| System.NullReferenceException | Kastas när du försöker använda en referensvariabel som inte har tilldelats (är null). |
+| System.NotImplementedException | Används ofta som en platsmarkör för funktioner eller metoder som ännu inte har implementerats.  |
+
+
+## Egna exceptions
+
+Vi fortsätter på vårt program "FileApp" och skapar ett eget undantag(exception). Vi vill kontrollera att det finns ett antal produkter, det vill säga att det finns ett värde, som ska handlas. Dessutom ska detta värde vata minst 1 och max 20.
+
+Vi skapar en ny klass **QuantityException** i en ny fil.
+
+```csharp
+// i kmom03/FileApp/src/QuantityException.cs
+namespace FileApp.src;
+
+public class QuantityException : Exception
+{
+    public QuantityException(string message) : base(message)
+    { }
+}
+```
+
+Vi lägger till en metod i klassen **Simple** som ska kolla om det som matades in som antal är ett tal som är större eller lika med 1 och mindre eller lika med 20. Om villkoret inte uppfylls så kastas ett undantag(exception).
+
+```csharp
+// i kmom03/FileApp/Simple.cs
+...
+    public void CheckQuantity(string quantity)
+    {
+        int checkedQuantity;
+        
+        if (string.IsNullOrWhiteSpace(quantity) || quantity.Length == 0)
+        {
+            throw new QuantityException("Antalet får inte vara tomt!");
+        }
+        if (!int.TryParse(quantity, out checkedQuantity))
+        {
+            throw new QuantityException("Du matade inte in ett tal! Talet ska vara 1 <= tal <= 20!");
+        }
+        if (checkedQuantity > 20)
+        {
+            throw new QuantityException("Du matade in ett för stort tal, 1 <= tal <= 20!");
+        }
+        if (checkedQuantity < 1)
+        {
+            throw new QuantityException("Du matade in ett för litet tal, 1 <= tal <= 20!");
+        }
+    }
+```
+
+Som alltid när vi kastar undantag/exception så måste koden där vi anropar metoden som kan kasta undantag/exception vara inuti en `try-catch-sats`. Vi lägger en while(true) loop med en break för att fortsätta tills användaren matar in ett värde mellan 1 och 20.
+
+```csharp
+// i kmom03/FileApp/Program.cs
+using FileApp.src;
+
+using FileApp.src;
+
+Simple shoppingList = new Simple("simpleList.txt");
+
+shoppingList.Present();
+bool enterProduct = true;
+bool checkQuantity = true;
+
+while (enterProduct)
+{
+    string? product;
+    string quantity = string.Empty;
+
+    Console.Write("\nAnge produktnamn (eller ENTER för att sluta): ");
+    product = Console.ReadLine() ?? "";
+    if (product == "") 
+    { 
+        enterProduct = false; // För att avsluta yttre loopen
+    }
+    else
+    {
+        while (checkQuantity)
+        {
+            Console.Write("\nAnge antal: ");
+            try
+            {
+                quantity = Console.ReadLine() ?? "";
+                shoppingList.CheckQuantity(quantity);
+                checkQuantity = false; // Allt är ok, inga fler kontroller behövs
+            }
+            catch (QuantityException exQ)
+            {
+                Console.WriteLine(exQ.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        
+        string saveInput = $"{product} {quantity}";
+        shoppingList.Save(saveInput);
+        // Återställ för ny kontroll av antalet
+        checkQuantity = true;
+    }
+}
+
+shoppingList.Present();
+```
+
+Om vi ska fånga flera undantag/exceptions, fångar vi det mest specifika först. T.ex fångar vi `DivideByZeroException` i en `catch-sats` före vi fångar `Exception` i nästa `catch-sats`.
+
+## Sammanfattning
+
+Nu har vi tittat på några vanligt undantag/exceptions och lärt oss göra egna exceptions. Koden till shoppinglistan med exceptions hittar du [här](./../../../CodeExamples/kmom03/FileApp/).
+
+Om du vill lära dig mer om att skapa egna exceptions, kan du titta [här](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/creating-and-throwing-exceptions).
+Läs mer om hur exceptions funkar i [Exceptions and Exceptions Handling](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/).
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#övningar"
+/>

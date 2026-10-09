@@ -1,0 +1,189 @@
+---
+title: "Skapa Git-repo" 
+description: Skapa ett Git-repo, lokalt på din egen dator, och koppla det till platsen på GitHub.
+author: mos
+revision:
+    "2026-06-07": "(B, grm) Uppdaterad för csharp."
+    "2025-06-24": "(A, mos) Första utkastet."
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Nu skall du skapa kursens Git-repo lokalt i din terminal under katalogen `dbwebb-kurser` genom att klona repot som du nyligen skapade på GitHub.
+
+## Gå till dbwebb-kurser
+
+Börja med att gå till din arbetskatalog för kurserna, den som du döpte till `dbwebb-kurser`.
+
+```bash title="Gå till katalogen dbwebb-kurser"
+# Gå till hemmakatalogen
+cd
+
+# Gå till dbwebb-kurser
+cd dbwebb-kurser
+```
+
+Du kan göra samma sak i ett kommando och här refererar `~` till din hemmakatalog.
+
+```bash title="Gå till katalogen dbwebb-kurser, i ett kommando"
+cd ~/dbwebb-kurser
+```
+
+Använd kommandot `pwd` och `ls` för att försäkra dig om att du är på rätt plats i filsystemet.
+
+
+## Klona ditt GitHub repo
+
+Logga in på [GitHub](https://github.com/) där ska du ha fått ett kursrepo som heter csharp-xxxx## där xxxx## är ditt studentkonto med fyra tecken och två siffror, tex abcd25 eller motsvarande.
+
+Det är bara du själv och lärarna i kursen som har tillgång till ditt kursrepo.
+
+Nu ska vi skapa en lokal kopia av ditt GitHub repo genom att klicka på "Code" och kopiera SSH-länken.
+
+import gh3 from '@assets/kursrepo/gh3.png';
+
+<Figure 
+    src={gh3}
+    caption="Klona ditt repot på GitHub med SSH."
+/>
+
+```bash title="Kommandon för att klona ditt kursrepo"
+git clone git@github.com:bth-csharp/csharp-<akronym>.git
+```
+
+Om din akronym är `abcd25` så ser kommandot ut så här:  
+`git clone git@github.com:bth-csharp/csharp-abcd25.git` 
+
+
+### Kolla ditt lokala Git-repo
+
+Du kan använda kommandot `pwd` och `ls` för att kontrollera vilken katalog du är i och vad den innehåller. Använder du `ls -la` får får du detaljer om filer och kataloger och det visas även dolda kataloger som börjar med en punkt `.`.
+
+Så här ser ditt Git-repo ut i terminalen:
+
+import repo_terminal from '@assets/kursrepo/repo_terminal.png';
+
+<Figure 
+    src={repo_terminal}
+    caption="Ditt lokala Git-repo i terminalen."
+    width="600px"
+/>
+
+
+### Kör setup i ditt lokala Git-repo
+
+Nu kan du köra följande kommando för att göra ditt kursrepo redo. Kommandot skapar kataloger, laddar ner workflow-fil & task-fil samt tester. Dessutom skapas en branch för Canvas-uppgiften "Test gitconfig" `bth/submit/test-gitconfig` samt första inlämningsbranchen `bth/submit/kmom03`.
+
+```bash title="Kommando för att göra ditt lokala kursrepo redo"
+pwd // visar att du står i ditt lokala repo dbwebb-kurser/csharp-abcd25 för studenten abcd25
+
+task setup
+```
+
+I slutet av setup-skriptet körs en del tester. Vid eventuella fel så kör du de kommandon som föreslås.
+
+När alla testerna gått igenom är det bara att köra på!  Så här ser det ut i din terminal när task setup gått igenom:
+
+LÄGG TILL BILD:
+
+När alla testerna gått igenom ska vi testa att ladda upp en lokal förändring till GitHub!
+
+<details>
+<summary>Om du saknar kommandot `task`, installera så här:</summary>
+
+#### Ubuntu (Windows/Linux)
+
+```console title="Installera Task med Snap."
+sudo snap install task --classic
+```
+
+#### Mac
+
+```console title="Installera Task med Homebrew."
+brew install go-task
+```
+
+#### Verifiera installationen av Task
+
+`task` är kommandot för att köra programmet Task och sen finns det flaggor som till exempel; `--list` är en flagga som listar alla kommandon som finns i Taskfile.
+
+```console title="Verifiera installationen av Task"
+task --version // ger i mitt fall utskriften: 3.45.0, ni får kanske nyare
+task --help // ger hjälp
+task --list // listar aktuella kommandon
+```
+
+</details>
+
+
+### Testa att ladda upp en lokal ändring till GitHub.
+
+Flytta in i katalogen för ditt lokala Git-repo och gör en ändring i filen `README.md`. Gör sedan `git add`, `git commit` och `git push` till ditt GitHub-repo. `git commit -a -m "text` är samma sak som `git add .` följt av `git commit -m "text`.
+
+```bash title="Flytta in till kursrepot"
+# Gå ner i kursrepot, byt ut xxxx## mot din studentakronym
+cd csharp-xxxx##
+
+# Titta vilka filer som finns i ditt lokala Git-repo 
+ls -la
+tree .
+```
+
+Öppna upp ditt lokala kursrepo i VS Code.
+
+```bash title="Öppna repot i VS Code"
+# Öppna nuvarande katalog i VS Code
+code .
+```
+
+Gör en mindre ändring i filen `README.md` och pusha upp ändringen till GitHub för att verifiera att du har tillgång till ditt GitHub repo.
+
+```bash title="Gör commit på din ändring"
+# Efter att du har redigerat din README.md
+git status
+
+# Skapa en commit och pusha den till GitHub
+git add .
+git commit -m "Verify I have read/write access to the repo"
+git push
+
+# Kolla status efter pushen
+git status
+```
+
+En mer utförlig guide om hur du gör med git hittar du i python-kursen[Uppdatera fil i git repot](https://bth-python.github.io/laromaterial/kursrepo-utvecklingsmiljo/gitadd/).
+
+Dubbelkolla på GitHub att din push syns där!
+
+### Om något går fel...
+
+:::caution
+Om något går fel så kan du radera din katalog (ditt repo lokalt) och försöka igen.
+
+```bash title="Så här raderar du ditt lokala repo om du vill börja om från början."
+# Change <dirname> to the name of your course repository name,
+# for example csharp-abcd25.
+cd ~/dbwebb-kurser
+rm -rf <dirname>
+```
+
+Kör därefter kommandona som klonar ditt lokala kursrepo igen och därefter setup-skriptet enligt ovan.
+:::
+
+<LinkCard 
+  title="Tillbaka till - Kom igång med ditt kursrepo"
+  href="/laromaterial/kursrepo"
+/>

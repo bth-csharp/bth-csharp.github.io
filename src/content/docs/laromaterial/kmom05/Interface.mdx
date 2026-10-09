@@ -1,0 +1,177 @@
+---
+title: "Introduktion Interface"
+description: Introduktion Interface
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+Ett interface beskriver vad en klass ska kunna göra, men inte hur.  
+Det fungerar som ett kontrakt. En klass som implementerar ett interface måste implementera alla metoder i interfacet.
+
+Vi använder interface för att:
+
+- minska beroenden
+- göra koden mer flexibel
+- kunna byta implementation
+
+Interface används på två sätt:
+
+1. beskriva ett beteende
+1. beskriva ett samarbete mellan klasser
+
+## Skillnad arv och interface
+
+| Arv            | Interface      |
+|----------------|----------------|
+| beskriver vad något är | beskriver vad något kan göra |
+| kod + struktur | kontrakt |
+| delar kod | delar inte kod |
+| kan ha en basklass | kan implementera flera interface |
+
+## Exempel interface (beteende)
+
+Det här är ett exempel på ett interface som beskriver ett beteende, i det här fallet om djuret går att dressera eller inte.
+
+```csharp title="Exempel interfacet ITrainable"
+public interface ITrainable
+{
+    void PerformTrick();
+}
+```
+Alla klasser som implementerar **ITrainable** måste implementera metoden `PerformTrick()`.
+
+### Implementera ett interface
+
+```csharp title="Exempel klassen Dog implementerar interfacet ITrainable"
+public class Dog : Animal, ITrainable
+{
+    ...
+    public void PerformTrick()
+    {
+        Console.WriteLine($"{this._name} performs a trick!");
+    }
+}
+```
+
+### Testa interfacet
+
+```csharp title="Exempel i Program.cs
+List<Animal> animals = new List<Animal>();
+
+Dog dog = new Dog("Rex", "Labrador");
+Cat cat = new Cat("Misse");
+
+animals.Add(dog);
+animals.Add(cat);
+
+Console.WriteLine("\nTricks:");
+
+    foreach (Animal animal in animals)
+    {
+        animal.ShowInfo();
+        // Här måste du kontrollera om djuret kan tricks
+        if (animal is ITrainable trainable)
+        {
+            trainable.PerformTrick();
+        }
+    }
+
+// ger utskriften:
+// Name: Rex
+// Breed: Labrador
+// Rex performs a trick!
+// Name: Misse
+```
+
+## Exempel interface (samarbete)
+
+Det här är ett exempel på ett interface som beskriver ett samarbete, i det här fallet mellan en klass **AnimalHandler** och en annan klass.
+
+```csharp title="Exempel interfacet IAnimalHandler"
+public interface IAnimalHandler
+{
+    void AddAnimal(Animal animal);
+    List<Animal> GetAnimals();
+    void MakeAllSounds();
+    void PerformAllTricks();
+}
+```
+Alla klasser som implementerar **IAnimalHandler** måste implementera alla metoderna.
+
+### Implementera ett interface
+
+```csharp title="Exempel klassen AnimalHandler implementerar interfacet IAnimalHandler"
+public class AnimalHandler : IAnimalHandler
+{
+    private List<Animal> _animals = new List<Animal>();
+
+    public void AddAnimal(Animal animal)
+    {
+        this._animals.Add(animal);
+    }
+
+    public List<Animal> GetAnimals()
+    {
+        return this._animals;
+    }
+
+    public void MakeAllSounds()
+    {
+        foreach (Animal animal in this._animals)
+        {
+            animal.MakeSound(); // polymorfism
+        }
+    }
+
+    public void PerformAllTricks()
+    {
+        foreach (Animal animal in this._animals)
+        {
+            if (animal is ITrainable trainable)
+            {
+                trainable.PerformTrick();
+            }
+        }
+    }
+}
+```
+
+###  Testa interfacet
+
+```csharp title="Exempel i Program.cs
+IAnimalHandler handler = new AnimalHandler();
+
+handler.AddAnimal(new Dog("Rex", "Labrador"));
+handler.AddAnimal(new Cat("Misse"));
+
+Console.WriteLine("Sounds:");
+handler.MakeAllSounds();
+
+Console.WriteLine("\nTricks:");
+handler.PerformAllTricks();
+
+```
+
+### Byt ut implementationen av IAnimalHandler
+
+Vi kan byta ut klassen **AnimalHandler** mot en annan klass som också implementerar interfacet **IAnimalHandler**.
+
+## Sammanfattning
+
+- **Interface** = kontrakt
+- Beskriver funktionalitet, inte implementation
+- En klass kan implementera flera interface
+- Används för att koppla ihop olika delar av ett program
+- Minnesregel: 
+    Arv - vad något är  
+    Interface - vad något kan göra

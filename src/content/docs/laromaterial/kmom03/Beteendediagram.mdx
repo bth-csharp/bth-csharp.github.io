@@ -1,0 +1,112 @@
+---
+title: "Beteendediagram"
+description: Beteendediagram
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import useCaseShowBalance from '@assets/img/kmom03/useCaseShowBalance.png';
+import sequenceShowBalance from '@assets/img/kmom03/sequenceShowBalance.png';
+import useCaseCreateAccountSimple from '@assets/img/kmom03/useCaseCreateAccountSimple.png';
+import useCaseCreateAccount from '@assets/img/kmom03/useCaseCreateAccount.png';
+import sequenceCreateAccount from '@assets/img/kmom03/sequenceCreateAccount.png';
+
+Ett beteendediagram är en dynamisk bild av systemet som visar vad som händer i systemet. Det beteendediagram som vi ska fokusera på är **use case diagram** (användningsfallsdiagram) och beskriver funktionaliteten ur användarens perspektiv. Vi ska även titta på **sekvensdiagram** som visar hur systemets objekt samverkar i en specifik sekvens över tid.
+
+## Use case diagram
+
+Use case diagram eller användningsfallsdiagram på svenska visar hur användningsfall och aktörer samarbetar. Aktörer kan vara användare eller externa system. Diagrammet fokuserar på vilka funktioner systemet erbjuder och vilka aktörer som kan använda dessa funktioner. Syftet är att ge en översikt över systemets funktionalitet och användning.
+
+Vi tar banken som exempel och tittar på två användningsfall "Titta på saldo" och "Skapa konto". I båda fallen är kunden aktör och utför handlingen men i fallet med skapa konto behöver banken också agera. Banken är då en sekundär aktör.
+
+För att rita use case diagram används här [PlantUML Use Case Diagram](https://plantuml.com/use-case-diagram).
+
+### Användningsfall - Titta på saldo
+
+**Användingsfall**: Kunden vill titta på sitt saldo  
+**Aktör**: Kunden  
+**Funktionalitet**: Kunden använder systemet för att titta på sitt saldo genom att start programmet, välja konto och välja "Saldo". Saldot visas.  
+
+<Figure
+    src={useCaseShowBalance}
+    caption="Bilden visar Use case diagram Titta på saldot."
+    width="500px"
+/>
+
+### Användningsfall - Skapa konto
+
+**Användingsfall**: Kunden vill skapa ett saldo  
+**Aktör**: Kunden  
+**Aktör**: Banktjänstemannen  
+**Funktionalitet**: Banken efterfrågar personuppgifter och kunder ger dem till banken. Banken verifierar kundens identitet och skapar ett nytt konto med ett unikt nummer.  
+
+#### Enkelt exempel
+
+<Figure
+    src={useCaseCreateAccountSimple}
+    caption="Enkelt exempel: use case diagram Skapa konto."
+    width="500px"
+/>
+
+#### Utökat exempel
+
+<Figure
+    src={useCaseCreateAccount}
+    caption="Utökat exempel: use case diagram Skapa konto."
+    width="600px"
+/>
+
+
+
+## Sekvensdiagram
+
+Ett sekvensdiagram används för att beskriva samarbetet mellan objekt i en sekvens av händelser. Diagrammet visar objekt, dess livslängd och vilka meddelanden som skickas mellan dem. Syftet är att ge en förståelse för hur systemets olika delar, objekten, samarbetar i olika scenarion. Vi visar objekten med en ruta för varje objektet med dess namn. Objekts livslängd visas med en vertikal linje. Pilarna mellan objekten visar samarbetet (vilket kommer att motsvaras av metod/funktions-anrop). Returvärde kan visas eller ett meddelande om vad som sker. Loopar visas i en ruta med rubriken "loop" och if-satser i en ruta med alternativ i delrutor.
+
+Vi tittar på vad som händer mellan objekten i sekvenserna "Titta på saldo" och "Skapa konto".
+
+För att rita sekvensdiagram använder vi [PlantUML Sequence Diagram](https://plantuml.com/sequence-diagram).
+
+### Sekvens - Titta på saldo
+
+Här är kunden en aktör och objekten som påverkas är av klasserna Bank och BankAccount. En loop markerar att Bank letar efter kontot i sin lista med konton tills dess kontot hittats. En "alt"-ruta visar vad som händer om kontot hittas, vilket resulterar i att saldot visas, och om kontot inte hittas, vilket resulterar i att ett felmeddelande visas.
+
+<Figure
+    src={sequenceShowBalance}
+    caption="Bilden visar sekvensdiagrammet Titta på saldo."
+    width="500px"
+/>
+
+### Sekvens - Skapa konto
+
+Här har vi två aktörer, kunden och banktjänstemannen, samt tre objekt av klasserna Bank, PayrollAccount och InterestAccount. Först utbyter kunden och banktjänstemannen information och sen skapas ett bankkonto. Om kunden väljer ett PayrollAccount så skapas ett objekt av klassen PayrollAccount och om kunden väljer InterestAccount så skapas ett objekt av klassen InterestAccount. Det skapade kontot sparas i banken och kunden informeras om att kontot är skapat.
+
+<Figure
+    src={sequenceCreateAccount}
+    caption="Bilden visar sekvensdiagrammet Skapa konto."
+/>
+
+
+## Sammanfattning
+
+PlantUML har använts för [Use case diagram](https://plantuml.com/use-case-diagram) och [Sequence Diagram](https://plantuml.com/sequence-diagram).
+Det finns andra bra verktyg online för att rita uml diagram, till exempel [draw.io](https://www.draw.io) och [websequencediagrams](https://www.websequencediagrams.com/).
+
+Om du vill läsa mer om [UML](http://www.uml-diagrams.org/).
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#artiklar"
+/>

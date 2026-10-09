@@ -1,0 +1,217 @@
+---
+title: "Objekt i objekt - övning"
+description: Klasser och objekt, attribut, konstruktor etc
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
+
+import classdiagramCircle from '@assets/img/kmom02/classdiagramCircle.png';
+
+
+:::danger
+Utveckling pågår!
+:::
+
+Objekt i objekt innebär att ett objekt innehåller ett annat objekt som attribut i objektorienterad programmering (OOP). Vi använder objekt i objekt för att modellera verkligheten och bygga större program av flera samverkande objekt.
+
+I en övning i Kmom02 skapade vi en klass **Book** med privata attributen; `_title` (string),`_author` (string) och `_noOfPages` (int). Nu vill vi refaktorera koden genom att ändra typen på författaren `_author` från string till att vara av typen **Author**. Då behöver vi skapa en egen klass **Author**.
+
+
+## Klass Författare
+
+Skapa en klass som heter **Author** med namn som är en sträng och adress som är av typen Address. Typen Address skapar vi själva genom att skapa klassen **Address**.  
+Då adressen finns kvar även om författaren försvinner skapar vi den utanför klassen **Author** och skickar med adressen i konstruktorn.
+
+<details>
+<summary>Lösningsförslag Klassen Author</summary>
+
+```csharp title="Klassen Author"
+class Author
+{
+    private string _name;
+    private Address _address;
+
+    public Author(string name, Address address)
+    {
+        this._name = name;
+        this._address = address;
+    }
+
+    public string GetName()
+    {
+        return this._name;
+    }
+
+    public void SetName(string name)
+    {
+        this._name = name;
+    }
+
+    public Address GetAddress()
+    {
+        return this._address;
+    }
+
+    public void SetAddress(Address address)
+    {
+        this._address = address;
+    }
+}
+```
+
+Vi behöver skapa klassen **Address** innan vi kan testa klassen **Author**.
+
+</details>
+
+
+## Klass Address
+
+Skapa en klass som heter **Address** med attributen gatunamn och stad som kan vara strängar. Testa klasserna **Adress** och **Author** i huvudprogrammet.
+
+<details>
+<summary>Lösningsförslag Klassen Address</summary>
+
+```csharp title="Klassen Address"
+class Address
+{
+    private string _street;
+    private string _city;
+
+    public Address(string street, string city)
+    {
+        this._street = street;
+        this._city = city;
+    }
+
+    public string GetStreet()
+    {
+        return this._street;
+    }
+
+    public void SetStreet(string street)
+    {
+        this._street = street;
+    }
+
+    public string GetCity()
+    {
+        return this._city;
+    }
+
+    public void SetCity(string city)
+    {
+        this._city = city;
+    }
+}
+```
+
+Vi har följande kod i huvudprogrammet.
+
+```csharp title="Huvudprogrammet, kod i Program.cs"
+// Skapa ett objekt av klassen Address.
+Address address_author1 = new Address("Bokgatan 3", "Karlskrona");
+
+// Skriv ut informationen om boken i terminalen
+Console.WriteLine($"Address: {address_author1.GetStreet()}, {address_author1.GetCity()}");
+// ger utskriften: Address: Bokgatan 3, Karlskrona
+
+// Skapa ett objekt av klassen Author med adress-objektet ovan och skriv ut det
+Author author1 = new Author("Sten Stensson", address_author1);
+Console.WriteLine($"Author's name: {author1.GetName()}");
+// ger utskriften: Author's name: Sten Stensson
+Console.WriteLine($"Author's address: {author1.GetAddress().GetStreet()}, {author1.GetAddress().GetCity()}");
+// ger utskriften: Author's address: Bokgatan 3, Karlskrona
+```
+
+</details>
+
+## Använd klassen Author i klassen Book
+
+Byt ut typen på författaren från sträng till **Author** och testkör sedan.
+
+<details>
+<summary>Lösningsförslag klassen Book med klassen Author</summary>
+
+```csharp title="Klassen Book"
+class Book
+{
+    private string _title;
+    private Author _author;
+    private int _numberOfPages;
+
+    public Book(string title, Author author, int pages)
+    {
+        this._title = title;
+        this._author = author;
+        this._numberOfPages = pages;
+    }
+
+    public string GetTitle()
+    {
+        return this._title;
+    }
+
+    public Author GetAuthor()
+    {
+        return this._author;
+    }
+
+    public void SetAuthor(Author author)
+    {
+        this._author = author;
+    }
+
+    public int GetNumberOfPages()
+    {
+        return this._numberOfPages;
+    }
+}
+```
+
+Vi har följande kod i huvudprogrammet.
+
+```csharp title="Huvudprogrammet, kod i Program.cs"
+// Skapa ett objekt av klassen Address.
+Address address_author1 = new Address("Bokgatan 3", "Karlskrona");
+
+// Skapa ett objekt av klassen Author med adress-objektet ovan
+Author author1 = new Author("Sten Stensson", address_author1);
+
+// Skapa ett objekt av klassen Book med författare-objektet ovan
+Book book = new Book("Dune", author1, 412);
+
+// Skriv ut informationen om boken i terminalen
+Console.WriteLine($"Title: {book.GetTitle()}");
+// ger utskriften: Title: Dune
+Console.WriteLine($"Author: {book.GetAuthor().GetName()}");
+// ger utskriften: Author: Sten Stensson
+Console.WriteLine($"Pages: {book.GetNumberOfPages()}");
+// ger utskriften: Pages: 412
+
+```
+
+</details>
+
+## Sammanfattning
+
+- Vi skapar egna klasser och använder dem som typer.
+- Vi använder objekt i objekt och byter ut typen på författare från sträng till Author.
+- Vi använder aggregation som relation mellan objekten. Book har en aggregation-relation med Author som i sin tur har en aggregation-relation med Address.
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#övningar"
+/>

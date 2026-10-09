@@ -1,0 +1,462 @@
+---
+title: "Rollspel"
+description: Träna på arv och interface
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import Figure from '@components/CustomFigure.astro';
+
+
+Nu ska vi öva på arv och interface med hjälp av ett enkelt rollspel. Arbeta i `practice`-katalogen och kalla projektet `RollPlay`. Arv handlar om att beskriva en släktskapshierarki och det blir tydligt med spelkaraktärer.
+
+Vi behöver olika typer av karaktärer:
+
+- krigare
+- magiker
+- bågskytt
+
+De har gemensamma attribut som namn, nivå och hälsa.  
+De har gemensamma metoder som att gå till attack och ta skada.
+
+Alla karaktärer ska kunna attackera, fast på olika sätt. Karaktärerna tar också skada på olika sätt. Dessutom har alla karaktärer en superkraft.
+
+## Utan arv
+
+Om vi inte använder arv så kan det se ut så här:
+
+```csharp title="Rollspelet utan arv"
+public class Warrior
+{
+    private string _name;
+    private int _health;
+    private int _level;
+    private SuperPower _power;
+
+    public int Attack() { // kod};
+    public void TakeDamage(int damage) { // kod };
+}
+
+public class Mage
+{
+    private string _name;
+    private int _health;
+    private int _level;
+    private SuperPower _power;
+
+    public int Attack() { // kod};
+    public void TakeDamage(int damage) { // kod };
+}
+
+public class Archer
+{
+    private string _name;
+    private int _health;
+    private int _level;
+    private SuperPower _power;
+
+    public int Attack() { // kod};
+    public void TakeDamage(int damage) { // kod };
+}
+```
+
+Vi kan se att det är mycket upprepning av kod och det här är ett bra exempel på när arv är användbart.
+
+## Basklass och subklass
+
+Basklass → den generella klassen  
+Subklass → en mer specifik version
+
+I vårt exempel är karaktären en generell klass, en basklass, som vi kan kalla **Character**. De olika typerna av karaktärer är våra specifika klasser, subklasser, och vi kallar dem **Warrior**, **Mage** och **Archer**. **Warrior**, **Mage** och **Archer** är alla olika typer av karaktärer. Därför flyttar vi den kod som är gemensam till basklassen Character.
+
+```csharp title="Rollspelet med arv, basklassen Character"
+public class Character
+{
+    private string _name;
+    private int _level;
+    private int _health;
+
+    public Character(string name)
+    {
+        this._name = name;
+        this._level = 1;
+        this._health = 100;
+    }
+
+    public string GetName()
+    {
+        return this._name;
+    }
+
+    public int GetLevel()
+    {
+        return this._level;
+    }
+
+    public int GetHealth()
+    {
+        return this._health;
+    }
+
+    public void Attack()
+    {
+        Console.WriteLine($"{this._name} attacks!");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        this._health -= damage;
+
+        if (this._health < 0)
+        {
+            this._health = 0;
+        }
+    }
+}
+```
+
+Warrior **är en** Character.
+
+Mage **är en** Character.
+
+Archer **är en** Character.
+
+Detta är själva grundidén bakom arv. Alla subklasser återanvänder den kod som redan finns i basklassen. Senare kan vi låta varje subklass få egna attribut och metoder som gör dem unika.
+
+```csharp title="Rollspelet med arv, subklassen Warrior"
+public class Warrior : Character
+{
+    public Warrior(string name)
+        : base(name)
+    {
+    }
+}
+```
+
+```csharp title="Rollspelet med arv, subklassen Mage"
+public class Mage : Character
+{
+    public Mage(string name)
+        : base(name)
+    {
+    }
+}
+```
+
+```csharp title="Rollspelet med arv, subklassen Archer"
+public class Archer : Character
+{
+    public Archer(string name)
+        : base(name)
+    {
+    }
+}
+```
+
+```csharp title="Exempelprogram i Program.cs"
+Warrior warrior = new Warrior("Conan");
+Mage mage = new Mage("Merlin");
+Archer archer = new Archer("Robin");
+
+warrior.Attack(); // ger utskriften Conan attacks!
+mage.Attack(); // ger utskriften Merlin attacks!
+archer.Attack(); // ger utskriften Robin attacks!
+
+mage.TakeDamage(25);
+
+Console.WriteLine(mage.GetHealth());  // ger utskriften 75
+```
+
+## Specialisera subklasserna
+
+Vad är unikt för vår krigare? Ja, en sköld att skydda sig med.
+
+```csharp title="Rollspelet med arv, subklassen Warrior specialiserad"
+public class Warrior : Character
+{
+    private int _armor;
+
+    public Warrior(string name)
+        : base(name)
+    {
+        this._armor = 50;
+    }
+
+    public int GetArmor()
+    {
+        return this._armor;
+    }
+
+    public void ShieldBlock()
+    {
+        Console.WriteLine("The warrior blocks with a shield!");
+        // Bara för exempel, här ska vara kod för att skydda sig så att skada blir mindre
+    }
+}
+```
+
+Mana är den magiska energi eller kraftkälla som en mage (magiker) förbrukar för att kunna kasta sina trollformler.
+
+```csharp title="Rollspelet med arv, subklassen Mage specialiserad"
+public class Mage : Character
+{
+    private int _mana;
+
+    public Mage(string name)
+        : base(name)
+    {
+        this._mana = 100;
+    }
+
+    public int GetMana()
+    {
+        return this._mana;
+    }
+
+    public void CastSpell()
+    {
+        Console.WriteLine("The mage casts a spell!");
+        // Bara för exempel, här ska vara kod för att kasta trollformler
+    }
+}
+```
+
+En bågskytt har pilar och kan skjuta iväg pilarna.
+
+```csharp title="Rollspelet med arv, subklassen Archer specialiserad"
+public class Archer : Character
+{
+    private int _arrows;
+
+    public Archer(string name)
+        : base(name)
+    {
+        this._arrows = 20;
+    }
+
+    public int GetArrows()
+    {
+        return this._arrows;
+    }
+
+    public void ShootArrow()
+    {
+        Console.WriteLine("The archer shoots an arrow!"); 
+        // Bara för exempel, här ska vara kod för att skjuta pil
+    }
+}
+```
+
+```csharp title="Exempelprogram i Program.cs"
+Warrior warrior = new Warrior("Conan");
+Mage mage = new Mage("Merlin");
+Archer archer = new Archer("Robin");
+
+warrior.Attack(); // ger utskriften Conan attacks!
+warrior.ShieldBlock(); // ger utskriften The warrior blocks with a shield!
+
+mage.Attack(); // ger utskriften Merlin attacks!
+mage.CastSpell(); // ger utskriften The mage casts a spell!
+
+archer.Attack(); // ger utskriften Robin attacks!
+archer.ShootArrow(); // ger utskriften The archer shoots an arrow!
+```
+
+### Klassdiagram
+
+import classdiagramRollPlay1 from '@assets/img/kmom05/classdiagramRollPlay1.png';
+
+<Figure
+    src={classdiagramRollPlay1}
+    caption="Klassdiagram basklassen Character och subklasserna Warrior, Mage och Archer."
+/>
+
+
+## Polymorfism
+
+Polymorfism betyder "många former". Det innebär att olika klasser kan dela samma basklass, men ändå ha unika implementationer av samma metod. **override** används för att ändra beteendet i en subklass. **virtual** i basklassen visar att subklassen kan ändra beteendet.
+
+Alla karaktärer har en metod som heter `Attack()` men de olika karaktärerna gör ju attacker på olika sätt. En krigare slåss med svärd. En magiker kastar besvärjelser. En bågskytt skjuter pilar.  
+För att möjliggöra detta markerar vi metoden `Attack()` som **virtual**.
+
+```csharp title="Rollspelet med arv, basklassen Character med virtual"
+public class Character
+{
+...
+    public virtual void Attack()
+    {
+        Console.WriteLine($"{this._name} attacks!");
+    }
+...
+}
+```
+
+Subklasserna kan nu skriva om metoden så att det passar subklassen. Till exempel så svingar krigaren med sitt svärd.
+
+```csharp title="Rollspelet med arv, subklassen Warrior specialiserad override Attack()"
+public class Warrior : Character
+{
+...
+    public override void Attack()
+    {
+        Console.WriteLine($"{base.GetName()} swings a sword!");
+        // Bara för exempel, här ska vara kod för att svinga ett svärd
+    }
+}
+```
+
+På samma sätt kan magikerklassen skriva om metoden `Attack()` för att kasta ett eldklot och bågskytteklassen kan skjuta iväg en pil istället.
+
+Nu vill vi göra ett exempel med en lista med objekt av typen **Character** för att visa på polymorfism.
+
+```csharp title="Exempelprogram i Program.cs"
+List<Character> party = new List<Character>();
+
+party.Add(new Warrior("Conan"));
+party.Add(new Mage("Merlin"));
+party.Add(new Archer("Robin"));
+
+foreach (Character character in party)
+{
+    character.Attack();
+}
+
+// ger utskriften
+// Conan swings a sword!
+// Merlin casts a fireball!
+// Robin shoots an arrow!
+```
+
+## Information hiding
+
+Vi försöker att ha alla klassens attribut privata och låta klassen själv ta ansvar för att ändra attributen. Detta kallas **information hiding**. Attributet `_name` är privat i basklassen **Character** därför använder vi metoden `GetName()` för att hämta namnet.
+
+## Interface
+
+Vi lägger till ett interface med en superkraft och bestämmer vad det ska göra.
+
+```csharp title="Interface ISuperPower"
+public interface ISuperPower
+{
+    void Activate();
+}
+```
+
+Alla som implementerar interfacet **ISuperPower** måste ha en metod som heter `Activate()`.
+
+```csharp title="Klassen SuperPower"
+public class SuperPower : ISuperPower
+{
+    private string _name;
+    private int _powerLevel;
+
+    public SuperPower(string name, int powerLevel)
+    {
+        this._name = name;
+        this._powerLevel = powerLevel;
+    }
+
+    public string GetName()
+    {
+        return this._name;
+    }
+
+    public int GetPowerLevel()
+    {
+        return this._powerLevel;
+    }
+
+    public void Activate()
+    {
+        Console.WriteLine(
+            $"{this._name} activated with power {this._powerLevel}!");
+    }
+}
+```
+
+Basklassen **Character** har en superkraft, ett objekt av klassen **SuperPower** som ett privat attribut.
+
+```csharp title="Rollspelet med arv, basklassen Character har en superkraft"
+public class Character
+{
+    private string _name;
+    private int _level;
+    private int _health;
+    private ISuperPower _superPower;
+
+    public Character(
+        string name,
+        ISuperPower superPower)
+    {
+        this._name = name;
+        this._level = 1;
+        this._health = 100;
+        this._superPower = superPower;
+    }
+...
+    public void UseSuperPower()
+    {
+        this._superPower.Activate();
+    }
+...
+}
+```
+
+Så här kan det se ut när subklassen **Mage** använder superkrafter.
+
+```csharp title="Rollspelet med arv, subklassen Mage använder ISuperPower"
+public class Mage : Character
+{
+    private int _mana;
+
+    public Mage(
+        string name,
+        ISuperPower superPower)
+        : base(name, superPower)
+    {
+        _mana = 100;
+    }
+...
+}
+```
+
+Vi skapar objektet `fireboll` utanför klassen **Mage** och får då en aggregation. Om vi hade skapat objektet `fireboll` inuti konstruktorn i klassen **Mage** så hade det varit komposition.
+
+```csharp title="Exempelprogram i Program.cs"
+ISuperPower fireball = new SuperPower("Fireball", 50);
+
+Character mage = new Mage("Merlin", fireball);
+
+mage.Attack();
+mage.UseSuperPower();
+
+// ger utskriften
+// Merlin casts a fireball!
+// Fireball activated with power 50!
+```
+
+### Klassdiagram
+
+import classdiagramRollPlay2 from '@assets/img/kmom05/classdiagramRollPlay2.png';
+
+<Figure
+    src={classdiagramRollPlay2}
+    caption="Klassdiagram basklassen Character och subklasserna Warrior, Mage och Archer med superkrafter."
+/>
+
+## Sammanfattning
+
+- **Arv** - En klass återanvänder kod från en annan klass.
+- Subklasser kan ändra beteende med **override** om basklassen tillåter det med **virtual**
+- **base** återanvänder kod i basklassen
+- **Polymorfism** - Samma metodanrop kan ge olika beteenden beroende på objektets verkliga typ.

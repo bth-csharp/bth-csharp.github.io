@@ -1,0 +1,58 @@
+@startuml
+
+class Character {
+    - _name: string
+    - _level: int
+    - _health: int
+    - _superPower: ISuperPower
+
+    + Attack(): void
+    + TakeDamage(damage: int): void
+}
+
+class Warrior {
+    - _armor: int
+
+    + Warrior(name: string)
+    + GetArmor(): int
+    + ShieldBlock(): void
+}
+
+class Mage {
+    - _mana: int
+
+    + Mage(name: string)
+    + GetMana(): int
+    + CastSpell(): void
+}
+
+class Archer {
+    - _arrows: int
+
+    + Archer(name: string)
+    + GetArrows(): int
+    + ShootArrow(): void
+}
+
+interface ISuperPower {
+    + Activte(): void
+}
+
+class SuperPower {
+    - _name: string
+    - _powerLevel: int
+
+    + GetName(): string
+    + GetPowerLevel(): int
+    + Activte(): void
+}
+
+SuperPower --> ISuperPower
+Character o- SuperPower
+
+
+Character <|-- Warrior
+Character <|-- Mage
+Character <|-- Archer
+
+@enduml
