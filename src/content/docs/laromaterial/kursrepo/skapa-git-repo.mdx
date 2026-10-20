@@ -47,7 +47,8 @@ Använd kommandot `pwd` och `ls` för att försäkra dig om att du är på rätt
 
 ## Klona ditt GitHub repo
 
-Logga in på [GitHub](https://github.com/) där ska du ha fått ett kursrepo som heter csharp-xxxx## där xxxx## är ditt studentkonto med fyra tecken och två siffror, tex abcd25 eller motsvarande.
+Logga in på [GitHub](https://github.com/) där ska du ha fått ett kursrepo som heter csharp-xxxx## där xxxx## är ditt studentkonto med fyra tecken och två siffror, tex abcd26 eller motsvarande.  
+Ett annat sätt att hitta länken till ditt kursrepo är i Canvas, under "Omdöme" och klicka på kommentaren (pratbubblan) vid uppgiften "GitHub invite".
 
 Det är bara du själv och lärarna i kursen som har tillgång till ditt kursrepo.
 
@@ -64,11 +65,13 @@ import gh3 from '@assets/kursrepo/gh3.png';
 git clone git@github.com:bth-csharp/csharp-<akronym>.git
 ```
 
-Om din akronym är `abcd25` så ser kommandot ut så här:  
-`git clone git@github.com:bth-csharp/csharp-abcd25.git` 
+Om din akronym är `abcd26` så ser kommandot ut så här:  
+`git clone git@github.com:bth-csharp/csharp-abcd26.git`
 
 
 ### Kolla ditt lokala Git-repo
+
+Flytta till ditt lokala kursrepo med `cd` och så namnet på ditt kursrepo.
 
 Du kan använda kommandot `pwd` och `ls` för att kontrollera vilken katalog du är i och vad den innehåller. Använder du `ls -la` får får du detaljer om filer och kataloger och det visas även dolda kataloger som börjar med en punkt `.`.
 
@@ -79,7 +82,7 @@ import repo_terminal from '@assets/kursrepo/repo_terminal.png';
 <Figure 
     src={repo_terminal}
     caption="Ditt lokala Git-repo i terminalen."
-    width="600px"
+    width="700px"
 />
 
 
@@ -88,16 +91,22 @@ import repo_terminal from '@assets/kursrepo/repo_terminal.png';
 Nu kan du köra följande kommando för att göra ditt kursrepo redo. Kommandot skapar kataloger, laddar ner workflow-fil & task-fil samt tester. Dessutom skapas en branch för Canvas-uppgiften "Test gitconfig" `bth/submit/test-gitconfig` samt första inlämningsbranchen `bth/submit/kmom03`.
 
 ```bash title="Kommando för att göra ditt lokala kursrepo redo"
-pwd // visar att du står i ditt lokala repo dbwebb-kurser/csharp-abcd25 för studenten abcd25
+pwd // visar att du står i ditt lokala repo dbwebb-kurser/csharp-abcd26 för studenten abcd26
 
 task setup
 ```
 
 I slutet av setup-skriptet körs en del tester. Vid eventuella fel så kör du de kommandon som föreslås.
 
-När alla testerna gått igenom är det bara att köra på!  Så här ser det ut i din terminal när task setup gått igenom:
+När alla testerna gått igenom är det bara att köra på!  Så här ser det ut i din terminal när `task setup` gått igenom:
 
-LÄGG TILL BILD:
+import task_setup_ok from '@assets/kursrepo/task_setup_ok.png';
+
+<Figure 
+    src={task_setup_ok}
+    caption="task setup har gått bra i terminalen."
+    width="700px"
+/>
 
 När alla testerna gått igenom ska vi testa att ladda upp en lokal förändring till GitHub!
 
@@ -129,44 +138,24 @@ task --list // listar aktuella kommandon
 </details>
 
 
-### Testa att ladda upp en lokal ändring till GitHub.
+### Ladda upp de lokala ändring till GitHub
 
-Flytta in i katalogen för ditt lokala Git-repo och gör en ändring i filen `README.md`. Gör sedan `git add`, `git commit` och `git push` till ditt GitHub-repo. `git commit -a -m "text` är samma sak som `git add .` följt av `git commit -m "text`.
+När du körde `task setup` så uppdaterades några filer och de ska du pusha upp till kursrepot på GitHub. Det kan se olika ut beroende på vilka filer som uppdaterades.
 
-```bash title="Flytta in till kursrepot"
-# Gå ner i kursrepot, byt ut xxxx## mot din studentakronym
-cd csharp-xxxx##
+import git_status_after_task_setup_ok from '@assets/kursrepo/git_status_after_task_setup_ok.png';
 
-# Titta vilka filer som finns i ditt lokala Git-repo 
-ls -la
-tree .
-```
+<Figure 
+    src={git_status_after_task_setup_ok}
+    caption="Så här ser git status ut i terminalen efter task setup."
+    width="700px"
+/>
 
-Öppna upp ditt lokala kursrepo i VS Code.
+Gör sedan `git add .`, `git commit -m "Update after task setup"` och `git push`. Dubbelkolla att filerna finns på GitHub. 
 
-```bash title="Öppna repot i VS Code"
-# Öppna nuvarande katalog i VS Code
-code .
-```
+Kanske vill du också uppdatera i filen `README.md` så att den blir mer personlig?
 
-Gör en mindre ändring i filen `README.md` och pusha upp ändringen till GitHub för att verifiera att du har tillgång till ditt GitHub repo.
+En mer utförlig guide om hur du gör med git hittar du i python-kursen [Uppdatera fil i git repot](https://bth-python.github.io/laromaterial/kursrepo-utvecklingsmiljo/gitadd/).
 
-```bash title="Gör commit på din ändring"
-# Efter att du har redigerat din README.md
-git status
-
-# Skapa en commit och pusha den till GitHub
-git add .
-git commit -m "Verify I have read/write access to the repo"
-git push
-
-# Kolla status efter pushen
-git status
-```
-
-En mer utförlig guide om hur du gör med git hittar du i python-kursen[Uppdatera fil i git repot](https://bth-python.github.io/laromaterial/kursrepo-utvecklingsmiljo/gitadd/).
-
-Dubbelkolla på GitHub att din push syns där!
 
 ### Om något går fel...
 
@@ -174,10 +163,9 @@ Dubbelkolla på GitHub att din push syns där!
 Om något går fel så kan du radera din katalog (ditt repo lokalt) och försöka igen.
 
 ```bash title="Så här raderar du ditt lokala repo om du vill börja om från början."
-# Change <dirname> to the name of your course repository name,
-# for example csharp-abcd25.
+# Om du till exempel vill ta bort det lokala kursrepot csharp-abcd26, gör så här:
 cd ~/dbwebb-kurser
-rm -rf <dirname>
+rm -rf csharp-abcd26
 ```
 
 Kör därefter kommandona som klonar ditt lokala kursrepo igen och därefter setup-skriptet enligt ovan.
