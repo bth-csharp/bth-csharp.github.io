@@ -50,16 +50,18 @@ Börja med att göra ett flödesschema och/eller pseudokod. Läs igenom kraven o
 
 | Menyval | Metodnamn              | Returvärde  |
 |---------|------------------------|-------------|
-|    1    | PrintInfoAboutCsharp() | void      |
+|    1    | PrintInfoAboutCsharp() | void        |
 |    2    | ConvertCelsiusToFahrenheit(double tempCelsius) | double |
 |    3    | RepeatLetters()        | string      |
 |    4    | CreateAcronym()        | string      |
 |    5    | CountSumAndAverage()   | string      |
-|    6    | ValidateSsn()          | bool      |
+|    6    | ValidateSsn()          | bool        |
 
 ### Gör en meny
 
 Uppdatera "Program.cs" med en meny. Utskriften av menyn lägger du i en metod som du själv bestämmer namnet på. Verifiera att menyn fungerar innan du fortsätter. Det kan du göra genom att lägga en utskrift i varje case-sats, det vill säga för varje meny-alternativ.
+
+Testa varje menyval genom att testköra med `dotnet run` innan du går vidare. Glöm inte att göra commit och push ofta, till exempel mellan varje menyval.
 
 ### Menyval 1: Information om C#
 
@@ -160,11 +162,10 @@ Så här kan det se ut när du är klar med uppgiften. Videon visar hur menyprog
 
 Du testar din kod manuellt genom att köra alla menyalternativ och verifiera input och output under varje deluppgift.
 
-Du testar din kod med enhetstester som du hämtar så här:
+Hämta testerna så här:
 
 ```bash
-task download-tests
-task test -- kmom01
+task download-tests -- kmom01
 ```
 
 Då ser det ut så här:
@@ -192,10 +193,8 @@ using System.Runtime.CompilerServices;
 
 Kör testerna i terminalen, så här:
 
-```shell
-pwd // stå i kmom01/Menu.Tests
-dotnet test
-dotnet test --logger "console;verbosity=normal" // mer information
+```bash
+task test -- kmom01
 ```
 
 Då får vi hoppas att alla tester går igenom! Lycka till!
