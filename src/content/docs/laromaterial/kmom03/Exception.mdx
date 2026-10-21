@@ -19,9 +19,9 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Om vi försöker utföra division med 0 så genererar det ett fel och programmet kraschar. Det finns två sätt att förhindra detta.
 
-1. Vi kontrollerar med en if-sats om talet som motsvarar nämnaren är 0 eller ej. Endast om talet är skilt från 0 utför vi divisionen. Detta kallas "Control Flow First" eller kontroll first vilket innebär att vi använder logik och villkor för att kontrollera flödet så att inga fel kan uppstå.
+1. Vi kontrollerar med en if-sats om talet som motsvarar nämnaren är 0 eller ej. Endast om talet är skilt från 0 utför vi divisionen. Detta kallas Control **Flow First** eller kontroll first vilket innebär att vi använder logik och villkor för att kontrollera flödet så att inga fel kan uppstå.
 
-2. Vi utför beräkningen och om division med 0 utförs kastar programmet ett undantag eller exception (som faktiskt är ett objekt). Vi fångar undantaget och utför lämplig åtgärd för  och programmet ska kunna fortsätta utan att krascha. Detta kallas undantagshantering eller "Exception Control Flow".
+2. Vi utför beräkningen och om division med 0 utförs kastar programmet ett undantag eller exception (som faktiskt är ett objekt). Vi fångar undantaget och utför lämplig åtgärd för  och programmet ska kunna fortsätta utan att krascha. Detta kallas undantagshantering eller **Exception Control Flow**.
 
 ## Exceptions i C#
 
@@ -38,6 +38,7 @@ catch (DivideByZeroException ex)
     // Ta hand om ett exception
     Console.WriteLine("Error: " + ex.Message);
 }
+
 ```
 
 ## Vanliga exceptions
@@ -71,7 +72,7 @@ public class QuantityException : Exception
 }
 ```
 
-Vi lägger till en metod i klassen **Simple** som ska kolla om det som matades in som antal är ett tal som är större eller lika med 1 och mindre eller lika med 20. Om villkoret inte uppfylls så kastas ett undantag(exception).
+Vi lägger till en metod i klassen **Simple** som ska kolla om det antal som matades in är ett tal som är större eller lika med 1 och mindre eller lika med 20. Om villkoret inte uppfylls så kastas ett undantag(exception).
 
 ```csharp
 // i kmom03/FileApp/Simple.cs
@@ -103,8 +104,6 @@ Som alltid när vi kastar undantag/exception så måste koden där vi anropar me
 
 ```csharp
 // i kmom03/FileApp/Program.cs
-using FileApp.src;
-
 using FileApp.src;
 
 Simple shoppingList = new Simple("simpleList.txt");
@@ -159,7 +158,7 @@ Om vi ska fånga flera undantag/exceptions, fångar vi det mest specifika först
 
 ## Sammanfattning
 
-Nu har vi tittat på några vanligt undantag/exceptions och lärt oss göra egna exceptions. Koden till shoppinglistan med exceptions hittar du [här](./../../../CodeExamples/kmom03/FileApp/).
+Nu har vi tittat på några vanligt undantag/exceptions och lärt oss göra egna exceptions.
 
 Om du vill lära dig mer om att skapa egna exceptions, kan du titta [här](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/creating-and-throwing-exceptions).
 Läs mer om hur exceptions funkar i [Exceptions and Exceptions Handling](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/).

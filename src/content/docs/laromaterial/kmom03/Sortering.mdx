@@ -144,7 +144,7 @@ PrintStringList(strings);
 Efter sortering får vi ordningen `1 hej 10 hej 2 hej 3 hej` vilket inte är det vi önskar. Strängar sorteras tecken för tecken och därför placeras båda strängarna med en inledande 1:a före den med inledande 2:a. En lösningen är att plocka ut första delen, det vill säga fram till blank-tecken, av varje sträng och omvandlar den till ett heltal för att därefter sorterar på dessa heltal. 
 Metoden för att ta fram första delen i strängen (den som innehåller siffror) kallar vi `GetNumber`.
 
-Metoden `Sort` kan ta en "Comparison", en metod som jämför två tal eller två strängar. Vi kallar vår metod `CompareStrings` och låter den ta emot två strängar. I metoden anropar vi `GetNumber` för att hämta talen och därefter jämför vi dessa med metoden `CompareTo` för att bestämma talens ordning.
+Metoden `Sort` kan ta en "Comparison", en metod som jämför två tal eller två strängar. Vi kallar vår metod `CompareStrings` och låter den ta emot två strängar. I metoden anropar vi `GetNumber` för att hämta talen och därefter jämför vi dessa strängar som heltal för att bestämma strängarnas ordning.
 
 ```csharp
 // Methods
@@ -162,12 +162,22 @@ static int GetNumber(string inputStr)
     return int.Parse(inputStr.Split(' ')[0]);
 }
 
-static int CompareStrings(string x, string y)
+static int CompareStrings(string no1, string no2)
 {
-    int numX = GetNumber(x);
-    int numY = GetNumber(y);
+    int result = 0; // used when number1 is equal to number2
+    int number1 = GetNumber(no1);
+    int number2 = GetNumber(no2);
 
-    return numX.CompareTo(numY);
+    if ( number1 < number2 )
+    {
+        result = -1;
+    }
+    else if (number1 > number2 )
+    {
+        result = 1;
+    }
+
+    return result;
 }
 
 // Main program
@@ -190,7 +200,7 @@ PrintStringList(strings);
 
 ## Sammanfattning
 
-Då har vi lärt oss att sortera arrayer och List-objekt med både heltal och strängar. Vi har dessutom lärt oss att göra en "Comparison"-metod för att anpassa sorteringen.
+Då har vi lärt oss att sortera arrayer och List-objekt med både heltal och strängar. Vi har dessutom lärt oss att göra en jämförelsemetod `CompareStrings` för att anpassa sorteringen.
 
 Här hittar du mer om [sortering med Array](https://learn.microsoft.com/en-us/dotnet/api/system.array.sort?view=net-9.0) och [sortering med List](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=net-9.0).
 
