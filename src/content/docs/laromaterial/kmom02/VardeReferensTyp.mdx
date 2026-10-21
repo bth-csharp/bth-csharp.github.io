@@ -25,9 +25,7 @@ I C# är skillnaden mellan värdetyper (value types) och referenstyper (referenc
 
 ## Värdetyper (Value Types)
 
-En värdetyp innehåller själva värdet direkt i variabeln.
-
-När du kopierar variabeln kopieras hela värdet.
+En värdetyp innehåller sitt värde direkt i variabeln. När variabeln kopieras, eller skickas som argument till en metod, kopieras värdet. Varje variabel har därför sin egen kopia och förändringar påverkar inte andra kopior.
 
 ```csharp title="Exempel värdetyp"
 int a = 10;
@@ -53,9 +51,7 @@ I C# är dessa värdetyper:
 
 ## Referenstyper (Reference Types)
 
-En referenstyp innehåller en referens (adress) till ett objekt i minnet.
-
-När du kopierar variabeln, vid till exempel tilldelning, kopieras referensen till objektet, inte objektet.
+När en referenstyp skickas som argument till en metod kopieras referensen till objektet. Både den anropande koden och metoden refererar då till samma objekt, vilket innebär att objektets tillstånd kan förändras i metoden.
 
 ```csharp title="Exempel referenstyp"
 class Person

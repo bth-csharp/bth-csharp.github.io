@@ -1,0 +1,15 @@
+@startuml
+
+class Circle 
+{
+    - {static} _noOfCircles
+    - _radius : double 
+
+    + Circle()
+    + Circle(double radius)
+    + GetRadius() : double
+    + SetRadius(double radius) : void
+    + CalculateArea() : double
+}
+
+@enduml

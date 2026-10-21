@@ -30,9 +30,9 @@ Skapa ett console-projekt och testa koden eller kör i en onlinekompilator.
 Vi har en klass som används vid temperaturmätning i Celsius och klassen ser ut så här. 
 
 ```csharp title="Klassen Sensor"
-class Sensor
+public class Sensor
 {
-    public double _temperature;
+    private double _temperature;
 
     public double GetTemperature() { return this._temperature; }
     public void SetTemperature(double newTemperature) { this._temperature = newTemperature; }
@@ -46,12 +46,12 @@ double temp1 = 20.0;
 double temp2 = temp1;
 
 Sensor sensor1 = new Sensor();
-sensor1.SetTemperatur(20.0);
+sensor1.SetTemperature(20.0);
 
 Sensor sensor2 = sensor1;
 
 temp2 = 30.0;
-sensor2.SetTemperatur(30.0);
+sensor2.SetTemperature(30.0);
 
 Console.WriteLine(temp1);        // ?
 Console.WriteLine(temp2);        // ?
@@ -88,7 +88,7 @@ Vi har en poängräknare för ett spel och klassen ser ut så här.
 
 ```csharp title="Klassen Player"
 
-class Player
+public class Player
 {
     private string _name;
     private int _playerScore;
@@ -138,7 +138,7 @@ Frågor att besvara:
 Vi har ett bankkont med historik och klassen ser ut så här. 
 
 ```csharp title="Klassen BankAccount"
-class BankAccount
+public class BankAccount
 {
     
     private int _balance;
@@ -148,7 +148,7 @@ class BankAccount
     public void Deposit(int amount)
     { 
         this._balance += amount;
-        this.AddToHistory(this._balance)
+        this.AddToHistory(this._balance);
     }
     public bool Withdraw(int amount)
     {
@@ -166,7 +166,7 @@ class BankAccount
         List<int> transactions = [];
         foreach (int balance in this._history)
         {
-            transaction.Add(balance);
+            transactions.Add(balance);
         }
 
         return transactions;
@@ -179,18 +179,22 @@ Vi har följande kod i huvudprogrammet.
 
 ```csharp title="Huvudprogrammet, kod i Program.cs"
 BankAccount account1 = new BankAccount();
-account1.SetBalance(100);
-account1.AddToHistory(account1._balance);
+account1.Deposit(100);
 
 BankAccount account2 = account1;
 
-account2.IncreaseBalance(50);
-account2.AddToHistory(account2._balance);
+account2.Deposit(50);
 
 Console.WriteLine(account1.GetBalance());        // ?
 Console.WriteLine(account2.GetBalance());        // ?
-Console.WriteLine(account1.GetHistoryCount()); // ?
-Console.WriteLine(account2.GetHistoryCount()); // ?
+Console.WriteLine(account1.GetHistoryCount().Count); // ?
+Console.WriteLine(account2.GetHistoryCount().Count); // ?
+```
+
+Lägg till följande överst i `Program.cs` för att använda List:
+
+```csharp title="Huvudprogrammet, kod i Program.cs överst"
+using System.Collections.Generic;
 ```
 
 Frågor att besvara:

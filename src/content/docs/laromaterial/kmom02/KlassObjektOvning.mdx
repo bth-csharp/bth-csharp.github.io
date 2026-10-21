@@ -59,7 +59,7 @@ Gör följande i "Program.cs":
 <summary>Lösningsförslag Övning 1</summary>
 
 ```csharp title="Klassen Book"
-class Book
+public class Book
 {
     private string _title;
     private string _author;
@@ -106,7 +106,7 @@ Console.WriteLine($"Author: {book.GetAuthor()}");
 Console.WriteLine($"Pages: {book.GetNumberOfPages()}");
 
 // Byt författare och skriv ut författarens namn.
-book.SetAuthor("Frank Herbert");
+book.SetAuthor("Ernest Hemingway");
 Console.WriteLine($"Author: {book.GetAuthor()}");
 ```
 
@@ -118,7 +118,7 @@ Console.WriteLine($"Author: {book.GetAuthor()}");
 Vi har en klass som heter **Student** som ser ut så här:
 
 ```csharp title="Klassen Student"
-class Student
+public class Student
 {
     public const int LIMIT_LEGAL_AGE = 18;
     private string _name;
@@ -206,7 +206,7 @@ Console.WriteLine($"The average age of the students is {averageAge:F1} years.");
 `_program`, är ett privat attribut av datatypen string.  
 `_age`, är ett privat attribut av datatypen int. 
 1. Attributen `_name, _program och _age` tillhör ett objekt av klassen **Student** och är unika för det objektet.
-1. Attributet `AGE` är en konstant och tillhör klassen. Alla objekt av klassen **Student** har samma konstanta värde.
+1. Attributet `LIMIT_LEGAL_AGE` är en konstant och tillhör klassen. Alla objekt av klassen **Student** har samma konstanta värde.
 1. `this` en referens till det aktuella objektet. Det används inne i en klass för att referera till objektets egna attribut eller metoder.
 1. Klassens beteende är dess metoder. Det finns klassmetoder som är statiska och vanliga metoder som tillhör objekten. Här finns 3 vanliga metoder; `GetName(), GetProgram() och GetAge()`. Getmetoder som hämtar objektets data och returnerar den.
 1. Konstruktorerna är överlagrade. Metoder i samma klass och med samma namn men olika parameterlistor är överlagrade.
@@ -223,8 +223,8 @@ Skapa en klass som heter **Pet** med attributen; namn (string), art (string) och
 Skriv en konstruktor som tar namn och art, och sätter energin till 50.
 Lägg till två metoder:
 
-- Eat(int amount) som ökar husdjurets energi
-- Play(int time) som minskar husdjurets energi
+- Eat(int amount) som ökar energin med `amount`
+- Play(int time) som minskar energin med `time`
 
 Gör följande i "Program.cs":
 
@@ -236,7 +236,7 @@ Skriv ut energin efter varje steg.
 <summary>Lösningsförslag Övning 3</summary>
 
 ```csharp title="Klassen Pet"
-class Pet
+public class Pet
 {
     private string _name;
     private string _species;
@@ -309,7 +309,7 @@ Vi har en klass som heter **Circle** som ser ut så här:
     width="300px"
 />
 
-`NO_OF_CIRCLES` räknas upp med ett i konstruktorn.
+`_noOfCircles` räknas upp med ett i konstruktorn.
 
 **Frågor att besvara:**
 
@@ -325,9 +325,9 @@ Vi har en klass som heter **Circle** som ser ut så här:
 
 1. Attributen är:  
 `_radius`, är ett privat attribut av datatypen double.  
-`NO_OF_CIRCLES`, är ett privat statiskt attribut av datatypen int. 
+`_noOfCircles`, är ett privat statiskt attribut av datatypen int.
 1. Attributen `_radius` tillhör ett objekt av klassen **Circle** och är unika för det objektet.
-1. Attributet `NO_OF_CIRCLES` är ett statiskt attribut och tillhör därmed klassen. Alla objekt av klassen **Circle** kommer åt samma attribut `NO_OF_CIRCLES`.
+1. Attributet `_noOfCircles` är ett statiskt attribut och tillhör därmed klassen. Alla objekt av klassen **Circle** kommer åt samma attribut `_noOfCircles`.
 1. `this` en referens till det aktuella objektet. Det används inne i en klass för att referera till objektets egna attribut eller metoder.
 1. Klassens beteende är dess metoder. Det finns klassmetoder som är statiska och vanliga metoder som tillhör objekten. Här finns 3 vanliga metoder; `GetRadius(), SetRadius() och CalculateArea()`. GetRadius returnerar cirkel-objektets radie och SetRadius sätter cirkel-objektets radie. CalculateArea beräknar cirkel-objektets area och returnerar värdet.
 1. Konstruktorerna är överlagrade. Metoder i samma klass och med samma namn men olika parameterlistor är överlagrade.
@@ -340,7 +340,7 @@ Vi har en klass som heter **Circle** som ser ut så här:
 Vi har en klass som heter **Teacher** som ser ut så här:
 
 ```csharp title="Klassen Teacher"
-class Teacher
+public class Teacher
 {
     private string name;
 
@@ -360,7 +360,7 @@ Vi har följande kod i huvudprogrammet.
 
 ```csharp title="Huvudprogrammet, kod i Program.cs"
 Teacher teacher = new Teacher("Anna");
-Console.WriteLine($"Name: {p.GetName()}");
+Console.WriteLine($"Name: {teacher.GetName()}");
 ```
 
 **Frågor att besvara:**
@@ -373,7 +373,7 @@ Console.WriteLine($"Name: {p.GetName()}");
 
 1. Svarade du "Name: Anna"? Men tyvärr är det fel. Det som skrivs ut är "Name: " och så inget namn. Med denna konstruktor så får du varningen "Assignment made to the same variable; did you mean something else?". Genom att uppdatera konstruktor till:
 ```csharp title="Uppdatera konstruktorn med this"
-class Teacher
+public class Teacher
 {
     private string name;
 
@@ -388,9 +388,9 @@ class Teacher
     }
 }
 ```
-Nu så skrivs "Name: Anna" ut. Men koden följer inte namnkonventionen för C#, där privata variabler ska heta `_name` med ett understreck i början av namnet. Då blir det tydligare skillnad på `_name` och `name`. Det är bra att alltid skriva `this` framför attribut och metoder som tillhör objektet.
+Nu så skrivs "Name: Anna" ut. Men koden ovan följer inte namnkonventionen för C#, där privata variabler ska heta `_name` med ett understreck i början av namnet. Då blir det tydligare skillnad på `_name` och `name`. Det är bra att alltid skriva `this` framför attribut och metoder som tillhör objektet.
 
-Skriv alltid `this` vid användning objektets attribut för att visa att vi arbetar med objektets data och undviker vanliga fel. Det brukar leda till en bättre och snabbare förståelse av objektmodellen. I slutet av kursen (kmom01/10 projektet) och i produktion (arbetslivet) så kan ni som vill hoppa över `this`.
+Skriv alltid `this` vid användning objektets attribut för att visa att vi arbetar med objektets data och undviker vanliga fel. Det brukar leda till en bättre och snabbare förståelse av objektmodellen. I slutet av kursen (kmom07/10 projektet) och i produktion (arbetslivet) kan ni som vill hoppa över `this`.
 
 
 </details>
