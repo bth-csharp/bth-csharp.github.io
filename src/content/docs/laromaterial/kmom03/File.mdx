@@ -92,12 +92,13 @@ public class Simple
 }
 ```
 
-Lägg till pseudokod för att visa att det ska skapas 
+Lägg till pseudokod för att visa att det ska skapas:
+
 * en metod som sparar på fil - `Save`
 * en metod som läser från fil - `Read`
 * en metod som presenterar shoppinglistan - `Present`  
 
-Varje metod ska utföra en specifik uppgift och därför låter vi t.ex inte metoden `Save` som läser från fil visa innehållet. Det hanteras i stället i metoden `Present`. 
+Varje metod ska utföra en specifik uppgift och därför låter vi t.ex inte metoden `Save` som läser från fil visa innehållet. Det hanteras i stället i metoden `Present`.
 
 ### Spara på fil
 
@@ -205,7 +206,7 @@ public class Simple
             Console.WriteLine("Listan är tom");
             return;
         }
-        Console.WriteLine("Din lista");
+        Console.WriteLine("Din shoppinglista");
         foreach (string line in list)
         {
             Console.WriteLine(line);
@@ -223,21 +224,21 @@ För att testköra om metoden `Present` och därmed också metoden `Read` använ
 using FileApp.src;
 
 Simple shoppingList = new Simple("simpleList.txt"); 
-shoppingList.Save("Testprodukt 3"); Kommentera bort denna rad
-shoppingList.Save("EnAnnanTestprodukt 2"); Kommentera bort denna rad
+//shoppingList.Save("Testprodukt 3"); Kommentera bort denna rad
+//shoppingList.Save("EnAnnanTestprodukt 2"); Kommentera bort denna rad
 shoppingList.Present();
 ```
 
 Terminalen bör visa:
 
 ```shell
-Din shoppinglista
+=== Din shoppinglista ===
 EnTestprodukt 3
 EnAnnanTestprodukt 2
 
 ```
 
-Då har vi testat att skriva ut innehållet i filen om det finns innehåll. Nu testar vi att kommentera bort raderna som börjar med `shoppingList.Save` och kör igen.
+Då har vi testat att skriva ut innehållet i filen om det finns innehåll. Nu testar vi att tömma filen `SimpleList.txt` och köra igen.
 
 Terminalen bör visa:
 
@@ -262,33 +263,45 @@ Läs mer om referenstyper som kan vara "null" i [Nullable reference types (C# re
 // kmom03/FileApp/Program.cs
 using FileApp.src;
 
-Simple shoppingList = new Simple("simpleList.txt"); 
+Simple shoppingList = new Simple("simpleList.txt");
 shoppingList.Present();
+bool continue_shop = true;
 
-while (true)
+while (continue_shop)
 {
     string product = "";
     string quantity = string.Empty;
 
     Console.Write("\nAnge produktnamn (eller ENTER för att sluta): ");
-    product = Console.ReadLine();
-    if (product == "") 
-    { 
-        break;
+    product = Console.ReadLine() ?? "";
+    if (product == "")
+    {
+        continue_shop = false;
     }
-    Console.Write("\nAnge antal: ");
-    quantity = Console.ReadLine();
+    else
+    {
+        Console.Write("\nAnge antal: ");
+        quantity = Console.ReadLine() ?? "";        
+    }
 
     string saveInput = product + " " + quantity;
     shoppingList.Save(saveInput);
 }
 
 shoppingList.Present();
+
 ```
 
-Loopar med `while (true) och break` kan vara enkla att förstå och användbara för program som körs kontinuerligt. Nackdelarna är att risken för en oändlig loop som leder till hög resursanvändning. Ofta är det tydligare och bättre att använda en flagga som tydligt berättar om när loopen körs och när den bryts eftersom logiken ofta blir uppenbar avseende själva iterationen.
+:::tip
+Använd en variabel (kallas ibland för flagga) för att att visa om loopen ska fortsätta eller inte. `continue_shop` är enkel att förstå då loopen körs så länge `continue_shop` är sann.  
+Det är god kodstil med en tydlig ingång i loopen, ett tydligt villkor och en tydlig utgång ur loopen.
+:::
 
-Lite bättre kod med en flagga.
+:::danger
+`while (true), break och continue` är inte fel att använda, men de gör ofta programflödet svårare att följa. Som nybörjare bör du i första hand skriva loopar med tydliga villkor och undvika onödiga hopp i kontrollflödet. När du blivit mer erfaren kan dessa konstruktioner användas i de situationer där de faktiskt gör koden tydligare.
+:::
+
+
 
 ```csharp
 // kmom03/FileApp/Program.cs
@@ -349,7 +362,9 @@ Några vanliga metoder i klassen **File**:
 
 ## Kopiera filen till dit programmet körs
 
-Din kod ligger i projektmappen men den körs från bin-katalogen och dit vill vi kopiera vår fil. Vi använder flaggan `PreserveNewest` så att filen bara kopieras om den ändrats. Det finns även en flagga `always` som kopierar varje gång programmet körs men det är onödigt.    
+Detta behövs inte om du kör programmet i katalogen `FileApp` men behövs om du vill köra programmet i VS Code.
+
+Din kod ligger i projektmappen men den körs från bin-katalogen och dit vill vi kopiera vår fil. Vi använder flaggan `PreserveNewest` så att filen bara kopieras om den ändrats. Det finns även en flagga `always` som kopierar varje gång programmet körs men det är onödigt.  
 Det här gör vi genom att kopiera in nedanstående till projektets csproj-fil.
 
 ```csharp title="Lägg följande info i projektets csproj-fil."
@@ -368,14 +383,14 @@ Projektmapp
  ├── tasks.txt   // du redigerar här
  └── bin/
      └── Debug/
-         └── net9.0/
+         └── net10.0/
              ├── app.exe
              └── tasks.txt  // programmet använder DENNA
 ```
 
 ## Sammanfattning
 
-Då har vi tittat på hur vi kan skriva till filer genom att använda oss av klassen **File**. Första delen av koden till shoppinglistan hittar du [här](./../../../CodeExamples/kmom03/FileApp/). Resten kommer i nästa övning om Exceptions.
+Då har vi tittat på hur vi kan skriva till filer genom att använda oss av klassen **File**.
 
 Detta är ett exempel på hur vi kan läsa och skriva till fil. Det finns mer exempel här i referensmanualen [File Class](https://learn.microsoft.com/en-us/dotnet/api/system.io.file?view=net-9.0).
 

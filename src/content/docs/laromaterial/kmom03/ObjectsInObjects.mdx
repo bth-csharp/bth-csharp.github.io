@@ -60,6 +60,11 @@ public class Car
         this._model = model;
         this._engine = engine;
     }
+
+    public string GetInformation()
+    {
+        return $"This car is a {this._model} and has {this._engine.GetHorsePower()} hp.";
+    }
 }
 ```
 
@@ -69,7 +74,11 @@ Nu kan vi använda objekten **Car** och **Engine** i vårt huvudprogram `Program
 Engine engine = new Engine(150);
 
 Car car1 = new Car("Volvo", engine);
+Console.WriteLine(car1.GetInformation());
+// utskriften blir: This car is a Volvo and has 150 hp.
 Car car2 = new Car("Porsche", new Engine(300));
+Console.WriteLine(car2.GetInformation());
+// utskriften blir: This car is a Porsche and has 300 hp.
 ```
 
 Vi har skapat ett objekt av klassen **Car** med ett attribut `_model` som pekar på strängen "Volvo" och ett attribut `_engine` som pekar på ett objekt av typen Engine. Variabelnamnet `car1` pekar ut vårt objekt. *Istället för pekar ut kan vi säga refererar till.*  
@@ -112,11 +121,12 @@ public class Engine
 
 ```csharp title="Testa klasserna i Program.cs"
 Engine engine = new Engine(150);
+Console.WriteLine(engine.GetHorsePower());
+// utskriften blir: 150
 
 Car car1 = new Car("Volvo", engine);
-
-Console.WriteLine(car1.GetHorsePower());
-// utskriften blir: 150
+Console.WriteLine(car1.GetInformation());
+// utskriften blir: This car is a Volvo and has 150 hp.
 ```
 
 När vi skapar ett motorobjekt vet vi antalet hästkrafter men hur vet vi om användaren matar in ett realistiskt värde. Då kan vi lägga ett villkor i konstruktorn att antalet hästkrafter får värdet 1 om omvärlden matar in ett tal som är mindre än 1.
@@ -147,8 +157,8 @@ Engine engine = new Engine(-150);
 
 Car car1 = new Car("Volvo", engine);
 
-Console.WriteLine(car1.GetHorsePower());
-// utskriften blir: 1
+Console.WriteLine(car1.GetInformation());
+// utskriften blir: This car is a Volvo and has 1 hp.
 ```
 
 ## Statiskt attribut och metoder
@@ -184,6 +194,11 @@ public class Car
     {
         return NUMBER_OF_WHEELS;
     }
+
+    public string GetInformation()
+    {
+        return $"This car is a {this._model} and has {this._engine.GetHorsePower()} hp.";
+    }
 }
 ```
 
@@ -196,6 +211,11 @@ Console.WriteLine(Car.GetNumberOfWheels());
 // utskriften blir: 4
 Console.WriteLine(Car.GetNumberOfCars());
 // utskriften blir: 1
+
+// Skapa ett bilobjekt till och kolla att antalet bilar blir 2
+Car car2 = new Car("Porsche", new Engine(300));
+Console.WriteLine(Car.GetNumberOfCars());
+// utskriften blir: 2
 ```
 
 ## Relationer mellan objekt
@@ -223,6 +243,7 @@ public class Car
         this._model = model;
         this.__engine = new Engine(150);
     }
+    ...
 }
 ```
 
