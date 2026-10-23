@@ -23,15 +23,15 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 Materialet är inte klart. Avvakta!
 :::
 
-Följ denna instruktionen för att göra en pull request (PR) för att lämna in uppgiften i kmom03 och kmom06.
+Följ denna instruktionen för att göra en pull request (PR) för att lämna in uppgiften i kmom03, kmom06 och kmom10.
 
 :::note
-Bilderna visar inlämning för kmom03. Flödet är likadant för kmom06. I instruktionerna när det står `<X>`, ersätt det med `3` om du lämnar in kmom03 och `6` om du lämnar in kmom06.
+Bilderna visar inlämning för kmom03. Flödet är likadant för kmom06 och för projektet kmom10. I instruktionerna när det står `<X>`, ersätt det med `3` om du lämnar in kmom03, `6` om du lämnar in kmom06 och `10` om du lämnar in kmom10.
 :::
 
 ## Förutsättning
 
-Du har uppfyllt kraven i uppgiften kmom03/kmom06 och har gjort en vanlig inlämning enligt [Resultat och redovisning](/website/laromaterial/instruktion/resultat-och-redovisning).
+Du har uppfyllt kraven i uppgiften och har gjort en vanlig inlämning enligt [Resultat och redovisning](/website/laromaterial/instruktion/resultat-och-redovisning).
 
 
 ## Ordlista
@@ -78,7 +78,6 @@ import pr1 from '@assets/pr/pr1.png';
 />
 
 
-
 ### Gå till Pull requests
 
 Klicka på:
@@ -99,9 +98,9 @@ import pr2 from '@assets/pr/pr2.png';
 
 Så här ser det ut när du klickat på "New Pull Request" (se föregående bild).
 
-1. Välj "base" för din PR, där (2) väljer du `bth/submit/kmom0<X>` (3 för kmom03 och 6 för kmom06)
-1. Låt "compare" vara `main`. Nu dyker det upp filer att jämföra
-1. Klicka på den gröna knappen "Create pull request".
+1. Klicka på "base" för att välja branch 
+1. Välj `bth/submit/kmom0<X>` (3 för kmom03, 6 för kmom06 och 10 för kmom10)
+1. Klicka på den gröna knappen "Create pull request" för att skapa en PR.
 
 import pr3 from '@assets/pr/pr3.png';
 
@@ -110,14 +109,16 @@ import pr3 from '@assets/pr/pr3.png';
     caption="Create pull requests."
 />
 
-Det här betyder att du vill merga `main` till `bth/submit/kmom0<X>`.
+Compare ska vara `main` och det betyder att du vill merga `main` till `bth/submit/kmom0<X>`. Med andra ord gör du en inlämning av koden du jobbar med i `main` till inlämningsbranchen.
 
 
 ### Öppna en PR mot en branch
 
 Nu är du snart redo att skapa en PR.
 
-1. Fyll i en titel på din PR, till exempel "Inlämning av kmom03" och lägg in dig själv som "Assignees".
+1. Fyll i information i din PR:
+    - titel på din PR, till exempel "Inlämning av kmom03"
+    - lägg in dig själv som "Assignees".
 1. Öppna till din PR genom att klicka på den gröna knappen "Create pull request".
 
 import pr5 from '@assets/pr/pr5.png';
@@ -142,12 +143,12 @@ import pr6 from '@assets/pr/pr6.png';
     caption="Gör en PR för att merga main in till bth/submit/kmom03."
 />
 
-Vänta ett par minuter, skrolla sen ner för att se att testerna har godkänts.
+Vänta ett par minuter, skrolla sen ner i din PR för att se att testerna har godkänts.
 
 
 ### Testerna gick bra
 
-Vänta ett par minuter för att se att testerna har godkänts. Då har din PR fått label `Test passed (TP)`.
+Vänta ett par minuter för att se att testerna har godkänts. Då har din PR fått label `Test passed (TP)` (se röda ovalen).
 
 import prOk1 from '@assets/pr/prOk1.png';
 
@@ -156,7 +157,7 @@ import prOk1 from '@assets/pr/prOk1.png';
     caption="Lyckat resultat från testerna ger label `Test passed (TP)`."
 />
 
-Skrolla längre ner och du ska ha fått en kommentar om att valideringen av taggarna och att testerna gick bra samt meddelandet "All checks have passed".
+Skrolla längre ner och du ska ha fått en kommentar med en sammanfattning om att valideringen av taggarna gick bra och att testerna gick bra. Under kommentaren står det `Review required` och det betyder att din PR väntar på en bedömning av en lärare. Dessutom hittar du förhoppningsvis meddelandet "All checks have passed", vilket innebär att allt gick bra.
 
 import prOk2 from '@assets/pr/prOk2.png';
 
@@ -165,8 +166,8 @@ import prOk2 from '@assets/pr/prOk2.png';
     caption="Lyckat resultat från testerna."
 />
 
-På bilden ovanför kan du se hur det ser ut när allt är OK. Testerna har lyckats och din inlämning är registrerad i Canvas.  
-Om något gick fel, kanske fick du `Test failed` eller att taggarna inte var ok, se [Något fick fel](#testerna-gick-fel).
+På bilden ovanför kan du se hur det ser ut när allt är OK. Taggarna är validerade och testerna gick bra och din inlämning är registrerad i Canvas.  
+Om något gick fel, kanske fick du `Test failed` eller att taggarna inte var ok, se [Något fick fel](#något-gick-fel).
 
 
 ### Sista stegen (PR)
@@ -180,8 +181,10 @@ Nu har du två punkter kvar:
 ```bash title="Skapa en ny branch för nästa inlämning"
 git checkout -b bth/submit/kmom06 && git push origin bth/submit/kmom06
 git checkout main
-git branch # ok om stjärnan är framför main
-````
+git branch 
+```
+
+Det är ok om stjärnan är framför `main`.
 
 Om du precis lämnat in kmom06, kör du ovanstående kommandon med **kmom10** istället för kmom06.
 :::
@@ -189,9 +192,11 @@ Om du precis lämnat in kmom06, kör du ovanstående kommandon med **kmom10** is
 
 #### Kontrollera nya branchen
 
+**OBS** Tänk **bth-csharp** istället för bth-python i bilderna.
+
 Dubbelkolla att den nyss skapade branchen finns med:  
 
-- i ditt lokala kursrepo; med  `git branch` då ska branchen synas, exempelvis om du precis skapade `bth/submit/kmom06` så syns den och `main` (main har en stjärna framför vilket visar att du är på main).  
+- i ditt lokala kursrepo; med  `git branch` då ska branchen synas, exempelvis om du precis skapade `bth/submit/kmom06` så syns den och `main` (main har en stjärna framför vilket visar att du är på main). `main` är branchen du ska arbeta i.  
 När du har klickat så ser det ut så här:
 
 import local_branches from '@assets/pr/local_branches.png';
@@ -219,6 +224,14 @@ import view_branches from '@assets/pr/view_branches.png';
     caption="Dina brancher på GitHub."
 />
 
+`Your branches` visar brancher som GitHub kopplar till dig personligen.
+`Active branches` visar brancher som nyligen haft aktivitet.
+
+Eftersom du är den enda personen som arbetar i repot kommer `Active branches` i praktiken ofta att vara "de brancher du nyligen jobbat med".
+
+:::tip
+Nu kan du jobba vidare med nästa kmom.
+:::
 
 ### Något gick fel
 
@@ -229,6 +242,7 @@ Vanliga fel:
 - `Tests failed`; du har inte de nyaste testerna
 - `Tests failed`; taggen är inte uppdaterad
 - `Integration failed`; du inte inloggad med SSO (logga ut och sen in igen och klicka på SSO-knappen på rätt organisation)
+- Om PRn stängs utan meddelande i Canvas, kolla att du har gjort förkunskapskraven till exempel quiz och att uppgiften är öppen för dig.
 
 Nu behöver du kolla vad som gick fel, fixa felet och ladda upp koden igen.
 
@@ -242,54 +256,27 @@ Nu behöver du kolla vad som gick fel, fixa felet och ladda upp koden igen.
 
 :::tip
 Vi rättar endast inlämningar (PRs) med label `Tests Passed (TP)`.
+
+Om det är kompletteringar så rättar vi (PRs) med label `Grade: Ux` och `Tests Passed (TP)`.
 :::
 
 
 Om du får något annat konstigt fel du inte förstår, kolla om felet finns med nedanför i [Vanliga fel](#vanliga-fel) annars kontakta en lärare och be om hjälp.
 
 
-{/* 
-## PR kmom06
-
-I inlämningen för kmom06 är det lite speciellt eftersom det är tester som ni gjort själva som ska köras. Dessutom körs ett antal tester för att kontrollera att inlämningen följer kraven.
-
-Återkoppling på testerna får ni längst ner i PR för kmom06. Det kan se ut så här:
-
-import prKmom06Ok from '@assets/pr/prKmom06Ok.png';
-
-<Figure 
-    src={prKmom06Ok}
-    caption="Lyckat resultat från testerna i inlämningen för kmom06."
-/>
-
-**Student test result**  
-Först körs era egna tester och resultatet blir antingen "student tests kmom05 ok" eller "FAIL:kmom05 student tests".
-
-**Test result**  
-Därefter körs testerna för att kolla om kraven följs. Eftersom testerna är hemliga så får ni en tabell med alla testfall, en tabell för kmom05 och en tabell för kmom06. Antingen står det en ✅ och då har testet gått igenom, eller så står det ett felmeddelande från testet.
-
-**Test results kmom05**  
-Tabell med alla testfall för kmom05 med resultat.
-
-**Test results kmom06**  
-Tabell med alla testfall för kmom06 med resultat.
-
-## PR kmom07/10
-
-Du gör PR för projektet på samma sätt som för kmom03 och kmom06. Här finns inga tester utan du förväntas att själv se till att du följer kraven. */}
-
 ## Feedback och bedömning
 
 När läraren rättar din PR så får du återkoppling i kommentarer till din PR.
 
-### Approved / G
+### Godkänd / G
 
-Om läraren tycker att allt ser bra ut får du en kommentar, label `Approved` och `G` i Canvas. Läraren mergar din PR och stänger den när den är godkänd. Du kommer också se vilken lärare som har varit "reviewer". Du kan jobba vidare med nästa kmom.
+Om läraren tycker att allt ser bra ut får du en kommentar, label `Grade: G` på din PR och betyget `G` i Canvas. Läraren mergar din PR och stänger den när den är godkänd. Du kommer också se vilken lärare som har varit "reviewer".
 
 
-### Needs improvement / Ux
+### Komplettering / Ux
 
-Om läraren tycker att du behöver fixa något, får du label `Grade: Ux` på din PR och `Ux` på Canvas. Det kommer finnas kommentarer på specifika rader. Om kommentaren innehåller en `Warning` som på bilden nedanför, då måste du åtgärda det i din kod. Om kommentaren inte innehåller `Warning` behöver du inte åtgärda det som står där.
+Om läraren tycker att du behöver fixa något, får du label `Grade: Ux` på din PR och betyget `Ux` på Canvas.
+Det kommer finnas kommentarer på specifika rader. Om kommentaren innehåller en `Warning` som på bilden nedanför, då måste du åtgärda det i din kod. Om kommentaren inte innehåller `Warning` behöver du inte åtgärda det som står där.
 
 **OBS** Låt kommentaren vara kvar! Om du vill svara på kommentaren, så går det bra.
 
@@ -298,34 +285,37 @@ import pr_warning from '@assets/pr/pr_comment_warning.png';
 <Figure 
     src={pr_warning}
     caption="Kommentar som ska åtgärdas."
+    width="500px"
 />
 
 När du har åtgärdat felen gör följande:
  
 1. Rätta felet och testkör lokalt.
 1. Pusha din rättning till GitHub och tagga den. Om din fix funkade ska du nu få label `Tests passed(TP)`.
-1. Lägg till label `Run tests` på din öppna PR för att köra igång flödet som kör testerna och sätter `Tests Passed (TP)` eller `Tests failed`. Låt label `Grade: Ux` vara kvar.
+1. Lägg till label `Run tests` på din öppna PR för att köra igång flödet som kör testerna och sätter `Tests Passed (TP)` eller `Tests failed`.  
+**OBS Låt label `Grade: Ux` vara kvar.**
 
 :::note
 Glöm inte att sätta label `Run tests` på din öppna PR!
+Låt label `Grade: Ux` vara kvar.
 
 Din komplettering ska lämnas in inom 5 arbetsdagar!
 :::
 
-### Submission not approved / U
+### Inte godkänd / U
 
-Om åtgärderna du gjorde när du fick `Ux` eller att din inlämning (PR) bedöms vara otillräckliga får du label `Grade: U` på din PR och `U` i Canvas. Det kommer finnas kommentarer som förklarar felet/felen och läraren kommer stänga din PR.
+Om åtgärderna du gjorde i kompletteringen eller att din inlämning (PR) bedöms vara otillräckliga får du label `Grade: U` på din PR och betyget `U` i Canvas. Det kommer finnas kommentarer som förklarar felet/felen och läraren kommer stänga din PR.
 
 Vid större fel, ges inte komplettering. Då kan du få `U` direkt.
 
-Din inlämning kommer inte rättas mer. Din PR stängs. Du behöver göra en ny PR till nästa rättningstillfälle. I [studieplanen](/website/intro/studieplan/) hittar du när nästa rättningstillfälle är.
+Din inlämning kommer inte rättas mer. Din PR stängs. Du behöver göra en ny PR som rättas vid nästa rättningstillfälle. I [studieplanen](/#rekommenderad-studieplan) hittar du när nästa rättningstillfälle är.
 
 
 ## Vanliga fel
 
 ### Ett testfall gick fel
 
-Om ett testfall går fel här, så saknar du de nyaste testfallen. Om du missat stegen i [Resultat och redovisning](/#rekommenderad-studieplan) så gör du det nu.
+Om ett testfall går fel här, så saknar du de nyaste testfallen. Om du missat stegen i [Resultat och redovisning](/laromaterial/instruktion/resultat-och-redovisning/) så gör du det nu.
 
 Så här ser det ut om du klickar under "Actions" i navbaren överst på GitHub:
 
