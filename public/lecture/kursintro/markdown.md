@@ -75,7 +75,7 @@ Marie Grahn
 
 * Lp2: v44-03
 * Ett kmom/vecka med inlämning senast söndag
-* Kmom släpps kl 08:00 varje måndag
+* Kmom släpps senast kl 08:00 varje måndag
 * kmom03, kmom06 och kmom07/10 lämnas in som PR
 * Quiz före varje inlämning med teorin från kmom (utom kmom07/10)   
     Flera försök, ska klaras till en viss gräns
@@ -88,13 +88,14 @@ Marie Grahn
 ## 3-veckorsupprop
 <hr style="color:green">
 
-* 21/11
-* Avklarade uppgifter:
-    * Koppla gitrepot
+* 20/11
+* Avklarade uppgifter (G/godkänt):
+    * GitHub invite och Test gitconfig
     * quiz fusk
     * quiz kmom01
     * quiz kmom02
-    * kmom01 är pushat till ditt GitHub-repo
+    * kmom01 inlämnat och taggat
+    * kmom02 påbörjat och pushat
 
 
 
@@ -102,10 +103,10 @@ Marie Grahn
 ## Veckoschema
 <hr style="color:green">
 
-* Måndag: 8:30 uppstart på veckans kmom  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15:30 uppsamling med frågor (Zoom)
-* Onsdag: 9-12 seminarie (sal+Zoom för distans)
-* Torsdagar: 9-12 programmeringsstuga (sal+Zoom för distans)
+* Måndag: 09:15 uppstart på veckans kmom  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15:00 uppsamling med frågor (Zoom)
+* Onsdag: 9-12 seminarie (Zoom)
+* Torsdagar: 9-12 programmeringsstuga (Zoom)
 
 ￼
 
@@ -130,7 +131,7 @@ Marie Grahn
 <hr style="color:green">
 
 * Gå in på [canvas.bth.se](https://canvas.bth.se) och klicka på länkar
-* Gå till [bth-csharp.github.io/website/](https://bth-csharp.github.io/website/)
+* Gå till [bth-csharp.github.io/](https://bth-csharp.github.io/)
 * Videomaterial på Youtube, se länkar i Canvas
 
 
@@ -139,7 +140,7 @@ Marie Grahn
 ## Planering
 <hr style="color:green">
 
-* [https://bth-csharp.github.io/website/intro/studieplan/](https://bth-csharp.github.io/website/intro/studieplan/)
+* [https://bth-csharp.github.io/intro/studieplan/](https://bth-csharp.github.io/intro/studieplan/)
     * Rekommenderad studieplan, uppsamlingsheat 31 mars & 31 maj
     * BTH Schema (länk på Canvas)
 
@@ -153,8 +154,8 @@ Marie Grahn
 * Kmom02: Introduktion till Objektorienterad programmering och UML
 * Kmom03: Mer Objektorienterad programmering och UML
 * Kmom04: Repetition C#, OOP & UML samt kodintervju
-* Kmom05: Arv & mer testning
-* Kmom06: Begrepp inom OOP & Kodkvalitet
+* Kmom05: Arv & interface
+* Kmom06: Abstrakta klasser och testning
 * Kmom07/10: Projekt
 
 
@@ -181,7 +182,7 @@ villkor & logik
 och själva objektet skapas utifrån en ritning, en klass.
 * Grunderna i UML klassdiagram för att visa klassernas egenskaper och
 beteenden
-* Skapar testprogram med dotnet och NUnit
+* Extra: Skapar testprogram med dotnet och NUnit
 
 
 
@@ -210,12 +211,12 @@ sortering
 
 
 
-## Kmom05 - Arv och mer testning
+## Kmom05 - Arv och interface
 <hr style="color:green">
 
 * Mer objektorienterad programmering med arv
 * Mer UML med arv (klassdiagram)
-* Mer om enhetstestning, testplan och testfall
+* Interface
 
 
 
@@ -224,9 +225,9 @@ sortering
 <hr style="color:green">
 
 * Abstrakta klasser och abstrakta metoder
-* Interface, enum och Properties
-* Kodanalys & mjukvaruutveckling
-* Läsa och skriva asynkront till fil
+* Mer om enhetstestning, testplan och testfall
+* Extra: Kodanalys & mjukvaruutveckling
+* Extra: Läsa och skriva asynkront till fil
 
 
 
@@ -246,11 +247,11 @@ Mer info kommer senare!
 ## Redovisning, kmom01 - kmom06
 <hr style="color:green">
 
-1. Gör uppgiften/uppgifterna och testa lokalt
+1. Gör uppgiften/uppgifterna (i main-branchen) och testa lokalt
+1. Gör inlämningen genom att tagga
 1. Gör quiz på Canvas
-1. Pusha till main-branchen
-1. För kmom03 och kmom06 görs dessutom en PR samt en inlämning på Canvas
-med länken till PR:n
+1. Jobba i main-branchen och pusha ofta
+2. För kmom03 och kmom06 görs dessutom en PR (GitHub uppdaterar Canvas)
 
 OBS! Uppgifterna ska göras i ordning på Canvas dvs Kmom01 
 måste göras först, därefter kmom02 osv
@@ -272,9 +273,10 @@ måste göras först, därefter kmom02 osv
 ## Kmom07/10 - Projektet
 <hr style="color:green">
 
-Du gör en PR (kod), en rapport samt en redovisning.
-    
-Mer info kommer senare!
+Del 1: ett klassdiagram och arbetsmetoden (du gör inlämningen på Canvas)
+Det ska godkännas innan del 2.
+
+Del 2: görs en PR (GitHub uppdaterar Canvas)
 
 
 
@@ -334,7 +336,7 @@ Mer info kommer senare!
 * Diskutera med studiekollegor kring problem och lösningar på de övningar och uppgifter som finns
 * Tveka inte att starta egna studiegrupper där ni kan stödja varandra.
 * **Kopiera inte kod av varandra**
-* [Fusk, AI och medvetet vilseledande](https://bth-csharp.github.io/website/studieguide/fusk/)
+* [Fusk, AI och medvetet vilseledande](https://bth-csharp.github.io/studieguide/fusk/)
 <p class="footnote">Allt misstänkt fusk anmäls.</p>
 
 
