@@ -73,7 +73,7 @@ Marie Grahn
 ## Kursinformation, csharp
 <hr style="color:green">
 
-* Lp2: v44-03
+* Lp2: v45-03
 * Ett kmom/vecka med inlämning senast söndag
 * Kmom släpps senast kl 08:00 varje måndag
 * kmom03, kmom06 och kmom07/10 lämnas in som PR
@@ -104,9 +104,9 @@ Marie Grahn
 <hr style="color:green">
 
 * Måndag: 09:15 uppstart på veckans kmom  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15:00 uppsamling med frågor (Zoom)
-* Onsdag: 9-12 seminarie (Zoom)
-* Torsdagar: 9-12 programmeringsstuga (Zoom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15:15 uppsamling med frågor (Zoom)
+* Onsdag: 9:15-12 seminarium (Zoom, i sal för Campus) **OBS** vissa seminarium går onsdag eftermiddag pga schemakrockar med andra kurser!
+* Torsdagar: 9:15-12 programmeringsstuga (Zoom, i sal för Campus)
 
 ￼
 
@@ -141,7 +141,7 @@ Marie Grahn
 <hr style="color:green">
 
 * [https://bth-csharp.github.io/intro/studieplan/](https://bth-csharp.github.io/intro/studieplan/)
-    * Rekommenderad studieplan, uppsamlingsheat 31 mars & 31 maj
+    * Rekommenderad studieplan, uppsamlingsheat 28 mars & 31 maj
     * BTH Schema (länk på Canvas)
 
 
@@ -178,7 +178,7 @@ villkor & logik
 <hr style="color:green">
 
 * Objektorienterad programmering med klasser och objekt
-* Varje objekt har egenskaper (variabler) och beteenden (metoder), 
+* Varje objekt har egenskaper (variabler) och beteenden (metoder),  
 och själva objektet skapas utifrån en ritning, en klass.
 * Grunderna i UML klassdiagram för att visa klassernas egenskaper och
 beteenden
@@ -192,11 +192,12 @@ beteenden
 
 * Olika relationer mellan objekt: komposition och
 aggregation, och hur dessa representeras i klassdiagram
-* Bekantar oss med UML beteendediagram
 * Fortsätter med klasser och objekt och tittar på koncept som "Information 
 hiding", överlagring
 * Filer (läsa & skriva), Exceptions (felhantering) och kort om 
 sortering
+* Extra: Bekantar oss med UML beteendediagram
+
 
 
 
@@ -206,7 +207,7 @@ sortering
 
 * Du repeterar innehållet i kmom01-03
 * Labbar och övningsuppgifter i kmom04
-* Kodintervju 
+* Kodintervju
 
 
 
@@ -221,7 +222,7 @@ sortering
 
 
 
-## Kmom06 - Begrepp inom OOP & Kodkvalitet
+## Kmom06 - Abstrakta klasser och testning
 <hr style="color:green">
 
 * Abstrakta klasser och abstrakta metoder
@@ -235,11 +236,12 @@ sortering
 ## Kmom07/10 - Projektet
 <hr style="color:green">
 
-Ett större projekt som innehåller det mesta du lärt dig under kursen.  
-Det görs enskilt utan hjälpmedel som t. ex. generativ AI.  
-Vi vill se progressionen i utvecklingsarbetet.  
+* Ett större projekt som innehåller det mesta du lärt dig under kursen.  
+* Det görs enskilt utan hjälpmedel som t. ex. generativ AI.  
+* Vi vill se progressionen i utvecklingsarbetet (många commits).  
     
-Mer info kommer senare!
+* Del 1: klassdiagram samt arbetsbeskrivning hur du tänkt genomföra projektet
+* Del 2: implementation, rapport och redovisningsvideo
 
 
 
@@ -250,7 +252,7 @@ Mer info kommer senare!
 1. Gör uppgiften/uppgifterna (i main-branchen) och testa lokalt
 1. Gör inlämningen genom att tagga
 1. Gör quiz på Canvas
-1. Jobba i main-branchen och pusha ofta
+1. Visa dina framsteg genom att göra commit och push ofta
 2. För kmom03 och kmom06 görs dessutom en PR (GitHub uppdaterar Canvas)
 
 OBS! Uppgifterna ska göras i ordning på Canvas dvs Kmom01 
@@ -276,7 +278,7 @@ måste göras först, därefter kmom02 osv
 Del 1: ett klassdiagram och arbetsmetoden (du gör inlämningen på Canvas)
 Det ska godkännas innan del 2.
 
-Del 2: görs en PR (GitHub uppdaterar Canvas)
+Del 2: implementation, rapport och redovisningsvideo gör en PR (GitHub uppdaterar Canvas)
 
 
 
@@ -286,7 +288,7 @@ Del 2: görs en PR (GitHub uppdaterar Canvas)
 
 | Bedömningspunkt | Poäng | Kommentar |
 |-----------------|-------|-----------|
-| Kmom01-kmom06 | 30 | |
+| Kmom01-kmom06 | 30 | G på Kmom01-06 samt G på quiz för Kmom01-03 & kmom05-06 |
 | Kmom07/10 | 30-60 | 30 poäng obligatoriskt, resten valfritt |
 | Hög nivå och väl utförda kmom | 0-10 | Används endast om totalpoängen står och väger mellan två betyg |
 | TOTALT | 100 | |
@@ -297,6 +299,8 @@ Del 2: görs en PR (GitHub uppdaterar Canvas)
 ## Examination
 <hr style="color:green">
 
+* Quiz för Kmom01-03 samt kmom05-06
+    * G, U
 * Kmom03 och kmom06 lämnas in för kontroll (en eller flera uppgifter)
     * U, Ux, G
 * Individuell examination med projektet och muntligt förhör
