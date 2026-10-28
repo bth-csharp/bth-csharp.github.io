@@ -73,7 +73,7 @@ Marie Grahn
 ## Kursinformation, csharp
 <hr style="color:green">
 
-* Lp2: v45-03
+* Lp2: v45-02
 * Ett kmom/vecka med inlämning senast söndag
 * Kmom släpps senast kl 08:00 varje måndag
 * kmom03, kmom06 och kmom07/10 lämnas in som PR
