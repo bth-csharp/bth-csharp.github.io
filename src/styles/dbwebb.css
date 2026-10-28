@@ -24,6 +24,10 @@ details>summary>.sl-heading-wrapper {
 	vertical-align: baseline;
 }
 
+:root {
+	justify-self: center;
+}
+
 /* Dark mode colors. */
 :root {
 	--sl-color-accent-low: #152633;
