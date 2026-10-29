@@ -28,6 +28,11 @@ details>summary>.sl-heading-wrapper {
 	justify-self: center;
 }
 
+#imageFigure {
+	width: "900px";
+}
+
+<figure id="imageFigure" style="/* display: inline-block; *//* cursor: pointer; *//* --height: 400; *//* --width: 800; */" class="astro-kalua2zp"> <img src="/_image?href=%2F%40fs%2Fhome%2Fgrm%2Frepo-dbwebb%2Fbth-csharp%2Fbth-csharp.github.io%2Fsrc%2Fassets%2Fimg%2Fkmom01%2Ffiddler.png%3ForigWidth%3D1600%26origHeight%3D994%26origFormat%3Dpng&amp;w=800&amp;h=400&amp;f=webp" data-image-component="true" alt="Image description" loading="lazy" decoding="async" fetchpriority="auto" width="800" height="400" class="astro-kalua2zp"> <figcaption class="astro-kalua2zp" style="--height: 400;--width: 800;">Bild: Online C# kompilator Fiddle.</figcaption> </figure>
 /* Dark mode colors. */
 :root {
 	--sl-color-accent-low: #152633;
