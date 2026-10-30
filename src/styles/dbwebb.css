@@ -66,5 +66,6 @@ details>summary>.sl-heading-wrapper {
 
 .right-sidebar-container {
 	width: 22rem !important;
-	max-width: 22rem !important;	
+	min-width: 22rem !important;
+	max-width: 26rem !important;	
 }
