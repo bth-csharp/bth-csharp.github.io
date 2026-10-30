@@ -19,6 +19,7 @@ import Figure from '@components/CustomFigure.astro';
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 import csharpKompDetaljer from '@assets/img/kmom01/csharpKompDetaljer.png';
+import simpleCompilation from '@assets/img/kmom01/simpleCompilation.png';
 import csharpLogo from '@assets/csharpLogo.jpeg';
 
 
@@ -48,6 +49,11 @@ C# är ett kompilerande språk, vilket innebär att koden du skriver (källkoden
 
 Datorns processor, även kallad CPU (Central Processing Unit) och brukar benämnas datorn hjärna, kan bara köra maskinkod. Maskinkod består av binära instruktioner, 1:or och 0:or, som är specifika för den processor som finns i din dator.
 
+<Figure
+    src={simpleCompilation}
+    caption="C# kompilering av utskriften Hello World."
+/>
+
 För att kunna köra den kod du skriver i C# behöver den alltså kompileras. Vid kompilering omvandlas koden du skrivit först till CIL-kod (Common Intermediate Language) som är ett mellanliggande objektorienterat högnivå-assemblerspråk. CIL hette för övrigt tidigare MSIL (Microsoft Intermediate Language). CIL-koden görs sedan om till körbar programkod med CLR (Common Language Runtime) som utför en så kallad Just-in-time-kompilering.
 
 Detta görs automatiskt när du kör ditt program i terminalen med .NET-kommandot, *dotnet run*. Om du bara vill kompilera din C#-kod, vilket är lämpligt om du bara vill se om koden följer språkets syntax, använder du istället .NET-kommandot *dotnet build*. Du behöver inte förstå exakt vad som händer när din C#-kod görs om till exekverbar kod men du bör i stora drag känna till vad som sker. 
@@ -61,34 +67,32 @@ C# kompilatorn kallas JIT (Just-In-Time kompilator), och är en central del av h
 
 Kompilering av ett C#-program sker följande i steg:
 
-1. Källkod på datorn
-Du skriver och sparar din C# kod lokalt på din dator. Filer: `*.cs`
+1. Källkod på datorn  
+Du skriver och sparar din C#-kod lokalt på din dator i en eller flera filer med ändelsen `*.cs`
 
-1. C#-kompilering (Roslyn)
-När du kör *dotnet build* kompileras C#-koden (`*.cs-filer`) först till CIL(Common Intermediate Language), som är plattformsoberoende.
-Denna CIL sparas i en `.dll-fil` för klassbibliotek eller `.exe-fil` för körbar kod (assembly).
-Vid C#-kompileringen kollas syntax och datatyper kontrolleras.
+1. C#-kompilering (Roslyn), du bygger projektet med *dotnet build* och då:  
+    1. kontrolleras syntaxen
+    1. kontrolleras datatyper och andra språkregler
+    1. kompileras C#-koden (`*.cs-filer`) först till CIL (Common Intermediate Language), som är plattformsoberoende.
+    1. resultatet sparas i en assembly (`.dll-fil` för klassbibliotek eller `.exe-fil` för körbar kod).
 
-1. Körning under .NET/CLR (Common Language Runtime)
-När du sedan kör programmet med *dotnet run*:
-  1. CLR (Common Language Runtime) laddar CIL-koden.
-  1. Verifiering (säkerhet och typkorrekthet)
-  1. JIT-kompilatorn översätter CIL → maskinkod för din dator precis innan metoderna körs.
-  Därför: “Just in time”.
-  1. Exekvering av ditt program
+1. Körning under .NET/CLR, du startar programmet med *dotnet run*:  
+    1. CLR (Common Language Runtime) laddar assemblyn
+    1. CIL-koden verifieras för säkerhet och typkorrekthet
+    1. JIT-kompilatorn översätter CIL-koden till maskinkod (1:or och 0:or) för den aktuella processorn  
+    1. översättningen sker precis innan koden behöver köras - “Just in time”
+    
+1. Exekvering  
+    - Processorn kör den maskinkod som JIT-kompilatorn har skapat.
+    - Programmet utför sina instruktioner och resultatet visas i terminalen.
 
-
-```text
-.cs (C#-källkod)
-   └─(C#-kompilator)→  .dll/.exe (CIL + metadata)
-                           └─(CLR + JIT vid körning)→  native maskinkod i minne
-                                                          └→ exekveras av CPU
-```
 
 En fördel med JIT-kompilering är att koden optimeras för aktuell CPU (dator) och operativsystem men nackdelen är att det tar lite längre tid att starta ett C#-program än ett Python-program.  
 En annan fördel är portabilitet då samma CIL kan köras på olika plattformar/CPU:er; JIT skräddarsyr maskinkoden.
 
+:::tip
 Det viktiga att ta med sig är att det är ett program kallat kompilator som verifierar din C# kod och översätter den till maskinkod som kan köras på din dator.
+:::
 
 
 ## .NET
@@ -105,7 +109,7 @@ Alla kommandon börjar med *dotnet* och körs i terminalen. Här är några av k
 
 - **dotnet new**; skapar ett nytt projekt från mallar. Exempel: dotnet new console skapar ett nytt konsolapplikationsprojekt.
 - **dotnet build**; bygger ett .NET-projekt och dess beroenden, med andra ord kompilerar koden.
-- **dotnet run**; kompilerar och kör ett .NET-projekt
+- **dotnet run**; kompilerar först (dotnet build) och kör sen ett .NET-projekt
 - **dotnet clean**; rensar föregående bygge (build)
 - **dotnet test**; kör enhetstester i ett .NET-projekt
 
