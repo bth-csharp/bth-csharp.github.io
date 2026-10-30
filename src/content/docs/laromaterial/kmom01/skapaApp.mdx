@@ -312,31 +312,25 @@ Läs mer om [dotnet format](https://learn.microsoft.com/en-us/dotnet/core/tools/
 
 ### Debugging
 
-Efter som "C# Dev Kit extension" är installerad, så förenklar det debuggning. 
+Efter som "C# Dev Kit extension" är installerad, så förenklar det debuggning.
 
-#### Starta debugger på Mac och Linux
+#### Starta debuggern
 
-På Mac och Linux fungerar det enligt bilden nedan. Klicka först (1) på "SOLUTION EXPLORER" och därefter (2) så markerar du "FirstApp". Högerklicka på "FirstApp" och följande meny dyker upp med (3) debug som alternativ längst ner. Starta (4) debuggern genom att välja "Start New Instance".
+Leta upp projektfilen för ditt projekt, i detta fallet heter den `FirstApp.csproj`.
+Högerklicka på projektfilen (1) och välj **Debug** i första menyn (2). Starta (3) debuggern genom att välja **Start New Instance** i andra menyn.
 
 Se bild nedan:
 
 <Figure
     src={debug1}
-    caption="Starta debuggning i VS Code (Mac och Linux)."
-/>
-
-#### Starta debugger på WSL2 (Windows)
-
-Markera (1) "Program.cs" och klicka på "F5". Funkar inte det så väljer du (2) "Run" i menyn följt av "Start Debugging".
-
-<Figure
-    src={debug_windows}
-    caption="Starta debuggning i VS Code (WSL2/Windows)."
+    caption="Starta debuggern i VS Code."
 />
 
 #### Kör debuggern
 
-Efter en liten stund så ser det ut så som bilden nedan. För att mata in värden (1) så gör du det längst ner och trycker ENTER när du är klar, precis som i terminalen. Längst upp (2) kan du styra debuggningen. 
+Efter en liten stund så ser det ut så som bilden nedan. Börja med att sätta debug-punkter genom att klicka till vänster om radens nummber (1).
+
+Mata in värden (2) gör du det längst ner och trycker ENTER när du är klar, precis som i terminalen. Längst upp till vänster(3) kan du styra debuggningen.
 
 <Figure
     src={debug2}
