@@ -85,6 +85,32 @@ import repo_terminal from '@assets/kursrepo/repo_terminal.png';
     width="700px"
 />
 
+### Installera task
+
+Om du saknar kommandot `task`, installera så här:
+
+#### Ubuntu (Windows/Linux)
+
+```console title="Installera Task med Snap."
+sudo snap install task --classic
+```
+
+#### Mac
+
+```console title="Installera Task med Homebrew."
+brew install go-task
+```
+
+#### Verifiera installationen av Task
+
+`task` är kommandot för att köra programmet Task och sen finns det flaggor som till exempel; `--list` är en flagga som listar alla kommandon som finns i Taskfile.
+
+```console title="Verifiera installationen av Task"
+task --version // ger i mitt fall utskriften: 3.45.0, ni får kanske nyare
+task --help // ger hjälp
+task --list // listar aktuella kommandon
+```
+
 
 ### Kör setup i ditt lokala Git-repo
 
@@ -109,33 +135,6 @@ import task_setup_ok from '@assets/kursrepo/task_setup_ok.png';
 />
 
 När alla testerna gått igenom ska vi testa att ladda upp en lokal förändring till GitHub!
-
-<details>
-<summary>Om du saknar kommandot `task`, installera så här:</summary>
-
-#### Ubuntu (Windows/Linux)
-
-```console title="Installera Task med Snap."
-sudo snap install task --classic
-```
-
-#### Mac
-
-```console title="Installera Task med Homebrew."
-brew install go-task
-```
-
-#### Verifiera installationen av Task
-
-`task` är kommandot för att köra programmet Task och sen finns det flaggor som till exempel; `--list` är en flagga som listar alla kommandon som finns i Taskfile.
-
-```console title="Verifiera installationen av Task"
-task --version // ger i mitt fall utskriften: 3.45.0, ni får kanske nyare
-task --help // ger hjälp
-task --list // listar aktuella kommandon
-```
-
-</details>
 
 
 ### Ladda upp de lokala ändring till GitHub

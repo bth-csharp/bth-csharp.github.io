@@ -22,9 +22,6 @@ head:
 import Figure from '@components/CustomFigure.astro';
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-:::danger
-Materialet är inte klart. Avvakta!
-:::
 
 :::note
 I bilderna nedan ska det stå DV1701 som kurskod och organisationen som du blir inbjuden till heter `bth-csharp`.
@@ -37,7 +34,7 @@ För att kunna arbeta med kursens kod och uppgifter på GitHub behöver du koppl
 
 På kursens [Canvas](https://canvas.bth.se) sida finns en uppgift som heter **GitHub invite**. Gå till den, följ instruktionerna där och lämna in uppgiften.
 
-### G i Canvas
+### G på GitHub invite i Canvas
 
 När uppgiften har rättats får du en inbjudan till organisationen. Efter några minuter får du en notis i Canvas och ett mejl till den GitHub-användare du angav i uppgiften. Uppgiften är godkänd när du fått omdömet **0(G)**. G står för godkänt (nollan för 0 poäng).
 
@@ -87,6 +84,7 @@ import SSOcontinue from '@assets/kursrepo/SSOcontinue.png';
 <Figure 
     src={SSOcontinue}
     caption="Klicka på knappen Continue på att logga in med SSO."
+    width="600px"
 />
 
 När du klickat på knappen `Continue` så är du inloggad med SSO och det ser ut så här:
@@ -124,6 +122,7 @@ import authenticateSsh from '@assets/kursrepo/authenticate-ssh.png';
 <Figure 
     src={authenticateSsh}
     caption="Aktivera SSH för organisationen på GitHub."
+    width="700px"
 />
 
 **Verifiera att du har tillgång till organisationen på GitHub genom att logga in och titta på ditt kursrepo.**
