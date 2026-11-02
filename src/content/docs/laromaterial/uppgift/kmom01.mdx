@@ -17,6 +17,7 @@ head:
 
 import { YouTube } from 'astro-embed';
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import Figure from '@components/CustomFigure.astro';
 
 
 Du ska göra ett menyprogram och strukturera koden i funktioner. Du skapar din app i `kmom01` och kallar den `Menu`.  
@@ -195,6 +196,48 @@ task test -- kmom01
 ```
 
 Då får vi hoppas att alla tester går igenom! Lycka till!
+
+### Alla tester går bra
+
+Så här ser det ut när alla tester går bra:
+
+import ok_tests from '@assets/img/kmom01/ok_tests.png';
+
+<Figure 
+    src={ok_tests}
+    caption="Alla tester i Menu.Tests för kmom01 gick bra."
+/>
+
+<details>
+<summary>
+#### Gick något testfall fel?
+</summary>
+
+Här har det blivit något fel i menyval 3: Upprepa tecken:
+
+import error_repeat_test from '@assets/img/kmom01/error_repeat_test.png';
+
+<Figure 
+    src={error_repeat_test}
+    caption="Fel i testfallen för menyval 3: Upprepa tecken."
+/>
+
+Leta efter ord som **Expected** och **But was** samt **Error message**.  
+Här säger felmeddelandet att "The input apa should be a-pp-aaa.".  
+Det förväntade resultatet ska vara "a-pp-aa" men det var istället "a+pp+aaa". Och där ser vi att jag valt fel tecken, det ska vara `-` istället för `+`.
+
+Här har det blivit något fel i menyval 5: Summa och medelvärde:
+
+import error_average_test from '@assets/img/kmom01/error_average_test.png';
+
+<Figure 
+    src={error_average_test}
+    caption="Fel i testfallen för menyval 5: Summa och medelvärde."
+/>
+
+I felmeddelandet hittar vi att talen som matas in är 1, 2 och 3 och att summan stämmer men inte medelvärdet. Då dubbelkollar jag min kod och ser att jag delar med 4 istället för 3.
+
+</details>
 
 ## Tips från coachen
 
