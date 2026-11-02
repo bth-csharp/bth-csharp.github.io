@@ -111,6 +111,32 @@ task --help // ger hjälp
 task --list // listar aktuella kommandon
 ```
 
+<details>
+<summary>
+#### Problem vid installation av task?
+</summary>
+
+**Råkat stänga av eller något hänt som fått det att krascha?**
+
+- Kolla status med `snap changes`  
+Du kommer se olika ID, Status, Summary och lite mer, men ID och Status är dem relevanta.
+Bör stå "Error" efter en status som gäller för Install "task" snap
+Vi behöver avbryta den med "Error" för "task". 
+- Skriv följande: `sudo snap abort <relevant ID>` Exempelvis sudo snap abort 2
+- Starta om terminalen via `sudo systemctl restart snapd`
+- Prova installera igen `sudo snap install task --classic`
+
+**Fått upp något i stil med**
+*Warning: The unit file, source configuration file or drop-ins of snapd.service changed on disk. Run 'systemctl daemon-reload' to reload units.*
+Då gör du som den säger och skriver
+- `sudo systemctl daemon-reload`
+- `sudo systemctl restart snapd`
+Nu bör det vara okej att installera igen
+- `sudo snap install task --classic`
+
+Repetera från början om något skulle gå fel igen
+
+</details>
 
 ### Kör setup i ditt lokala Git-repo
 

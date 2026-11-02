@@ -79,6 +79,23 @@ Det tredje kommandot installerar *.NET version 10*.
 Om du får problem med installationen, kan du kolla [Install .NET on Linux](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?tabs=dotnet9&pivots=os-linux-ubuntu-2404). Här finns information om hur du installerar om du har en tidigare version av Ubuntu eller använder någon annan Linux.
 :::
 
+<details>
+<summary>
+#### Glömt lösenord för WSL (Ubuntu)?
+</summary>
+
+1. Stäng alla terminalfönster du har öppnat
+1. Öppna kommandotolken (cmd.exe) - Windows knapp -> Börja skriva "cmd" tryck enter
+1. Skriv följande i ordning:
+    - `wsl -u root`
+    - `ls /home` (Visar ditt användarnamn om du inte minns det)
+    - `passwd <användarnamn>` (Du ska skriva UTAN `<>` så passwd emir som exempel
+    Du kommer bli ombedd att skriva in ett nytt lösenord nu två gånger. Du kommer inte SE vad du skriver, så lägg på minnet vad du skriver.
+
+Repetera stegen om du glömmer igen eller skrev fel.
+
+</details>
+
 ### Mac
 
 Ladda ner den senaste versionen av **.NET** med **brew**. Eftersom .NET är en MacOS app bundle så installerar vi med "--cask" så här:
