@@ -138,7 +138,7 @@ I den här förbättrade versionen, **GoodBank** har vi:
 
 5. Utnyttjande av "property": I BankAccount har vi nu använd "property" för kontoattribut, för att förbättra läsbarheten och göra det lättare att underhålla. Även i Bank gör vi BankName till en "property". Properties är överkurs men det finns kvar i exemplet för att visa hur det kan användas.
 
-6. Förbättrad namngivning: Privata attribut har fått namn enligt C#  namngivning med understreck (Accounts blev _accounts i Bank.cs) samt konstanter har PascalCase.
+6. Förbättrad namngivning: Privata attribut har fått namn enligt C#  namngivning med understreck (Accounts blev _accounts i Bank.cs) samt konstanter har UpperCase (stora bokstäver).
 
 7. Avstår från förenkling: Verktyget föreslår att vi ska använda defaultkonstruktor. Men vi tycker att vi har kvar en egen konstruktor, då underlättar vid vidareutveckling. Däremot förenklar vi gärna listan i konstruktorn (från `new List<BankAccount>()` till `[]`.)
 
