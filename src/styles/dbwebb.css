@@ -18,15 +18,6 @@ details>summary>.sl-heading-wrapper {
 	display: inline-block;
 }
 
-.sl-markdown-content summary:not(:where(.not-content *))::before {
-	/* details>summary::before vill använda denna, men den funkar inte
-	*/
-	vertical-align: baseline;
-}
-
-:root {
-	justify-self: auto;
-}
 
 <figure id="imageFigure" style="/* display: inline-block; *//* cursor: pointer; *//* --height: 400; *//* --width: 800; */" class="astro-kalua2zp"> <img src="/_image?href=%2F%40fs%2Fhome%2Fgrm%2Frepo-dbwebb%2Fbth-csharp%2Fbth-csharp.github.io%2Fsrc%2Fassets%2Fimg%2Fkmom01%2Ffiddler.png%3ForigWidth%3D1600%26origHeight%3D994%26origFormat%3Dpng&amp;w=800&amp;h=400&amp;f=webp" data-image-component="true" alt="Image description" loading="lazy" decoding="async" fetchpriority="auto" width="800" height="400" class="astro-kalua2zp"> <figcaption class="astro-kalua2zp" style="--height: 400;--width: 800;">Bild: Online C# kompilator Fiddle.</figcaption> </figure>
 /* Dark mode colors. */
@@ -64,4 +55,17 @@ details>summary>.sl-heading-wrapper {
 	width: 22rem !important;
 	min-width: 22rem !important;
 	max-width: 26rem !important;	
+}
+
+@media (min-width: 72rem) {
+    .main-pane {
+        display: flex;
+        justify-content: center;
+    }
+
+    .main-pane .sl-container {
+        margin-inline: 0 !important;
+        width: 100%;
+        max-width: 73rem;
+    }
 }
