@@ -403,15 +403,21 @@ Ett kommatecken i \[,\] anger att det är en tvådimensionell array och två kom
 
 ## var
 
-**var** är ett nyckelord som används för att implicit deklarera lokala variabler.
+**var** är ett nyckelord som används för att låta kompilatorn automatiskt avgöra datatypen för en lokal variabel.
 
-När vi deklarerar en variabel med `var` istället för att vi bestämmer datatyp så överlåter vi till kompilatorn att bestämma variabelns typ baserat på värdet som vi tilldelar variabeln. Vi måste initiera variabler vi deklarerar med `var` med ett värde direkt.
+När vi deklarerar en variabel med `var` behöver vi inte själva ange datatypen. I stället bestämmer kompilatorn variabelns typ utifrån det värde som tilldelas vid deklarationen. `var` innebär inte att variabeln saknar datatyp. Datatypen bestäms av kompilatorn vid kompileringen och kan därefter inte ändras.
+
+Variabler som deklareras med `var` måste initieras direkt eftersom kompilatorn behöver värdet för att kunna avgöra datatypen.
 
 ```csharp
 var month = "September"; // Kompilatorn gör om det till en sträng
 var year = 2024; // Kompilatorn gör om det till en int
 var noOfDays; // Kompilatorn ger kompileringsfel, då variabeln måste initieras
 ```
+
+:::note
+I denna kurs använder vi normalt explicita datatyper (int, string, double osv.) i stället för var. Det gör koden tydligare för den som håller på att lära sig språket. När du blivit mer van vid C# kommer du att stöta på var i många kodbaser och då är det viktigt att förstå att variabeln fortfarande har en bestämd datatyp.
+:::
 
 
 ## Tupler
