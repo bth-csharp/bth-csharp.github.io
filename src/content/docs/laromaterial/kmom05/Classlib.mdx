@@ -101,8 +101,7 @@ Vi uppdaterar först konsolprojektet med kod som anropar klassbiblioteket.
 ```csharp title="I MyApp/MyApp.cs
 using MyLibrary;
 
-var calc = new Calculator();
-Console.WriteLine($"2 + 3 = {calc.Add(2, 3)}");
+Console.WriteLine($"2 + 3 = {Calculator.Add(2, 3)}");
 ```
 
 Då är det dags att testköra konsolprojektet i terminalen:
