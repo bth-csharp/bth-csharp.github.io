@@ -31,9 +31,9 @@ Nu när vi kan skapa klasser och objekt kan vi börja använda objektorientering
 
 ## Objekt i objekt
 
-När vi modellerar verkligheten består saker ofta av andra saker.
+När vi modellerar verkligheten består saker ofta av andra saker. En bil är av en viss modell och innehåller till exempel en motor.
 
-En bil har en motor, så här kan klassen **Engine** se ut.
+Vi börjar med en motor, så här kan klassen **Engine** se ut.
 
 ```csharp
 public class Engine
@@ -68,7 +68,18 @@ public class Car
 }
 ```
 
-Nu kan vi använda objekten **Car** och **Engine** i vårt huvudprogram `Program.cs`. Först skapar vi ett objekt av klassen **Engine# och sen skapar vi ett objekt av klassen **Car** som heter `car1` med `engine`. Om vi inte behöver objektet `engine` så kan vi hellre skapa det direkt som i `car2`.
+Fördelen är att klassen **Car** blir mer flexibel. Vi kan använda olika typer av motorer utan att behöva ändra koden i bilklassen.
+
+:::note
+När vi designar program kan vi arbeta både **top-down** och **bottom-up**. Här använder vi **bottom-up**.
+
+Med ett **bottom-up-perspektiv** börjar vi med att skapa mindre byggstenar, som en motor, och använder dem sedan för att bygga större objekt, som en bil.
+
+Med ett **top-down-perspektiv** börjar vi med helheten, exempelvis en bil, och identifierar sedan vilka delar den består av, exempelvis en motor.
+:::
+
+Nu kan vi använda objekten **Car** och **Engine** i vårt huvudprogram `Program.cs`. Först skapar vi ett objekt av klassen **Engine** och sparar det i variabeln `engine`. Sen skapar vi ett objekt av klassen **Car** som heter `car1` med `engine` som argument i konstruktorn.  
+Om vi inte behöver spara objektet `engine` så kan vi hellre skapa det direkt som i `car2`.
 
 ```csharp title="Testa klasserna i Program.cs"
 Engine engine = new Engine(150);
@@ -222,9 +233,15 @@ Console.WriteLine(Car.GetNumberOfCars());
 
 ### Aggregation
 
-I exemplet ovan skapas motorobjektet utanför bilklassen och skickas in i bilklassen. Det kan skickas in på två sätt. Det ena är att skapa ett motorobjekt och spara det i en variabel och skicka in variabeln när bilobjektet skapas, som i `car1` i exemplet ovan. Det andra är att skapa ett motorobjekt direkt när vi skapar bilobjektet, som i `car2` i samma exempel. Det senare kallas **dependency injection** och handlar om att ett objekt får de objekt det behöver utifrån, istället för att skapa dem själv.
+I exemplet ovan skapades ett motorobjekt utanför bilklassen och skickas in i bilklassen. Det kan skickas in på två sätt:
 
-Samma motor skulle teoretiskt kunna användas av flera objekt. Om vi skrotar bilen kan vi återanvända motorn i en annan bil. Vi kan säga att en bil använder en motor, men äger inte nödvändigtvis dess livscykel.
+1. Det ena är att skapa ett motorobjekt och spara det i en variabel. Variabeln skickas in som argument när bilobjektet skapas, som i `car1` i exemplet ovan.
+1. Det andra är att skapa ett motorobjekt direkt när vi skapar bilobjektet, som i `car2` i samma exempel.
+
+I båda fallen får bilobjektet det motorobjekt som det behöver utifrån. Det kallas **dependency injection** och handlar om att ett objekt får de objekt det behöver från omvärlden, istället för att skapa dem själv.
+
+Samma motor skulle teoretiskt kunna användas av flera objekt. Om vi skrotar bilen kan vi återanvända motorn i en annan bil.  
+Vi kan säga att en bil använder en motor, men äger inte nödvändigtvis dess livscykel.
 
 ### Komposition
 
@@ -247,9 +264,9 @@ public class Car
 }
 ```
 
-### Hur skiljer vi på aggregation och komposition?
+### Hur skiljer vi på komposition och aggregation?
 
-**Komposition:** är stark koppling (äger en) och har new inne i klassen
+**Komposition:** är en stark koppling (äger en) och har new inne i klassen
 
 **Aggregation:** är en koppling (har en) och objekt skickas in i klassen, antingen via konstruktorn eller någon annan metod på klassen.
 
