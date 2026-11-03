@@ -685,9 +685,10 @@ try
     int divider = 0;
     int x = 10 / divider;
 }
-catch (DivideByZeroException divideE)
+catch (DivideByZeroException divideError)
 {
     Console.WriteLine("Det gick inte att dela med noll!");
+    Console.WriteLine("Ett fel uppstod: " + divideError.Message);
 }
 catch (Exception e)
 {
