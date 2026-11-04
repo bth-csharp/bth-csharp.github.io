@@ -76,11 +76,11 @@ Console.WriteLine(x);
 4. Är följande kod korrekt? Om ja - vad blir utskriften? Om nej - varför?
 
 ```csharp
-int x = 10;
-if (× < 2)
+int number = 10;
+if (number > 2)
 {
-    int x = 20;
-    Console.WriteLine(x);
+    int number = 20;
+    Console.WriteLine(number);
 }
 ```
 
@@ -124,17 +124,17 @@ Börja med att planera er lösning, vilken kod behövs och vilka datatyper er da
 
 ### Uppgifter
 
-1. Gör ett program som hanterar bedömning av olika sorters glassar.I detta fall är det maximala antalet olika glassar som kan bedömas 10.
+Gör ett program som hanterar bedömning av olika sorters glassar.I detta fall är det maximala antalet olika glassar som kan bedömas 10.
 Metoder ska definieras och användas för att hantera olika delproblem.
 
 Exempelkörning:  
 
 Användarinmatning visas med kursiv text.  
 
-Hur många glassar ska bedömas (max 10)? 6  
+Hur många glassar ska bedömas (max 10)? *6*  
 
 Mata in namnen på de 6 glassarna:  
-<i>Magnum mandel</i>
+*Magnum mandel*  
 *Storstrut*  
 *Piggelin*  
 *88:an*  
@@ -226,7 +226,7 @@ string[] iceCreams = new string[MAX];
 int[] totalPoints = new int[MAX];
 
 int nrOfIceCreams;
-Console.WriteLine($"Hur många glassar ska bedömas (max {MAX})?");
+Console.Write($"Hur många glassar ska bedömas (max {MAX})?");
 string? input = Console.ReadLine(); // samma sak som string input = Console.ReadLine() ?? "";
 while (string.IsNullOrEmpty(input) || !int.TryParse(input, out nrOfIceCreams))
 {
