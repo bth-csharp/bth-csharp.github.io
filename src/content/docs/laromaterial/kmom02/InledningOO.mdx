@@ -27,11 +27,11 @@ En klass samlar data och funktionalitet i en gemensam struktur. Klassen fungerar
 
 Tänk dig en bank som erbjuder sina kunder bankkonton. Varje konto i banken är ett objekt och dess egenskaper (tillstånd/data) samt beteenden (operationer) beskrivs av en klass. Vi definierar alltså datatypen Konto och kan därefter skapa valfritt många kontoobjekt.
 
-Varje konto har egenskaper som kontonummer, innehavare och saldo. Dessa egenskaper representeras vanligtvis av instansvariabler (även kallade instansattribut eller medlemsvariabler). Utöver sina egenskaper kan ett konto utföra olika åtgärder, till exempel att sätta in pengar, ta ut pengar eller visa aktuellt saldo. Dessa åtgärder utgör objektets beteende och representeras av metoder, ofta kallade instansmetoder eller medlemsmetoder.
+Varje konto har egenskaper som kontonummer, innehavare och saldo. Dessa egenskaper representeras vanligtvis av attribut (även kallade medlemsvariabler). Utöver sina egenskaper kan ett konto utföra olika åtgärder, till exempel att sätta in pengar, ta ut pengar eller visa aktuell information med ägare och saldo. Dessa åtgärder utgör objektets beteende och representeras av metoder.
 
 <Figure
     src={bank}
-    caption="Klassen Bank och klassen Konto"
+    caption="Programmet Bank med klassen Account"
     width="450px"
 />
 
@@ -126,9 +126,8 @@ Klasserna är ritningar för objekt och objekten är konkreta instanser av dessa
 
 Vi skapar en klass för att representera ett spelkort **Card** där ett spelkort har egenskaperna valör och färg. Metoderna i klassen blir *skapa spelkort*, *visa valör* och *visa färg*.
 
-Den andra klassen vi skapar ska representera en kortlek **DeckOfCards**. Här kan egenskapen att hålla antalet spelkort vara relevant och även möjligheten att hantera/lagra 52 spelkort. Metoder i klassen kortlek kan vara *skapa kortlek*, *blanda kortlek* och *ta ut det översta kortet*.
+I vårt huvudprogram så representerar vi en kortlek, `deckOfCards`, med en array med 52 objekt av klassen **Card**. 
 
-Vi representerar spelkorten i klassen **DeckOfCards** med en array som består av 52 objekt av klassen **Card**. När vi skapar ett objekt av klassen **DeckOfCards** så skapas också 52 objekt av klassen **Card**. 
 
 ## Överlagring
 
