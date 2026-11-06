@@ -19,6 +19,7 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 import bank from '@assets/img/kmom02/Bank.png';
+import bankKonto from '@assets/img/kmom02/BankKonto.png';
 import kortlek from '@assets/img/kmom02/kortlek.jpg';
 
 Objektorienterad programmering handlar om att organisera och strukturera kod på ett sätt som efterliknar verkliga objekt och relationerna mellan dem. För detta skapar vi egna datatyper, så kallade klasser, som beskriver vilka egenskaper och beteenden objekten ska ha. Objekten kan sedan interagera både med omvärlden och med andra objekt.
@@ -31,8 +32,14 @@ Varje konto har egenskaper som kontonummer, innehavare och saldo. Dessa egenskap
 
 <Figure
     src={bank}
-    caption="Programmet Bank med klassen Account"
-    width="450px"
+    caption="Programmet Bank har en lista med bankkonton."
+    width="400px"
+/>
+
+<Figure
+    src={bankKonto}
+    caption="Bankkonton i banken."
+    width="400px"
 />
 
 När vi skapar kontoobjekt är det rimligt att ange innehavare och startsaldo. Kontonumret kan däremot genereras automatiskt. När ett konto har skapats kan dess metoder användas för att exempelvis sätta in pengar, ta ut pengar och visa aktuellt saldo. Metoder anropas alltid för ett specifikt objekt.
