@@ -26,25 +26,25 @@ Objektorienterad programmering handlar om att organisera och strukturera kod på
 
 En klass samlar data och funktionalitet i en gemensam struktur. Klassen fungerar som en mall för de objekt som skapas från den och representerar därmed en sammansatt datatyp. Objekten sägs vara instanser av klassen. Varje objekt har sina egna värden för klassens variabler, medan alla objekt delar samma uppsättning metoder som definieras i klassen.
 
-Tänk dig en bank som erbjuder sina kunder bankkonton. Varje konto i banken är ett objekt och dess egenskaper (tillstånd/data) samt beteenden (operationer) beskrivs av en klass. Vi definierar alltså datatypen Konto och kan därefter skapa valfritt många kontoobjekt.
-
-Varje konto har egenskaper som kontonummer, innehavare och saldo. Dessa egenskaper representeras vanligtvis av attribut (även kallade medlemsvariabler). Utöver sina egenskaper kan ett konto utföra olika åtgärder, till exempel att sätta in pengar, ta ut pengar eller visa aktuell information med ägare och saldo. Dessa åtgärder utgör objektets beteende och representeras av metoder.
+Tänk dig en bank som erbjuder sina kunder bankkonton. Banken har flera bankkonton. Varje konto i banken är ett objekt och dess egenskaper (tillstånd/data) samt beteenden (operationer) beskrivs av en klass. Vi definierar alltså datatypen Konto, som är en klass, och kan därefter skapa valfritt många kontoobjekt.
 
 <Figure
     src={bank}
     caption="Programmet Bank har en lista med bankkonton."
-    width="400px"
+    width="500px"
 />
+
+Varje konto har egenskaper som kontonummer, innehavare och saldo. Dessa egenskaper representeras vanligtvis av attribut (även kallade medlemsvariabler). Utöver sina egenskaper kan ett konto utföra olika åtgärder, till exempel att sätta in pengar, ta ut pengar eller visa aktuell information med ägare och saldo. Dessa åtgärder utgör objektets beteende och representeras av metoder.
 
 <Figure
     src={bankKonto}
     caption="Bankkonton i banken."
-    width="400px"
+    width="500px"
 />
 
 När vi skapar kontoobjekt är det rimligt att ange innehavare och startsaldo. Kontonumret kan däremot genereras automatiskt. När ett konto har skapats kan dess metoder användas för att exempelvis sätta in pengar, ta ut pengar och visa aktuellt saldo. Metoder anropas alltid för ett specifikt objekt.
 
-Variabler och metoder i en klass kallas gemensamt för medlemmar. För varje medlem kan vi bestämma åtkomstnivå, till exempel privat eller publik. En vanlig princip är att medlemsvariabler görs privata medan medlemsmetoder görs publika.
+Atribut (medlemsvariabler) och metoder i en klass kallas gemensamt för klassens medlemmar. För varje medlem kan vi bestämma åtkomstnivå, till exempel privat eller publik. En vanlig princip är att medlemsvariabler görs privata medan medlemsmetoder görs publika.
 
 I kontoexemplet vill vi inte att kod utanför objektet ska kunna ändra kontonummer, innehavare eller saldo direkt. Dessa variabler görs därför privata. Däremot vill vi att användaren av objektet ska kunna sätta in och ta ut pengar samt läsa saldot, vilket gör att dessa metoder görs publika.
 
