@@ -187,8 +187,8 @@ account2.Deposit(50);
 
 Console.WriteLine(account1.GetBalance());        // ?
 Console.WriteLine(account2.GetBalance());        // ?
-Console.WriteLine(account1.GetHistoryCount().Count); // ?
-Console.WriteLine(account2.GetHistoryCount().Count); // ?
+Console.WriteLine(account1.GetTransactionHistory().Count); // ?
+Console.WriteLine(account2.GetTransactionHistory().Count); // ?
 ```
 
 Lägg till följande överst i `Program.cs` för att använda List:
@@ -209,8 +209,8 @@ Frågor att besvara:
 |----------|----------|----------------------|
 | account1.GetBalance() |   150   | _balance ligger i samma objekt (referenstyp). |
 | account2.GetBalance() |   150   | account1 och account2 pekar på samma objekt.  |
-| account1.GetHistoryCount() |   2   | Listan är samma objekt för account1 och account2. |
-| account2.GetHistoryCount() |   2   | Ändringen gjordes i samma lista. |
+| account1.GetTransactionHistory() |   2   | Listan är samma objekt för account1 och account2. |
+| account2.GetTransactionHistory() |   2   | Ändringen gjordes i samma lista. |
 
 **Förklaring**
 
