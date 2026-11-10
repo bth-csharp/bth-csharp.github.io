@@ -1,10 +1,21 @@
 ---
 title: "Huvudprogram"
 description: Huvudprogram med kodexempel
-sidebar:
-    order: 4
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Allt i C# är på ett eller annat sätt ett objekt. Strängar, heltal, listor, moduler - ja, allt. Vi ska titta på är hur man skapar egna klasser och objekt och hur man hanterar dem.
 
@@ -37,3 +48,8 @@ Console.WriteLine("Hello, World!");
 ```
 
 Dessa två sätt representerar samma program. Förutsatt att projektet heter "MyApp" så får namespacet samma namn.
+
+<LinkCard
+  title="Tillbaka till - Introduktion till OO Guiden"
+  href="/laromaterial/ooguide/intro/"
+/>

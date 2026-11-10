@@ -1,10 +1,21 @@
 ---
 title: "Metoder"
 description: Metoder med kodexempel
-sidebar:
-    order: 6
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 En metod är en körbar enhet som är definierad i en klass. Metoder kan antingen tillhöra en klass, statiska metoder eller tillhöra ett objekt, instansmetoder. En instansmetod tillhör ett objekt (en instans) av klassen och anropas med instansens namn, följt av en punkt och därefter metodens namn med parameterlista. Inom klassen anropas instansmetoden med `this` följt av en punkt och därefter metodens namn med parameterlista. Varje metod ska utföra en separat uppgift och ha ett beskrivande namn.
@@ -269,3 +280,8 @@ TestingMethodPrintouts(bmw);
 Efter att ha testkört metoden så kommenterar vi bort anropet till den.
 
 Om du vill se koden i sin helhet så kan du ladda ner den med kommandot `task download-code -- kmom02/OoGuide`. Exemplet hamnar då i en katalog som heter "codeExample" under kmom02.
+
+<LinkCard
+  title="Tillbaka till - Introduktion till OO Guiden"
+  href="/laromaterial/ooguide/intro/"
+/>

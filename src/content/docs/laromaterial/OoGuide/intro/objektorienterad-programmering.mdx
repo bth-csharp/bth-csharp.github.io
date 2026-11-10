@@ -1,10 +1,21 @@
 ---
 title: "Objektorienterad programmering"
 description: Objektorienterad programmering
-sidebar:
-    order: 2
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Objektorienterad programmering är en av många metoder att programmera på, en så kallad programmeringsparadigm. Ett programmeringsspråk sorteras vanligen in i en programmeringsparadigm och många språk stödjer flera programmeringsparadigmer. Vi kan alltså välja hur vi skriver vår kod, enligt en eller flera paradigmer.
 
@@ -51,3 +62,8 @@ När ett objekt skapas från en klass och får det de variabler och metoder som 
 Kolla gärna dessa självstudier som går igenom [Introduktion till klasser](https://learn.microsoft.com/sv-se/dotnet/csharp/fundamentals/tutorials/classes) eller på engelska i [Introduction to classes](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/classes).
 
 Där hittar du också [C# dokumentation](https://learn.microsoft.com/sv-se/dotnet/csharp/).
+
+<LinkCard
+  title="Tillbaka till - Introduktion till OO Guiden"
+  href="/laromaterial/ooguide/intro/"
+/>

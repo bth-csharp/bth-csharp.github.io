@@ -1,10 +1,21 @@
 ---
 title: "Objektorienterad terminologi"
 description: Objektorienterad terminologi
-sidebar:
-    order: 3
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Här beskrivs vanliga koncept in objektorienterad programmering (OOP). Koncepten beskrivs mer djupgående i guiden och denna sidan är mer en referenslista som ni kan gå tillbaka till för att få en överblick över OOP koncept.
 
@@ -81,3 +92,8 @@ Med **Information hiding** visar vi endast de variabler och metoder som är nöd
 | private _name   | privat (private) | Nås endast från klassen där de deklareras (default om inget annat anges)
 | protected _name | skyddad (protected) | Fungerar som privat men medlemmen kan även nås från klasser som ärver från klassen där de deklareras                             | |
 | public name    | publik (public)  | Kan nås av vem som helst och ska undvikas för egenskaper där property bör användas istället.           |
+
+<LinkCard
+  title="Tillbaka till - Introduktion till OO Guiden"
+  href="/laromaterial/ooguide/intro/"
+/>

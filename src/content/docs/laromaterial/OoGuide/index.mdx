@@ -1,10 +1,21 @@
 ---
 title: "Objektorienterad programmering i C#"
 description: Kom igång med objektorienterad programmering i C#
-sidebar:
-    order: 1
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 import leaf_256x256 from '@assets/leaf_256x256.png';
@@ -56,3 +67,8 @@ Här tittar vi på mer begrepp inom objektorienterad programmering som abstrakta
 - [Abstrakta klasser](/laromaterial/ooguide/kap3/abstract-classes)
 - [Automatic properties - Överkurs](/laromaterial/ooguide/kap3/property)
 - [Interface & Collections - Överkurs](/laromaterial/ooguide/kap3/annat)
+
+<LinkCard
+  title="Tillbaka till - Startsidan"
+  href="/"
+/>
