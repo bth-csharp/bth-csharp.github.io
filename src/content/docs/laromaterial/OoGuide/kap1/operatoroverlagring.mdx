@@ -1,10 +1,21 @@
 ---
 title: "Operatorsöverlagring"
 description: Operatorsöverlagring med kodexempel
-sidebar:
-    order: 4
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Operatorer inom programmering (`+, -, *, /, <, >` med flera), har ett förutbestämt syfte och vi kan använda dem på våra värden. C# vet vad som ska göras när vi skriver `3 + 5`. Men när vi skapar egna klasser så gömmer vi data i objekt och då kan vi inte förutsätta att det ska vara möjligt att till exempel addera eller subtrahera två objekt. Även om det ska vara möjligt kan vi inte förvänta oss att det ska fungera. Vidare har våra objekt ofta flera attribut med olika värden. Hur ska C# veta vilka av attributen som ska användas vid uträkningarna? Om det ska vara möjligt att addera två Car-objekt, ska då strängen `_model` eller heltalet `_price` eller båda användas i operationen?
 
@@ -89,3 +100,7 @@ Det finns alltså en specifik metod för varje aritmetisk operator `+, -, *, /, 
 
 Alla operatorer går inte att överlagra, mer om det i [C#s dokumentation](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading).
 
+<LinkCard
+  title="Tillbaka till - Objekt i objekt"
+  href="/laromaterial/ooguide/kap1/"
+/>

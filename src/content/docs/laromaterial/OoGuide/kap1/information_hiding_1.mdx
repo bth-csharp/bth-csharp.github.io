@@ -1,10 +1,21 @@
 ---
 title: "Information hiding"
 description: Information hiding med kodexempel
-sidebar:
-    order: 2
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Information hiding är när man gömmer intern data i klassen, så att den inte kan användas på fel sätt eller utanför den egna instansen. Låt oss säga att vi har en klass som har ett attribut som innehåller någon känslig data. Då vill vi inte att det ska gå att använda den datan hur som helst. Vi vill kanske kontrollera hur värdet sätts, göra en speciell uträkning för att få ett nytt värde, eller så är bara värdet hemligt. Vi vill kunna begränsa tillgången till variabler eller metoder utanför klassdefinitionen.
 
@@ -123,3 +134,8 @@ TestingPrivatePrintouts();
 ```
 
 När vi inte vill använda metoden `TestingPrivatePrintouts` kommenterar vi bort den.
+
+<LinkCard
+  title="Tillbaka till - Objekt i objekt"
+  href="/laromaterial/ooguide/kap1/"
+/>

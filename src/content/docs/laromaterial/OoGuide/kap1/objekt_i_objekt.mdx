@@ -1,10 +1,21 @@
 ---
 title: "Objekt i objekt"
 description: Objekt i objekt med kodexempel
-sidebar:
-    order: 5
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 Till vår racerbana så har vi två klasser **RaceTrack**, som representerar själva racerbanan, och **Car** som representerar en bil på racerbanan. Vad kan vi mer behöva för klasser? Det kan till exempel behövas förare, publik och varför inte väder. Vädret kan ju påverka bilarnas hastighet.
@@ -367,3 +378,8 @@ Se här ser vårt klassdiagram ut nu:
 Vi har en *komposition* mellan **RaceTrack** och **Car**, vilket innebär när **RaceTrack** objektet upphör att existera så upphör även **Car**-objekten att existera. Däremot fortsätter **Weather**-objektet att existera då **RaceTrack** objektet upphör att existera eftersom dess relation är *aggregation*. Det finns även relationen *association*  mellan **Car** och **AsciiArt**.
 
 Vi har använt objekt i objekt med olika relationer.
+
+<LinkCard
+  title="Tillbaka till - Objekt i objekt"
+  href="/laromaterial/ooguide/kap1/"
+/>

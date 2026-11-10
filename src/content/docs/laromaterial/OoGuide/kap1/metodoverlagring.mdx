@@ -1,10 +1,21 @@
 ---
 title: "Metodöverlagring"
 description: Metodöverlagring med kodexempel
-sidebar:
-    order: 3
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Metoder i C# kan ha samma namn så länge de har olika antal parametrar eller samma antal parametrar fast av olika typer. Vid anrop av en överlagrad metod väljer C# den metod som passar baserat på antalet och typerna av argument som skickas med anropet. Detta möjliggör flexibel och intuitiv användning av metoder med samma namn för att utföra uppgifter beroende på olika användningsfall.
 
@@ -44,3 +55,8 @@ I det första fallet när två heltal ska adderas så väljer C# metoden med par
 Alla metoderna i klassen **Calculator** är statiska.
 
 När du kör detta i en [C# online simulator](https://dotnetfiddle.net/) som har en Main()-metod, så lägger du klassen **Calculator** innan Main()-metoden och resten av koden inuti Main()-metoden. Du kan också kopiera in koden i OoGuidens Program.cs och testköra den där.
+
+<LinkCard
+  title="Tillbaka till - Objekt i objekt"
+  href="/laromaterial/ooguide/kap1/"
+/>
