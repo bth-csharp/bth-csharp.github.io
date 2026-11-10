@@ -1,0 +1,32 @@
+---
+title: "Kapitel 3 - Mer objektorientering"
+description: Kapitel 3 - Mer objektorientering med innehållsförteckning
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Här tittar vi på mer begrepp inom objektorienterad programmering som abstrakta klasser och metoder. Vi tittar också på "Properties", som är attribut i en klass med automatgenerade get- och set-metoder. Ibland är det bättre att använda Interface istället för abstrakta klasser. I detta kapitlet pratar vi också om "Interface", "Enum" och "Collections".
+
+
+## Innehåll
+
+- [Abstrakta klasser](/laromaterial/ooguide/kap3/abstract_classes)
+- [Automatic properties - Överkurs](/laromaterial/ooguide/kap3/property)
+- [Interface, Enum & Collections](/laromaterial/ooguide/kap3/annat)
+
+<LinkCard
+  title="Tillbaka till - OO Guiden"
+  href="/laromaterial/ooguide/"
+/>

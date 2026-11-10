@@ -1,10 +1,21 @@
 ---
 title: "När kan/ska man använda arv?"
 description: När kan/ska man använda arv?
-sidebar:
-    order: 1
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 Arv används när flera klasser har gemensamma grund och är sedan specialiserade i någon grad. Till exempel så har olika typer av bilar likheter och skillnader, alla är bilar men de har olika egenskaper. Då kan man ha en basklass som heter **Car** och tre subklasser för olika biltyper, som sportbil, personbil och Suv.
@@ -338,3 +349,8 @@ Inför nästa kapitel så kommenterar vi ut eller tar bort all kod i huvudprogra
 ## Sammanfattning
 
 Vi använder arv för att återanvända kod. Vi återanvänder egenskaper och metoder från klassen **Car** i subklasserna **Sport**, **Passenger** och **Suv**. Subklasserna har vi gjort för att vi vill utöka basklassen och ge subklasserna specifika egenskaper och metoder. Subklasserna kan använda metoder från basklassen.
+
+<LinkCard
+  title="Tillbaka till - Arv och klassrelationer"
+  href="/laromaterial/ooguide/kap2/"
+/>

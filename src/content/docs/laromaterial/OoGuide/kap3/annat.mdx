@@ -1,10 +1,21 @@
 ---
-title: "Interface, Enum och Collections - Överkurs"
+title: "Interface, Enum och Collections"
 description: Interface, Enum och Collections
-sidebar:
-    order: 4
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 Den här artikeln tar upp "Interface", "Enum" och "Collections" i C#.
@@ -50,7 +61,7 @@ public class Car : Vehicle, IVehicle
 
 Vi har redan all kod i huvudprogrammet och behöver bara köra `dotnet run`. Och det funkar precis som innan men det beror ju på att klassen **Car** redan har implementerat metoderna i interfacet **IVehicle**. Lägger vi till en ny metod i interfacet så måste vi också implementera den metoden i **Car**.
 
-## Enums
+## Enums - Överkurs
 
 Enums är en specialklass som representerar en grupp av konstanter. Enum kan användas inne i en klass. Första konstanten har värdet 0 och andra värdet 1 och så vidare men ska vi använda värdet så måste vi konvertera det till en int först. Ett användningsområde till enums är till switch-satser. Läs mer om [enums](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/enums).
 
@@ -158,7 +169,7 @@ Så här ser det ut när vi kör programmet i terminalen:
 [![asciicast](https://asciinema.org/a/Oqqp8s1UNkxH8gXNy1RcuJTHe.svg)](https://asciinema.org/a/Oqqp8s1UNkxH8gXNy1RcuJTHe)
 
 
-## Collections
+## Collections - Överkurs
 
 En collection eller samling på svenska i C# är en datastruktur som används för att lagra och hantera objekt. En generisk typparameter markerar vi med T (stort T) och det innebär att detta kan funka för vilken typ som helst. Vi behöver inte specificera typen om vi använder T.
 
@@ -180,3 +191,8 @@ I det här kapitlet har vi pratat om:
 - interface, är en klass vars namn börjar på *I* och innehåller metoder som ska implementeras av de klasser som vill använda interfacet. Läs mer om [Interface](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/interfaces).
 - enum, en specialklass som representerar en grupp av konstanter.
 - collections, som listor och dictionary.
+
+<LinkCard
+  title="Tillbaka till - Mer objektorientering"
+  href="/laromaterial/ooguide/kap3/"
+/>

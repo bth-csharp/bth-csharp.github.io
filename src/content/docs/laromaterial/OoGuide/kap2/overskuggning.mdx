@@ -1,10 +1,21 @@
 ---
 title: "Överskuggning av metoder"
 description: Överskuggning av metoder
-sidebar:
-    order: 2
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 Överskuggning är att i en subklass skriva över (överskugga) en metod från en basklass för att anpassa funktionaliteten till subklassen. Vi har en metod som heter `Description` i basklassen och skapar varsin `Description` metod i subklasserna. I subklasserna tar metoderna med den data som är specifik för respektive subklasser. Om objektet som anropar `Description` är av basklassens typ, så anropas basklassens Description metod. Medan om objektet som anropar `Description` är av subklassens typ, så anropas subklassens Description metod.
@@ -246,3 +257,8 @@ import classdiagramCarArv_2 from '@assets/img/ooguide/classdiagramCarArv_2.png';
 />
 
 Då har vi överskuggat metoder från basklassen i subklassen och vi markerar det med nyckelorden `virtual` i basklassen och `override` i subklassen. `virtual` i basklassen markerar att metoden kan överskuggas i eventuella subklasser och `override` i subklassen markerar att subklassen överskuggar basklassens metod.
+
+<LinkCard
+  title="Tillbaka till - Arv och klassrelationer"
+  href="/laromaterial/ooguide/kap2/"
+/>

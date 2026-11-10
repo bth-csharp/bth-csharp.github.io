@@ -1,11 +1,21 @@
 ---
 title: "Relationer mellan klasser"
 description: Relationer mellan klasser
-sidebar:
-    order: 4
-    hidden: true
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 
@@ -83,3 +93,8 @@ import allRelationsWithInheritance from '@assets/img/ooguide/allRelationsWithInh
 ## Sammanfattning
 
 Använd arv för att återanvända kod mellan klasser och använd komposition för att paketera kod i moduler som kan återanvändas av olika klasser.
+
+<LinkCard
+  title="Tillbaka till - Arv och klassrelationer"
+  href="/laromaterial/ooguide/kap2/"
+/>

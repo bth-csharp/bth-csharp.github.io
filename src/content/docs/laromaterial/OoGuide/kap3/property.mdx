@@ -1,10 +1,21 @@
 ---
 title: "Property - Överkurs"
 description: Property med kodexempel
-sidebar:
-    order: 3
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 I C# finns något som heter automatimplementerade egenskaper (automatically implemented properties). En automatimplementerad egenskap (property) skapar vi genom att direkt efter vi deklarerar variabeln anger om det ska vara en egenskap, som ska kunna läsas, skriva i eller både ock. Vi kan också ange för varje egenskap om den är private, protected eller public.
@@ -287,3 +298,8 @@ import classdiagramRaceTrackProperty from '@assets/img/ooguide/classdiagramRaceT
 Ett vanligt sätt är att låta getmetoden vara publik medan setmetoden är privat. Properties används särskilt i publika API:er men även i JSON-objekt.
 
 För en längre och lite mer djupgående förklaring av `Properties` kan ni läsa [Properties (C# Programming Guide)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties).
+
+<LinkCard
+  title="Tillbaka till - Mer objektorientering"
+  href="/laromaterial/ooguide/kap3/"
+/>

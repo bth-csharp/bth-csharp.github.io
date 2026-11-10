@@ -1,10 +1,21 @@
 ---
 title: "Mera arv"
 description: Mera arv, arv i flera nivåer
-sidebar:
-    order: 5
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 import { YouTube } from 'astro-embed';
 
@@ -227,3 +238,8 @@ Alla klasser i C# ärver från **System.Object** vilket ger tillgång till metod
 Vi använder `virtual` för att visa att basklassens metod kan överskuggas och visar med `override` i subklassen att vi överskuggar och ändrar beteendet i subklassen.
 
 Om vi har en klass och vi absolut inte vill att någon annan klass ska kunna ärva från den, så kan vi använda **sealed**. Vi skriver **sealed class NameOfClass** istället för **public class NameOfClass**.
+
+<LinkCard
+  title="Tillbaka till - Arv och klassrelationer"
+  href="/laromaterial/ooguide/kap2/"
+/>

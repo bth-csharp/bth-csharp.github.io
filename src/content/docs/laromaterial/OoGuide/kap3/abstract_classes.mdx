@@ -1,10 +1,21 @@
 ---
 title: "Abstrakta klasser"
 description: Abstrakta klasser med kodexempel
-sidebar:
-    order: 2
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 import Figure from '@components/CustomFigure.astro';
 
 Vi har tidigare konstaterat att klasser är som ritningar för objekt. *Abstrakta klasser* är i sin tur som ritningar för andra klasser.
@@ -145,3 +156,8 @@ Innan vi går vidare vill vi testa att allt funkar genom att testköra racingban
 "Syftet med en abstrakt klass är att tillhandahålla en gemensam definition av en basklass som flera subklasser kan dela." allt enligt guiden [Abstract and Sealed Classes and Class Members (C# Programming Guide)](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/abstract-and-sealed-classes-and-class-members).
 
 Abstrakta klasser är bra att ha när vi vill att subklasserna ska ha en viss uppsättning attribut och metoder.
+
+<LinkCard
+  title="Tillbaka till - Mer objektorientering"
+  href="/laromaterial/ooguide/kap3/"
+/>

@@ -1,9 +1,21 @@
 ---
 title: "Kapitel 2 - Arv och klassrelationer"
 description: Kapitel 2 - Arv och klassrelationer med innehållsförteckning
-sidebar:
-    order: 3
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
 ---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Precis som i naturens värld kan vi inom programmering ärva egenskaper från en “förälder”. En klass kan ärva metoder och attribut från en annan klass, dess objekt kallas ofta för förälder- och barn-objekt. De korrekta termerna är basklass (förälder) och subklass (barn). När man kan beskriva relationen mellan två klasser som “är-en” resulterar det oftast i en arvsrelation.
 Kan man beskriva relationen som "har-en" är relationen istället komposition eller aggregation. Komposition och aggregation används när ett objekt innehåller ett annat objekt. Om kopplingen mellan objekten är stark, så är det komposition. Är relationen svagare så är det aggregation.
@@ -18,3 +30,8 @@ Vi tittar på de olika relationerna och några fler begrepp inom den objektorien
 - [Information hiding del 2](/laromaterial/ooguide/kap2/information_hiding_2)
 - [Komposition och aggregation](/laromaterial/ooguide/kap2/komposition_aggregation)
 - [Mera arv](/laromaterial/ooguide/kap2/arv_2)
+
+<LinkCard
+  title="Tillbaka till - OO Guiden"
+  href="/laromaterial/ooguide/"
+/>
