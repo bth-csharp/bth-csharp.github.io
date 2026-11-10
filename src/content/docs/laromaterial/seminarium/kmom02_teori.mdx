@@ -1,0 +1,47 @@
+---
+title: "Kmom02"
+description: "Introduktion till Objektorienterad programmering och UML"
+head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { YouTube } from 'astro-embed';
+import Figure from '@components/CustomFigure.astro';
+import { Icon } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Detta seminarium tar upp följande områden: objektorienterad programmering och UML.
+
+## Förberedelser
+
+Läs [Om seminarier](/laromaterial/seminarium/).
+
+## <Icon name="open-book" class="inline-icon" label="Interpret code" /> Teori (del 1)
+
+1. Vad är skillnaden mellan en klass och ett objekt?  
+
+1. Vad är en konstruktor och vad används den till?
+
+1. Vad innebär information hiding?
+
+1. Bryt ner beståndsdelarna i `List<int> numbers = [ 1, 2, 3]`.  
+
+1. Vilka objekt ser du i beskrivningarna och vilken klasstyp är respektive objekt av?  
+  A: Studenterna Kalle och Pelle undervisas av programmeringsläraren Marie.  
+  B: Bettys motorbåt har en motor på 100 hk.  
+  C: Biblioteket "Bokmalen" har både skönlitterära böcker och deckare.  
+
+<LinkCard
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02#seminarie"
+/>

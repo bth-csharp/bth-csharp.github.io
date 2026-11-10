@@ -21,10 +21,219 @@ import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 import dice from '@assets/img/kmom02/dice.jpeg';
 import classdiagramDie from '@assets/img/kmom02/classdiagramDie.png';
-import classdiagramDiceHand from '@assets/img/kmom02/classdiagramDiceHand.png';
+import classdiagramPlayer from '@assets/img/kmom02/classdiagramPlayer.png';
+
+<Figure
+    src={dice}
+    height="150px"
+    width="150px"
+    float="right"
+/>
+
+Dice100 är ett enkelt tärningsspel där målet är att bli först med att nå 100 poäng.
+
+Spelet spelas med 5 tärningar. En spelare kastar alla fem tärningarna samtidigt. Om ingen av tärningarna visar 1 får spelaren poäng motsvarande summan av tärningarnas värden. Dessa poäng läggs till en tillfällig summa för rundan.
+
+Spelaren kan sedan välja att:
+
+- kasta alla fem tärningarna igen för att försöka samla fler poäng i samma runda, eller
+- stanna och lägga till summa för rundan till sin totalpoäng.
+
+Om någon av de fem tärningarna visar 1 vid ett kast avslutas rundan direkt. Alla poäng som samlats in under den rundan går förlorade och inget läggs till spelarens totalpoäng.
+
+Antalet rundor räknas upp både när spelaren väljer att stanna och när rundan avslutas på grund av en etta.
+
+I denna uppgift ska du använda egna klasser som typer. Vilka klasser tycker du behövs för att representera spelet, spelarna och tärningarna?
+
+
+## Förkunskaper
+
+Du har jobbat igenom materialet i "[Kmom02](/kmom/kmom02)".
+
+:::note
+Du har förkunskaper som motsvarar innehållet i Kmom02.
+
+Läs igenom hela uppgiften innan du börjar!
+:::
 
 :::danger
-Materialet är inte klart. 
+Varje uppgift ska lösas med de C# konstruktioner som vi går igenom i respektive kmom.  
 
-Uppgiften publiceras senare!
+Lösningar som använder paket, till exempel LINQ, som inte tas upp i uppgiften godkänns inte i denna kurs. Inte heller användandet av properties, lambdafunktioner, dynamiska typer, goto och extension metoder.
 :::
+
+
+### Introduktion
+
+Spelet ska fungera enligt beskrivningen ovan. Projektet som du skapar ska heta **Dice100**  och det skapar du i katalogen `kmom02`.
+
+Dina klasser ska motsvara beskrivningar och klassdiagram som du hittar lite längre ner på sidan. Det som finns i beskrivningar och klassdiagram **måste** finnas men du får skapa ytterligare metoder och attribut som är motiverade.
+
+**Tips:** Under utvecklingen av programmet använder du huvudprogrammet för att testa så att varje klass fungerar som du tänkt.  
+
+
+#### Exempel på en spelomgång
+
+1. Spelare 1 slår **1, 2, 3, 3, 3** vilket ger 0 poäng på rundan och resultatet blir: antal rundor = 1 och totalpoängen = 0.
+1. Spelare 1 slår **5, 5, 5, 6, 6** vilket ger 27 poäng, väljer att stanna och får då 27 poäng på rundan och resultatet blir: antal rundor = 2 och totalpoängen = 27.
+1. Spelare 1 slår **5, 2, 2, 3, 3** vilket ger 15 poäng och väljer att fortsätta och slår då **5, 5, 5, 6, 6** vilket ger 27 poäng, väljer att stanna och får då 42 poäng på rundan och resultatet blir: antal rundor = 3 och totalpoängen = 69.
+1. Spelare 1 slår **5, 2, 2, 3, 3** vilket ger 15 poäng och väljer att fortsätta och slår då **1, 2, 3, 3, 3** vilket ger 0 poäng på rundan och resultatet blir: antal rundor = 3 och totalpoängen = 69.
+Och så vidare upp tills totalpoängen blir minst 100.
+
+### Die
+
+Klassen **Die** innehåller information och funktionalitet för en tärning. Klassen **Die** representerar **en** tärning och därför är namngivningen "Die, det vill säga singularis för tärning på engelska.
+
+*Anmärkning: Flera tärningar är "dice" på engelska men i modern engelska kan du använda "dice" för både en och flera tärningar.*
+
+<Figure
+    src={classdiagramDie}
+    caption="Klassdiagram Die"
+    width="300px"
+/>
+
+Klassen **Die** innehåller:
+
+- **MAX_NUMBER_OF_SIDES** en konstant som anger det högsta möjliga antalet sidor för tärningen, i detta fall 20.
+- **MIN_NUMBER_OF_SIDES** en konstant som anger det lägsta möjliga antalet sidor för tärningen, i detta fall 4.
+- **_dieRandom** är ett klassattribut som är och håller en instans (ett objekt) av klassen *Random*. Det används för att generera slumptal.
+- **_value** en medlemsvariabel som lagrar det aktuella värdet för tärningen. Värdet ska vara slumpat.
+- **_sides** en medlemsvariabel som lagrar antalet sidor på tärningen. Defaultvärdet är **MAX_VALUE**.
+- **Die()** en konstruktor som tilldelar attributet `_sides` defaultvärdet `6` och `_value` ett slumptal mellan `1` och `_sides`.
+- **Die(int sides)** en konstruktor som tilldelar attributet `_sides` värdet av inparametern `sides`. Om `sides` är större än **MAX_NUMBER_OF_SIDES** får `_sides` värdet av **MAX_NUMBER_OF_SIDES**. Om `sides` är mindre än **MIN_NUMBER_OF_SIDES** får `_sides` värdet av **MIN_NUMBER_OF_SIDES**. `_value` får ett slumptal mellan `1` och `_sides`.
+- **GetValue()** en metod som returnerar det aktuella värdet för tärningen.
+- **GetSides()** en metod som returnerar tärnings antal sidor.
+- **GetValueAsString()** en metod som returnerar tärningens värde som en sträng.
+- **Roll()** en metod som slår tärningen vilket hanteras genom att **value** får ett nytt slumptal.
+
+
+### Player
+
+Klassen **Player** innehåller information som namn, poäng och antal rundor, om en spelare.
+
+<Figure
+    src={classdiagramPlayer}
+    caption="Klassdiagram Player"
+    width="250px"
+/>
+
+Klassen **Player** innehåller:
+
+- **_name** är en medlemsvariabel som beskriver spelarens namn.
+- **_score** är en medlemsvariabel som innehåller spelarens aktuella poäng.
+- **_noOfRounds** är en medlemsvariabel som innehåller spelarens aktuella antal rundor.
+- **Player(string name)** är en defaultkonstruktor som skapar en spelare med namnet `name`.
+- **AddScore(int points)** en metod som lägger till antalet `points` till spelarens poäng.
+- **AddRound()** en metod som ökar spelarens antal rundor med ett.
+- **PrintInformation()** en metod som skriver ut spelarens namn, poäng och antal rundor.
+
+### Menu
+
+Klassen **Menu** ska innehålla minst metoderna `PrintMenu()` som skriver ut menyalternativen och metoden `PrintRules()` som skriver ut reglerna.
+
+Menyn ska innehålla alternativen:
+
+1. Spela spelet
+1. Skriv ut reglerna
+1. Avsluta
+
+
+
+### Huvudprogrammet
+
+Huvudprogrammet, `Program.cs`, motsvarar spelets logik och du använder dig av dina egna typer **Die**, **Player** och **Menu** när du implementerar spelet.
+
+När spelet är klart så presenteras vinnarens namn, vinnarens poäng samt hur många rundor det tog för att nå upp till max poängen (100). Det ska gå att spela flera gånger och varje gång matar du in namn och antalet tärningssidor på nytt.
+
+## Krav
+
+1. Skapa tärningsspelet **Dice100** som ett terminalprogram. Skapa ett nytt projekt som heter **Dice100** i `kmom02`-katalogen.
+
+1. Skapa dina klasser under `src` katalogen i ditt projekt **Dice100** precis som du gjorde i övningen. Alla klasser ska ha minst en konstruktor varav en är en defaultkontruktor utan inparametrar. Alla attribut ska vara privata och adresseras med **this**, `this._value`.
+
+1. För att förstå vad som händer i spelet ritar du ett flödesdiagram. Vid spelets start - vad händer då? Jo, menyn visas upp. Vad händer efter det? Vad händer då spelet startas? Lämna in flödesdiagrammet i filen flowchart.pdf eller flowchart.png och lägg filen i `kmom02`-katalogen.
+
+1. Skapa klassen för tärningen **Die**. Gör `dotnet build` och rätta eventuella kompileringsfel. Testa din klass med kod i `Program.cs` och gör sen `dotnet run` och se att den funkar. Här förväntas du göra en commit för att visa dina framsteg.
+
+<details>
+
+<summary>
+
+**Exempel på tester av Die i huvudprogrammet**
+
+</summary>
+
+
+```csharp title="Testa Die-klassen i Program.cs"
+using Dice100.src;
+
+Console.WriteLine("Testing with default parameters");
+Die die1 = new Die();
+Console.WriteLine($"Die value is {die1.GetValueAsString()}.\n");
+
+Console.WriteLine("Testing with number of sides 12");
+Die die2 = new Die(12);
+int sum = 0;
+for (int i = 0; i < 5; i++)
+{
+    Console.WriteLine($"Die value is {die2.GetValueAsString()}.");
+    die2.Roll();
+    sum += die2.GetValue();
+}
+Console.WriteLine($"The sum is {sum}.");
+```
+
+</details>
+
+5. Skapa klassen för spelaren **Player** och testa den. Här förväntas du göra en commit för att visa dina framsteg.
+
+1. Skapa klassen för **Menu**. Lägg till en metod `PrintRules()` som skriver ut reglerna. Lägg till en metod `PrintMenu()` som skriver ut menyalternativen.
+
+1. Implementera spelet med hjälp av flödesschema och klasserna du skapat ovan. Lägg denna kod i `Program.cs` och dela upp koden i flera metoder. Läs in spelarens namn och hur många sidor tärningarna ska ha.
+**Tips:** Under utvecklingen av programmet kan du testa med 2-3 tärningar i rundan för att minska sannolikheten för att få en 1:a under utveckling och minska dessutom till 30 som målpoäng. Glöm inte att sätta tillbaka till 5 tärningar och 100 poäng vid inlämning!
+
+1. Testkör ditt spel och kontrollera att menyalternativen fungera såsom avsett och att poäng och antalet rundor uppdateras som de ska. Spelet ska funka att spela flera gånger utan att avsluta.    
+För att testa att programmet funkar enligt kraven  laddar du ner testerna med `task download-tests -- kmom02` och kör dem med `task test -- kmom02`.
+
+## Demo på Dice100
+
+Så här kan det se ut när det är klart. Kommer snart!
+
+<YouTube
+    id="QIHMm7MmOxA"
+    title="Tärningsspelet Dice100 kan se ut så här."
+/>
+
+**Lycka till!**
+
+
+## Extrauppgift
+
+1. Använd klassen **AsciiArt** med ASCII-bilder av tärningarna istället. Läs mer om [ASCII](https://sv.wikipedia.org/wiki/ASCII). Ladda ner klassen **AsciiArt** och lägg den i katalogen "kmom02/Dice100/src". Uppdatera namespace till **Dice100.src** om det behövs.
+
+```bash title="Ladda ner filen AsciiArt.cs. Stå i katalogen kmom02/Dice100."
+task download-code -- kmom02/AsciiArt.cs
+cp ../codeExamples/AsciiArt.cs src/.
+ls src
+// ger följande: AsciiArt.cs    Die.cs    Menu.cs     Player.cs
+```
+
+2. Lägg till så att flera spelare kan spela.
+1. Titta på testprojektet och dess testfall. Testa att köra `dotnet test`, för mer info se [C# - testning](/laromaterial/kmom02/testningdel1).
+1. Fundera över om det finns fler klasser som är användbara.
+
+
+## Tips från coachen
+
+Ta bort bortkommenterad kod, debugutskrifter och kontrollera att tärningar och målpoäng stämmer med kraven innan du lämnar in.
+
+Felsöka med hjälp av utskrifter med `Console.WriteLine()`. Använd gärna debugger i VS Code.
+
+Glöm inte att använda 'dotnet format' för att formatera din kod.
+
+Lycka till och hojta till i forumet om du behöver hjälp!
+
+<LinkCard 
+  title="Tillbaka till - Kmom02"
+  href="/kmom/kmom02/#uppgifter"
+/>
