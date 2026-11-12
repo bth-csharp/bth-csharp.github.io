@@ -193,7 +193,7 @@ Console.WriteLine($"The sum is {sum}.");
 **Tips:** Under utvecklingen av programmet kan du testa med 2-3 tärningar i rundan för att minska sannolikheten för att få en 1:a under utveckling och minska dessutom till 30 som målpoäng. Glöm inte att sätta tillbaka till 5 tärningar och 100 poäng vid inlämning!
 
 1. Testkör ditt spel och kontrollera att menyalternativen fungera såsom avsett och att poäng och antalet rundor uppdateras som de ska. Spelet ska funka att spela flera gånger utan att avsluta.    
-För att testa att programmet funkar enligt kraven  laddar du ner testerna med `task download-tests -- kmom02` och kör dem med `task test -- kmom02`.
+
 
 ## Demo på Dice100
 
@@ -205,6 +205,35 @@ Så här kan det se ut när det är klart. Kommer snart!
 />
 
 **Lycka till!**
+
+## Tester
+
+**OBS Använd de automatiska testerna när du är klar!**
+
+Testa din kod genom att köra igenom ditt menyprogram och kontrollera att det fungera som det ska. Därefter kontrollerar du att testerna i testprojektet går igenom vilket innebär att  dina klasser fungerar som de ska.  
+
+```bash title="Hämta enhetstesterna:"
+task download-tests -- kmom02
+```
+
+Då ser det ut så här:
+
+```shell
+pwd // stå i kmom02
+tree -L 1
+.
+├── Dice100
+├── Dice100.Tests
+├── classdiagram.pdf
+├── practice
+```
+
+
+```shell title="Kör testerna"
+task test -- kmom02
+```
+
+Hoppas alla tester går igenom! Lycka till!
 
 
 ## Extrauppgift
