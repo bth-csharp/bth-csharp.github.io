@@ -98,7 +98,7 @@ Klassen **Die** innehåller:
 - **MIN_NUMBER_OF_SIDES** en konstant som anger det lägsta möjliga antalet sidor för tärningen, i detta fall 4.
 - **_dieRandom** är ett klassattribut som är och håller en instans (ett objekt) av klassen *Random*. Det används för att generera slumptal.
 - **_value** en medlemsvariabel som lagrar det aktuella värdet för tärningen. Värdet ska vara slumpat.
-- **_sides** en medlemsvariabel som lagrar antalet sidor på tärningen. Defaultvärdet är **MAX_VALUE**.
+- **_sides** en medlemsvariabel som lagrar antalet sidor på tärningen. Defaultvärdet är **MAX_VALUE som är 6**. Valfritt om du vill använda konstant eller värdet 6 direkt.
 - **Die()** en konstruktor som tilldelar attributet `_sides` defaultvärdet `6` och `_value` ett slumptal mellan `1` och `_sides`.
 - **Die(int sides)** en konstruktor som tilldelar attributet `_sides` värdet av inparametern `sides`. Om `sides` är större än **MAX_NUMBER_OF_SIDES** får `_sides` värdet av **MAX_NUMBER_OF_SIDES**. Om `sides` är mindre än **MIN_NUMBER_OF_SIDES** får `_sides` värdet av **MIN_NUMBER_OF_SIDES**. `_value` får ett slumptal mellan `1` och `_sides`.
 - **GetValue()** en metod som returnerar det aktuella värdet för tärningen.
