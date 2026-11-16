@@ -26,12 +26,12 @@ Materialet är inte klart. Avvakta!
 Följ denna instruktionen för att göra en pull request (PR) för att lämna in uppgiften i kmom03, kmom06 och kmom10.
 
 :::note
-Bilderna visar inlämning för kmom03. Flödet är likadant för kmom06 och för projektet kmom10. I instruktionerna när det står `<X>`, ersätt det med `3` om du lämnar in kmom03, `6` om du lämnar in kmom06 och `10` om du lämnar in kmom10.
+Bilderna visar inlämning för kmom03. Flödet är likadant för kmom06 och för projektet kmom10. I instruktionerna när det står `<X>`, ersätt det med `03` om du lämnar in kmom03, `06` om du lämnar in kmom06 och `10` om du lämnar in kmom10.
 :::
 
 ## Förutsättning
 
-Du har uppfyllt kraven i uppgiften och har gjort en vanlig inlämning enligt [Resultat och redovisning](/website/laromaterial/instruktion/resultat-och-redovisning).
+Du har uppfyllt kraven i uppgiften och har gjort en vanlig inlämning enligt [Resultat och redovisning](/laromaterial/instruktion/resultat-och-redovisning).
 
 
 ## Ordlista
@@ -99,7 +99,7 @@ import pr2 from '@assets/pr/pr2.png';
 Så här ser det ut när du klickat på "New Pull Request" (se föregående bild).
 
 1. Klicka på "base" för att välja branch 
-1. Välj `bth/submit/kmom0<X>` (3 för kmom03, 6 för kmom06 och 10 för kmom10)
+1. Välj `bth/submit/kmom<X>` (`03` för kmom03, `06` för kmom06 och `10` för kmom10)
 1. Klicka på den gröna knappen "Create pull request" för att skapa en PR.
 
 import pr3 from '@assets/pr/pr3.png';
@@ -109,7 +109,7 @@ import pr3 from '@assets/pr/pr3.png';
     caption="Create pull requests."
 />
 
-Compare ska vara `main` och det betyder att du vill merga `main` till `bth/submit/kmom0<X>`. Med andra ord gör du en inlämning av koden du jobbar med i `main` till inlämningsbranchen.
+Compare ska vara `main` och det betyder att du vill merga `main` till `bth/submit/kmom<X>`. Med andra ord gör du en inlämning av koden du jobbar med i `main` till inlämningsbranchen.
 
 
 ### Öppna en PR mot en branch
@@ -235,9 +235,36 @@ Nu kan du jobba vidare med nästa kmom.
 
 ### Något gick fel
 
-Om något gick fel med testerna ser det ut så här i din PR. Du får en kommentar om vad som gick fel samt din PR får label `Tests failed` eller `Integration failed`.
+Om något gick fel med testerna eller något annat på din PR får du en kommentar om vad som gick fel samt din PR får label `Tests failed` eller `Integration failed`.
 
-Vanliga fel:
+Du kan börja med att titta:
+
+1. under Actions i navbaren ovan
+2. leta upp det workflow som har samma namn som din PR och där det står "Pull Request was opened on bth/submit etc".
+
+import actionMenu from '@assets/pr/actionMenu.png';
+
+<Figure 
+    src={actionMenu}
+    caption="Leta upp rätt workflow under Actions på GitHub."
+/>
+
+När klickar du in på det workflowet så:
+
+1. leta efter dess rubrik
+2. välj "call-on-open-pr" (eller det som gick fel)
+3. run-kmoms med testerna för kmom01 om det var där det gick fel.
+
+import workflow from '@assets/pr/workflow.png';
+
+<Figure 
+    src={workflow}
+    caption="Leta upp var det gick fel."
+/>
+
+I den här bilden gick testfallen bra men det kunde ha varit något testfall som gick fel här.
+
+#### Vanliga fel
 
 - `Tests failed`; du har inte de nyaste testerna
 - `Tests failed`; taggen är inte uppdaterad
@@ -248,7 +275,7 @@ Nu behöver du kolla vad som gick fel, fixa felet och ladda upp koden igen.
 
 #### Fixa dina fel
 
-1. Ladda ner testerna på nytt och kör dem lokalt (kör `uv run task download-all`)
+1. Ladda ner testerna på nytt och kör dem lokalt (kör `task download-all`)
 1. Rätta felet och testkör lokalt.
 1. Pusha din rättning till GitHub och tagga den
 1. Skapa en ny PR för att köra igång flödet som kör testerna och sätter `Tests Passed (TP)` eller `Tests failed`.
@@ -270,12 +297,12 @@ När läraren rättar din PR så får du återkoppling i kommentarer till din PR
 
 ### Godkänd / G
 
-Om läraren tycker att allt ser bra ut får du en kommentar, label `Grade: G` på din PR och betyget `G` i Canvas. Läraren mergar din PR och stänger den när den är godkänd. Du kommer också se vilken lärare som har varit "reviewer".
+Om läraren tycker att allt ser bra ut får du en kommentar, label `Grade: G` på din PR och betyget `G` i Canvas. Läraren mergar och stänger din PR när den är godkänd. Du kommer också se vilken lärare som har varit "reviewer".
 
 
 ### Komplettering / Ux
 
-Om läraren tycker att du behöver fixa något, får du label `Grade: Ux` på din PR och betyget `Ux` på Canvas.
+Om läraren tycker att du behöver komplettera eller fixa till något, får du label `Grade: Ux` på din PR och betyget `Ux` på Canvas. Din PR är då fortsatt öppen.
 Det kommer finnas kommentarer på specifika rader. Om kommentaren innehåller en `Warning` som på bilden nedanför, då måste du åtgärda det i din kod. Om kommentaren inte innehåller `Warning` behöver du inte åtgärda det som står där.
 
 **OBS** Låt kommentaren vara kvar! Om du vill svara på kommentaren, så går det bra.
@@ -304,7 +331,7 @@ Din komplettering ska lämnas in inom 5 arbetsdagar!
 
 ### Inte godkänd / U
 
-Om åtgärderna du gjorde i kompletteringen eller att din inlämning (PR) bedöms vara otillräckliga får du label `Grade: U` på din PR och betyget `U` i Canvas. Det kommer finnas kommentarer som förklarar felet/felen och läraren kommer stänga din PR.
+Om åtgärderna du gjorde i kompletteringen (Ux) eller att din inlämning (PR) bedöms vara otillräckliga får du label `Grade: U` på din PR och betyget `U` i Canvas. Det kommer finnas kommentarer som förklarar felet/felen och läraren kommer stänga din PR.
 
 Vid större fel, ges inte komplettering. Då kan du få `U` direkt.
 
