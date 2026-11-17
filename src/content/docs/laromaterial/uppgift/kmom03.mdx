@@ -19,10 +19,304 @@ import Figure from '@components/CustomFigure.astro';
 import { YouTube } from 'astro-embed';
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
+import dice from '@assets/img/kmom02/dice.jpeg';
+import classdiagramDiceHand from '@assets/img/kmom03/classdiagramDiceHand.png';
 import classdiagramFileHandler from '@assets/img/kmom03/classdiagramFileHandler.png';
+import toplistBefore from '@assets/img/kmom03/toplistBefore.png';
+import welcome from '@assets/img/kmom03/welcome.png';
+import toplistAfter from '@assets/img/kmom03/toplistAfter.png';
+
+En erfaren systemarkitekt har granskat din lösning från kmom02 och lämnat förslag på förbättringar. Din uppgift är att först refaktorera koden enligt synpunkterna och därefter vidareutveckla tärningsspelet **Dice100**. Dessutom gör du ett eget undantag/exception samt sparar en topplista på fil.
+
+Refaktorering innebär att förbättra programmets struktur och kodkvalitet utan att ändra dess funktionalitet.
+
+<Figure
+    src={dice}
+    height="200px"
+    width="200px"
+    float="right"
+/>
+
+Målet är att göra koden:
+
+- enklare att läsa
+- enklare att underhålla
+- enklare att vidareutveckla
+
+Exempel på refaktoreringar:
+
+- Byt namn på otydliga variabler, attribut, metoder och klasser. Använd engelska namn och följ kursens namngivningskonventioner.
+- Dela upp långa metoder i flera mindre metoder med tydligt ansvar.
+- Identifiera och ta bort duplicerad kod.
+- Flytta kod till mer lämpliga klasser eller skapa nya klasser där det förbättrar programmets struktur.
+- Ersätt magiska tal (hårdkodade numeriska värden) med namngivna konstanter.
+
+## Synpunkter från systemarkitekten
+
+- Alldeles för mycket kod i Program.cs, sikta på några kodrader.
+- Det saknas klasser:
+  - en klass **DiceHand** som representerar en hand med tärningar
+  - en klass **Game** med spellogiken och som hanterar spelare och handen med tärningar
+- All in- och utmatning ska ligga i klassen **Menu**
+- Klassen Menu ska vara en statisk klass.
+- Skapade objekt ska nollställas och återanvändas.
+
+## Förkunskaper
+
+Du bör ha jobbat igenom [Kmom03](/kmom/kmom03) eller ha motsvarande kunskaper.
+
+:::note
+Eftersom du nu ska refaktorera spelet du gjorde i kmom02, så måste du vara klar med spelet i kmom02 innan du påbörjar kmom03.  
+Se till att tagga kmom02 innan du påbörjar kmom03!
+:::
 
 :::danger
-Materialet är inte klart.
+Varje uppgift ska lösas med de C# konstruktioner som du går igenom i respektive kmom.  
 
-Uppgiften publiceras senare!
+Lösningar som använder paket, till exempel LINQ, som inte tas upp i uppgiften godkänns inte i denna kurs. Inte heller användandet av properties, lambdafunktioner, dynamiska typer, goto och extension metoder.
 :::
+
+### Introduktion
+
+Projektet som du skapar ska heta **Dice100** och det skapar du i kmom03 katalogen. Kopiera in de klasser du redan har från kmom02 (Die, Player och Menu) och lägg dem under kmom03/Dice100/src men låt `Program.cs` vara tom.
+
+Dina klasser ska motsvara beskrivningar och klassdiagram som du hittar lite längre ner på sidan. Det som finns i beskrivningar och klassdiagram **måste** finnas, men du får och kommer behöva skapa ytterligare metoder och/eller attribut för att uppfylla krav som framgår av beskrivningen nedan.
+
+### DiceHand
+
+Klassen **DiceHand** innehåller en lista som representerar tärningarna i handen.
+
+<Figure
+    src={classdiagramDiceHand}
+    caption="Klassdiagram DiceHand"
+    width="350px"
+/>
+
+Klassen **DiceHand**:
+
+- **DEFAULT_NUMBER_OF_DICE** är en konstant som beskriver antalet default-tärningar och har värdet 5.
+- **_hand** är en medlemsvariabel som håller tärningarna, objekt av klassen **Die**.
+- **DiceHand()** är en defaultkonstruktor som skapar en hand med 5 stycken 6-sidiga tärningar.
+- **RollAll()** är en metod som rullar tärningarna i handen. Ingen retur.
+- **GetTotal()** är en metod som räknar ihop värdet på alla tärningar och returnerar summan som ett heltal. Om det finns en 1:a bland tärningarna så returneras i stället 0.
+- **GetHandAsString(bool ascii = false)** är en metod som returnerar tärningarnas värde som en sträng med mellanslag emellan, till exempel "2 4 5 5 3". Om inparametern ascii är `true` innehåller strängen istället ASCII-bilder av tärningsvärdena.
+
+### Game
+
+Klassen **Game** för att lagra information om spelet och spellogiken. Klassen ska innehålla:
+
+- en metod `Run()` som kör spelet
+- gränsen för vinst (100 poäng)
+- en hand med tärningar (**DiceHand**)
+
+När ett Game-objekt skapas ska en lista med en (1) spelare (**Player**) skickas med som inparameter. En lista används för att förbereda programmet för stöd för flera spelare i framtiden.
+
+Du skapar själv ett klassdiagram för klassen **Game** och dess relationer som en del av uppgiften.
+
+Metoden Run() ska innehålla huvudloopen som håller spelet igång tills spelet avslutas.
+
+#### Menyalternativ 1 - Spela spelet
+
+Koden för menyalternativ 1 ska vara kortfattad. Funktionaliteten ska delas upp i privata hjälpmetoder som ansvarar för att:
+
+- initiera spelet
+- spela spelet
+- nollställa spelet
+
+##### Initiera spelet
+
+Vid initieringen ska spelaren mata in:
+
+- sitt namn
+- antalet sidor på tärningarna
+
+Skapa en privat metod som hämtar antalet sidor från användaren och använder Menu för in- och utmatning. Om användaren lämnar inmatningen tom ska standardvärdet 6 användas.
+
+**Tips**: Du kan behöva uppdatera klassen DiceHand så att tärningarna skapas med det antal sidor som användaren har valt.
+
+##### Välkomstmeddelande
+
+När spelet har initierats ska ett välkomstmeddelande visas. Meddelandet ska innehålla:
+
+- spelets namn (Dice100)
+- spelarens namn
+- antalet sidor på tärningarna
+
+
+### Menu
+
+Klassen **Menu** ska innehålla minst metoderna `PrintMenu()` och metoden `PrintRules()`.
+
+Menyn ska innehålla alternativen (svenska eller engelska spelar ingen roll):
+
+1. Spela spelet
+1. Skriv ut reglerna
+1. Visa topplistan
+1. Avsluta
+
+
+### Huvudprogrammet
+
+Huvudprogrammet, **Program.cs**, ska skapa ett spelarobjekt, lägga det i en lista och skapa ett Game-objekt med listan samt starta spelet med `Run`-metoden för Game-klassen.
+
+```bash title="Pseudokod för huvudprogrammet"
+// Skapa ett objekt av klassen Player
+// Lägg objektet i en lista med spelare, en List<Player>
+// Skapa ett Gameobjekt med listan med spelare som inparameter
+// Kör igång spelet med metoden `Run()` på Gameobjekt
+```
+
+## Krav
+
+Varje klass ska finnas i en egen fil.  
+
+1. Skapa klassen **DiceHand** enligt klassdiagrammet ovan. Flytta koden som hanterar tärningar från `Program.cs` till klassen **DiceHand**. Gör `dotnet build` och rätta eventuella kompileringsfel. Du förväntas testa din klass med kod i `Program.cs` och gör sen `dotnet run` för att se om det funkar. Här förväntas du göra en commit för att visa dina framsteg. **Rensa bort alla varningar!**
+
+    <details>
+
+    <summary>
+
+    **Exempel på tester av DiceHand i huvudprogrammet**
+
+    </summary>
+
+    ```csharp title="Testa DiceHand-klassen i Program.cs"
+    using Dice100.src;
+
+    DiceHand diceHand = new DiceHand();
+
+    Console.WriteLine($"The dice hand contains: {diceHand.GetHandAsString()}");
+    Console.WriteLine($"Total sum is: {diceHand.GetTotal()}");
+
+    for (int i = 0; i < 20; i++)
+    {
+        Console.WriteLine("Roll the dice!");
+        diceHand.RollAll();
+
+        Console.WriteLine($"The dice hand contains: {diceHand.GetHandAsString()}");
+        Console.WriteLine($"Total sum is: {diceHand.GetTotal()}");
+    }
+    ```
+
+    </details>
+
+2. All in- och utmatning ska ske i klassen **Menu**. Refaktorera klassen **Menu** enligt systemarkitektens synpunkter ovan. Nu förväntas du göra en commit för att visa dina framsteg. Tänk på att du förväntas testa klassen **Menu** och metoderna `PrintRules` och `PrintMenu` i `Program.cs` och därefter pusha till GitHub. Från och med nu förväntas du själv komma ihåg commit och push.
+
+1. Refaktorera klassen **Player** enligt systemarkitektens synpunkter ovan och ta bort utmatningen. Låt den nya metoden `GetInformation()` ersätta `PrintInformation()` och som returnerar motsvarande information istället för att skriva ut den.
+
+1. Skapa klassen **Game** och flytta spellogiken från `Program.cs` i kmom02 efter hand och anpassa enligt kraven ovan. Tänk på att dela upp i mindre metoder och låta Menu-klassen hantera in- och utmatning. När spelaren matat in namn och antalet sidor är det trevligt med ett personligt välkomstmeddelande.
+
+1. Gör en topplista som sparar resultaten för antal rundor, namn, poäng samt antalet sidor på tärningarna. Detta gör du lämpligen med en sträng som du sparar till en fil `toplist.txt` efter varje spel.  
+Testerna förväntar sig minst 3 rader (kör spelet minst 3 gånger) och att det på varje rad i filen `toplist.txt` finns en sträng med formatet `<antal rundor>,<namn>,<poäng>,<antal tärningssidor`. Det är ok om klassen **FileHandler** gör en utskrift om det blir fel när du läser och skriver till fil.  
+Exempel: `5,Kalle Karlsson,103,12`  
+Gör en egen statisk klass **FileHandler** enligt:  
+
+<Figure
+    src={classdiagramFileHandler}
+    caption="Klassdiagram FileHandler"
+    width="400px"
+/>
+
+6. Gör ett menyalternativ för att visa topplistan. Presentera en lista och sortera efter minst antal rundor. Topplistan kan se så här:
+
+```text
+Topplistan för Dice100
+Antal rundor  Namn       Total poäng          Antal tärningssidor
+     5        Pelle         102                       12        
+     8        Kalle         103                       9        
+     10       Nisse         115                       6        
+```
+
+7. Skapa ett fullständigt klassdiagram för klassen Game. Diagrammet ska visa samtliga attribut och metoder i klassen.  
+Rita även relationerna mellan alla klasser och ange kardinalitet för varje relation. För övriga klasser räcker det att klassnamnen visas i diagrammet.  
+Lägg gärna till kommentarer eller textrutor där du förklarar hur du resonerat kring relationer och kardinaliteter.  
+Spara diagrammet som classdiagram.pdf eller classdiagram.png och lägg filen i katalogen `kmom03`. Diagrammet kan skapas i valfritt ritprogram eller ritas för hand och fotograferas.
+
+
+## Demo på Dice100 del 2
+
+Jag valde att skapa ett Player-objekt med defaultkonstruktorn och låta Game fråga efter namnet via Menu. Men det går lika bra att fråga efter namnet i huvudprogrammet och skapa ett Player-objekt med namn.
+
+Så här kan det se ut när det är klart:
+
+<Figure
+    src={toplistBefore}
+    caption="Topplistan innan Betty spelar"
+    width="700px"
+/>
+
+<Figure
+    src={welcome}
+    caption="Välkomstmeddelandet för Betty"
+    width="500px"
+/>
+
+<Figure
+    src={toplistAfter}
+    caption="Topplistan efter att Betty har spelat"
+/>
+
+## Extrauppgift
+
+1. Gör så att flera spelare kan spela mot varandra. Samtliga spelares namn skrivas ut i välkomstmeddelandet.
+
+1. Skapa ett exception **NumberOfPlayersException** som ska kastas om antalet spelare är högre än det godkända antalet. Det ska kastas när man försöker skapa ett Game-objekt med fel input (för många spelare). Detta kallas defensiv programmering. Målet med defensiv programmering i OOP är att objektet själv ansvarar för att aldrig hamna i ett ogiltigt tillstånd.  
+Testa genom att köra programmet med för många spelare och kontrollera att exception kastas och fångas. Testa också att det funkar med rätt antal spelare och att inget exception kastas.
+
+1. Gör så att antalet rundor är begränsat. Vid start av spelet får användaren välja både antal tärningar och maximala antalet rundor. Om maximala antalet rundor är 7 så måste användaren komma upp till 100 poäng på 7 rundor, därefter blir det "game over".
+
+
+## Tester
+
+**OBS Använd de automatiska testerna när du är klar!**
+
+Testa din kod genom att köra igenom ditt menyprogram och kontrollera att det fungera som det ska. Därefter kontrollerar du att testerna i testprojektet går igenom vilket innebär att  dina klasser fungerar som de ska.  
+
+```bash title="Hämta enhetstesterna:"
+task download-tests -- kmom03
+```
+
+Då ser det ut så här:
+
+```shell
+pwd // stå i kmom03
+tree -L 1
+.
+├── Dice100
+├── Dice100.Tests
+├── classdiagram.pdf
+├── practice
+```
+
+```shell title="Kör testerna"
+task test -- kmom03
+```
+
+Hoppas alla tester går igenom! Lycka till!
+
+## Inlämning
+
+- Ta bort debugutskrifter och onödiga kommentarer.  
+- Rensa bort alla varningar.  
+- Testerna testar inte alla kraven och du måste själv kontrollera att du uppfyller alla kraven.
+
+:::tip
+
+Det är viktigt med relationerna mellan klasserna i klassdiagrammet!  
+Har du rätt relationer? Rätt symboler? Är symbolen åt rätt håll?  
+
+Titta i [Mer om klassdiagram](/laromaterial/kmom03/relationerklassdiagram)!
+:::
+
+## Tips från coachen
+
+Felsöka med hjälp av utskrifter av `Console.WriteLine()`. Använd gärna debugger i VS Code.
+
+Glöm inte att använda 'dotnet format' för att formatera din kod.
+
+Lycka till och hojta till i csharp-kanalen på Discord om du behöver hjälp!
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#uppgifter"
+/>
