@@ -1,0 +1,56 @@
+---
+title: "Kmom03"
+description: Mer objektorienterad programmering och UML.head:
+  - tag: style
+    content: | # tar bort sidebaren och gör content bredare. För att jag vill ha ToC i index-sidan. Vilket inte går att få med template splash
+      nav.sidebar { display: none; }
+      .main-frame { margin-inline-start: 0 !important; padding-inline-start: 0 !important; }
+      :root { --sl-content-width: 73rem; }
+      @media (min-width: 72rem) {
+        .main-pane {
+          width: 100%;};}
+      @media (min-width: 50rem) {
+        nav {
+          inset-inline-start: 0px;};}
+---
+
+import { YouTube } from 'astro-embed';
+import Figure from '@components/CustomFigure.astro';
+import { Icon } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Detta seminarium tar upp följande områden: mer objektorienterad programmering och UML.
+
+## Förberedelser
+
+Läs [Om seminarier](../).
+
+## <Icon name="open-book" class="inline-icon" label="Interpret code" /> Teori (del 1)
+
+### Teori
+
+1. Förklara och ge ett exempel på relationen komposition.
+
+2. Förklara och ge ett exempel på relationen aggregation.
+
+3. Vilken relation är det mellan Sjukhus och Avdelningar (Ett sjukhus har flera avdelningar)?
+
+4. Hur ritas relationen komposition i ett klassdiagram?
+
+5. Hur ritas relationen aggregation i ett klassdiagram?
+
+6.  Vilken relation gäller mellan klasserna Yatzy, Tärning, Protokoll och Protokollrader? Rita ett övergripande klassdiagram.
+
+7. Ett bibliotek äger ett antal böcker, bl. a ljudböcker. En låntagare lånar under en viss tid, en ljudbok av biblioteket, och lämnar därefter tillbaka ljudboken. Om detta ska implementeras: 
+    - Vilken är relationen mellan bibliotek och bok?
+    - Vilken är relationen mellan låntagare och ljudbok?
+
+8. I ett spel (klassen Game) finns obegränsat antal projektiler (klassen Projectile), mellan 0 och 5 pickups (klassen PickUp) samt en spelare (klassen Player). Ge förslag på attribut/medlemsvariabler i klassen Game som kan användas för att motsvara beskrivningen.
+
+9. I garaget som bostadsföreningen "Kikärten" äger har Lasse parkerat sin Golf, Britta parkerat sin BMW och Sven parkerat sin Toyota. Vilka klasser, objekt och relationer hittar du?
+
+<LinkCard 
+  title="Tillbaka till - Kmom03"
+  href="/kmom/kmom03/#seminarie"
+/>
+
