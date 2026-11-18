@@ -36,13 +36,13 @@ Läs [Om seminarier](../).
 ...
 BookStore myBookStore = new BookStore("Pelles böcker");
 Console.WriteLine(BookStore.MAX_NUMBER_OF_BOOKS);
-int numberOf = myBookStore.GetNumberOfBooksWithTitle("Emil i Lönneberga");
+int numberOfEx = myBookStore.GetNumberOfBooksWithTitle("Emil i Lönneberga");
 if (myBookStore.HasBook("Kommisarien"))
 {
  ....
 }
 int numberOf = BookStore.TotalNrOfBooks();
-int numberOfEx = 20;
+numberOfEx = 20;
 myBookStore.AddBook("Pippi", "Astrid Lindgren", numberOfEx);
 ```
 
@@ -56,7 +56,7 @@ För varje kodrad resonera kring vad de innebär/motsvarar, med bl. a följande 
 
 ```csharp
     Truck aTruck = new Truck();
-    Load aCargo = new Cargo("Wood");
+    Cargo aCargo = new Cargo("Wood");
     aTruck.Load(aCargo);
     
 ```
