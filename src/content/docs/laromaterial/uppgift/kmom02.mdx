@@ -176,8 +176,8 @@ Die die2 = new Die(12);
 int sum = 0;
 for (int i = 0; i < 5; i++)
 {
-    Console.WriteLine($"Die value is {die2.GetValueAsString()}.");
     die2.Roll();
+    Console.WriteLine($"Die value is {die2.GetValueAsString()}.");
     sum += die2.GetValue();
 }
 Console.WriteLine($"The sum is {sum}.");
