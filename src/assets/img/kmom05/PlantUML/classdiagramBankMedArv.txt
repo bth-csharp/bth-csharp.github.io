@@ -2,7 +2,7 @@
 
 class BankAccount {
     - {static} _nextAccountNumber: int
-    # _owner: string
+    - _owner: string
     - _balance: decimal
     - _accountNumber: string
 
