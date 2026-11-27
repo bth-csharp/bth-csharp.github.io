@@ -16,11 +16,15 @@ head:
 ---
 
 import Figure from '@components/CustomFigure.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 
 Arv möjliggör återanvändning av kod genom att låta en klass ärva egenskaper och metoder från en annan klass. Klassen som ärver kallar vi **subklass** och klassen vi ärver ifrån **basklass**. Vi kan se det som att subklassen är en utökning eller en specialisering av basklassen.
 
-Om vi tar klasserna **DeckOfCards** och **Card** från artikeln [Introduktion till Objektorienterad programmering](/laromaterial/kmom02/inledningoo#exempel-med-en-kortlek) och funderar på hur vi kan utöka dem. Vi kan till exempel utöka klassen **Card** till att visa spelkorten grafiskt och skapa en klass **CardGraphic** som ärver från **Card**. **Card** är då basklass och **CardGraphic** subklass. Vi kan säga att ett grafiskt spelkort "är-ett" spelkort. Vi skulle också kunna göra en subklass till klassen **DeckOfCards** som innehåller jokrar och kalla den **DeckOfCardsWithJokers**. En kortlek med jokrar "är-en" kortlek.
+Om vi tar klasserna **DeckOfCards** och **Card** är de däremot inte lämpliga att koppla ihop med arv. En kortlek är inte ett speciellt slags kort, utan en kortlek innehåller flera kort. Relationen mellan dessa klasser är därför komposition snarare än arv.  
+För att använda arv behöver vi istället klasser där den ena verkligen är en specialisering av den andra. Ett exempel är att låta klasserna **PlayingCard** och **JokerCard** ärva från en mer generell klass **Card**.  
+DeckOfCards innehåller Card-objekt vilket är komposition.  
+PlayingCard är en Card vilket är arv. Liksom JokerCard är en Card vilket också är arv.
 
 För att visa arv så utökar vi Bankexemplet från artikel [Introduktion till UML och klassdiagram](/laromaterial/kmom02/umlklassdiagram) från kmom02. Vi introducerar ett lönekonto och eftersom "lönekonto är-ett Bankkonto" så är det arv. Dessutom introducerar vi ett räntesparkonto, som också ärver från Bankkonto. De nya kontona har olika aktiviteter varje månad, på räntekontot så får vi ränta varje månad och på lönekontot tas en avgift varje månad.
 
@@ -45,7 +49,83 @@ import classdiagramBankAccountMedArvSimple from '@assets/img/kmom05/classdiagram
 
 ### Implementation
 
-Klassen **BankAccount** behöver vi inte uppdatera den skapade vi i [kmom03](/website/laromaterial/kmom03/relationerklassdiagram) men vi behöver skapa de två subklasserna.
+Vi använder klassen **BankAccount** från [kmom03](/laromaterial/kmom03/relationerklassdiagram/#bankexemplet) men ändrar attributet `_owner` till åtkomstnivå protected.
+
+<details>
+<summary>
+##### Klassen BankAccount
+</summary>
+
+```csharp title="Skapa klassen BankAccount i src-katalogen"
+namespace MyBank.src;
+
+public class BankAccount
+{
+    private static int _nextAccountNumber = 100000;
+    protected string _owner;
+    private decimal _balance;
+    private string _accountNumber;
+
+    public BankAccount(string name, decimal initialBalance)
+    {
+        this._owner = name;
+        this._balance = initialBalance;
+        this._accountNumber = BankAccount._nextAccountNumber.ToString();
+        BankAccount._nextAccountNumber++;
+    }
+
+    public string GetOwner()
+    {
+        return this._owner;
+    }
+
+    public decimal GetBalance()
+    {
+        return this._balance;
+    }
+
+    public string GetAccountNumber()
+    {
+        return this._accountNumber;
+    }
+
+    public bool Deposit(decimal amount)
+    {
+        bool okDeposit = false;
+
+        if (amount > 0)
+        {
+            this._balance += amount;
+            okDeposit = true;
+        }
+        return okDeposit;
+    }
+
+    public bool Withdraw(decimal amount)
+    {
+        bool okWithdraw = false;
+
+        if (this._balance >= amount)
+        {
+            this._balance -= amount;
+            okWithdraw = true;
+        }
+        return okWithdraw;
+    }
+
+    public void PrintDescription()
+    {
+        Console.WriteLine($"Kontot med nummer {this._accountNumber} skapades till {this._owner} med saldot {this._balance} kr.");
+    }
+}
+
+```
+
+</details>
+
+Då skapar vi subklasserna **InterestAccount** och testar den. Med konstruktionen `: BankAccount` visar vi att klassen ärver från `BankAccount` och med konstruktionen  `: base` (direkt efter konstruktorns parameterlista) visar vi att vi anropar basklassens konstruktor.
+
+Subklasserna kommer åt basklassens attribut och metoder som är publika (public) och som är skyddade (protected) men inte de som är privata (private). Nu testar vi att vi kommer åt skyddade attribut men inte privata attribut.
 
 ```csharp title="Skapa klassen InterestAccount i src-katalogen"
 namespace MyBank.src;
@@ -56,74 +136,56 @@ public class InterestAccount : BankAccount
     {
     }
 
-    public void PrintDescription()
+    public void PrintDescriptionExtension()
     {
         Console.WriteLine($"Detta räntekonto skapades till {_owner} med saldot {_balance} kr.");
     }
 }
 ```
 
-```csharp title="Skapa klassen PayrollAccount i src-katalogen"
+Vi testar genom att skapa ett objekt av klassen **InterestAccount** och bygger med `dotnet build:
+
+```csharp title="Testkör klassen InterestAccount i Program.cs"
+using MyBank.src;
+
+InterestAccount interest = new InterestAccount("Marie savings", 120000);
+```
+
+Då får vi följande felmeddelande:  
+*error CS0122: 'BankAccount._balance' is inaccessible due to its protection level*  
+
+Det beror på att attributet `_balance` är privat medan attributet `_owner` är protected kan därför nås från subklassen. Men varför ska subklassen komma åt att skriva ut informationen i basklassen? Bättre att låta basklassen skriva ut sin information själv.
+
+```csharp title="Skapa klassen InterestAccount i src-katalogen"
 namespace MyBank.src;
 
-public class PayrollAccount : BankAccount
+public class InterestAccount : BankAccount
 {
-
-    public PayrollAccount(string name, decimal initialBalance) : base(name, initialBalance)
+    public InterestAccount(string name, decimal initialBalance) : base(name, initialBalance)
     {
     }
 
-    public void PrintDescription()
+    public void PrintDescriptionExtension()
     {
-        Console.WriteLine($"Detta lönekonto skapades till {_owner} med saldot {_balance} kr.");
+        Console.WriteLine($"Räntekonto:");
+        base.PrintDescription();
     }
 }
 ```
 
-Med konstruktionen `: BankAccount` visar vi att klassen ärver från `BankAccount` och med konstruktionen  `: base` (direkt efter konstruktorns parameterlista) visar vi att vi anropar basklassens konstruktor.
+Och så skapar vi ett objekt av klassen **InterestAccount** och bygger med `dotnet build:
 
-Subklasserna kommer åt basklassens attribut och metoder som är publika (public) och som är skyddade (protected) men inte de som är privata (private). Nu testar vi att vi kommer åt skyddade attribut men inte privata attribut.
-
-```csharp title="Lägg följande rader i huvudprogrammet i Program.cs"
+```csharp title="Testkör klassen InterestAccount i Program.cs"
 using MyBank.src;
 
-var account = new BankAccount("Marie", 1000);
-
-account.PrintAccountDescription();
-
-var payroll = new PayrollAccount("Marie BTH", 10000);
-payroll.PrintAccountDescription();
-payroll.PrintDescription();
-
-var interest = new InterestAccount("Marie savings", 120000);
-interest.PrintAccountDescription();
-interest.PrintDescription();
+InterestAccount interest = new InterestAccount("Marie savings", 120000);
+interest.PrintDescriptionExtension();
+// Ger utskriften:
+// Räntekonto:
+// Kontot med nummer 100000 skapades till Marie savings med saldot 120000 kr.
 ```
 
-När vi försöker köra ovan så ser vi att det går bra att komma åt basklassens skyddade variabel men inte den privata. Vi får felmeddelandet **"error CS0122: 'BankAccount._balance' is inaccessible due to its protection level"**. Vi behöver komma åt beloppet på kontot i subklasserna och ändrar därför variabeln till att ha åtkomstnivån `protected` istället.
-
-```csharp title="Byt från private till protected i BankAccount på _owner och _balance"
-namespace MyBank.src;
-
-public class BankAccount
-{
-    private static int _nextAccountNumber = 100000;
-    protected string _owner;
-    protected decimal _balance; 
-    ...
-```
-
-När vi nu testkör programmet så får vi följande utskrift:
-
-```shell title="dotnet run ger följande utskrifter i terminalen"
-Kontot med nummer 100000 skapades till Marie med saldot 1000 kr.
-Kontot med nummer 100001 skapades till Marie BTH med saldot 10000 kr.
-Detta lönekonto skapades till Marie BTH med saldot 10000 kr.
-Kontot med nummer 100002 skapades till Marie savings med saldot 120000 kr.
-Detta räntekonto skapades till Marie savings med saldot 120000 kr.
-```
-
-Raderna som börjar med "Kontot..." kommer från basklassen och raderna som börjar med "Detta..." kommer från subklassen. Åtkomstnivån `protected` används i arv då subklasserna ska komma åt basklassens metoder och attribut.
+Raden som börjar med "Kontot..." kommer från basklassen och raden som börjar med "Räntekonto:" kommer från subklassen. Åtkomstnivån `protected` används i arv då subklasserna ska komma åt basklassens metoder och attribut.
 
 ## Metodöverskuggning med BankAccount
 
@@ -180,14 +242,15 @@ public class InterestAccount : BankAccount
 
     public override bool PerformMonthEndTransactions()
     {
-        decimal interest = 0.0015m;
+        decimal interest = 0.01m;
+        decimal balance = base.GetBalance();
 
-        if (this._balance > 100m)
+        if ( balance > 100000m)
         {
-            interest = this._balance * 0.02m;
+            interest = 0.02m;
         }
 
-        return Deposit(interest);
+        return Deposit(interest * balance);
     }
 }
 ```
@@ -206,11 +269,11 @@ public class PayrollAccount : BankAccount
 
     public override bool PerformMonthEndTransactions()
     {
-        decimal fee = 0.0m;
+        decimal fee = 1.0m;
 
-        if (this._balance > 100m)
+        if (base.GetBalance() > 100000m)
         {
-            fee = 0.001m;
+            fee = 200.0m;
         }
 
         return Withdraw(fee);
@@ -226,51 +289,57 @@ using MyBank.src;
 var account = new BankAccount("Marie", 1000);
 
 account.PrintAccountDescription();
+// Ger utskriften:
+// Kontot med nummer 100000 skapades till Marie med saldot 1000 kr.
 
 var payroll = new PayrollAccount("Marie BTH", 10000);
 payroll.PerformMonthEndTransactions();
-payroll.PrintAccountDescription();
+payroll.PrintDescriptionExtension();
+// Ger utskriften:
+// Räntekonto:
+// Kontot med nummer 100001 skapades till Marie savings med saldot 120480.000 kr.
 
 var interest = new InterestAccount("Marie savings", 120000);
 interest.PerformMonthEndTransactions();
-interest.PrintAccountDescription();
+interest.PrintDescription();
+// Ger utskriften:
+// Kontot med nummer 100002 skapades till Marie BTH med saldot 9999.0 kr.
 ```
 
-
-
-```shell title="När vi nu testkör programmet så får vi följande utskrift:"
-Kontot med nummer 100000 skapades till Marie med saldot 1000 kr.
-Kontot med nummer 100001 skapades till Marie BTH med saldot 9999.999 kr.
-Kontot med nummer 100002 skapades till Marie savings med saldot 122400.00 kr.
-```
 
 ## En tumregel från ”god OOP-design”
 
-"Exponera inte data — exponera beteende."
-Fundera alltid på vad subklassen behöver göra, inte vilka attribut den ska kunna ändra.
+*Exponera inte data — exponera beteende.*
+Fundera alltid på vad en subklass behöver kunna göra, inte vilka attribut den behöver komma åt.
 
-### Varför `protected` attribut ofta är dålig design?
+### Varför är protected attribut ofta dålig design?
 
-Att exponera attribut direkt (även som protected till subklassen) skapar flera problem:
+Att exponera attribut direkt, även som protected, kan skapa flera problem:
 
-1. Subklasserna blir hårt beroende av basklassens implementation. Om basklassen ändrar hur datan ska lagras eller valideras så riskerar du att subklasser går sönder.
+1. Subklasser blir beroende av implementationen  
+Subklasserna måste känna till hur basklassen lagrar sin data. Om basklassen senare ändras kan befintliga subklasser behöva skrivas om.
 
-1. En basklass vill ofta garantera att dess tillstånd alltid är "giltigt". Om subklasser kan manipulera attribut direkt är det svårt att upprätthålla dessa regler.
+1. Svårare att skydda objektets tillstånd  
+Basklassen kan ha regler som alltid ska gälla. Om subklasser får ändra attribut direkt blir det svårare att säkerställa att objektet alltid befinner sig i ett giltigt tillstånd.
 
-1. Arv gör klasser mer sammanbundna. Ju mer du ger subklassen direkt åtkomst till basklassens data, desto mer låser du designen.
+1. Ökad koppling mellan klasserna  
+Arv innebär redan en stark koppling mellan basklass och subklass. Direkt åtkomst till basklassens data gör kopplingen ännu starkare och minskar flexibiliteten.
 
 ### Rekommenderad praxis
 
-`private` attribut i kombination med `protected` metoder ger bättre kontroll.
-
-Skydda tillstånd via:
+Använd i första hand:
 
 - `private` attribut
-- `protected` metoder, om subklassen bara ska utöka beteende
+- `protected` metoder när subklasser behöver utöka eller anpassa beteendet
 
+På så sätt behåller basklassen kontrollen över sitt tillstånd samtidigt som subklasserna kan återanvända och bygga vidare på funktionaliteten.
 
 ## Sammanfattning
 
 I den här artikeln har vi tittat på arv i C# och hur vi visar det i ett UML klassdiagram.
-Vi har lärt oss begrepp som basklass och subklass samt metodöverskuggning.  
-Om du vill titta på koden i sin helhet och ladda ner den så kör du `task download-code -- kmom05/MyBank`.
+Vi har lärt oss begrepp som basklass och subklass samt metodöverskuggning.
+
+<LinkCard 
+  title="Tillbaka till - Kmom05"
+  href="/kmom/kmom05#artiklar"
+/>

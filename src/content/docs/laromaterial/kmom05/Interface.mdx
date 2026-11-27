@@ -14,20 +14,25 @@ head:
         nav {
           inset-inline-start: 0px;};}
 ---
+import Figure from '@components/CustomFigure.astro';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-Ett interface beskriver vad en klass ska kunna göra, men inte hur.  
+import Interface from '@assets/img/kmom05/Interface.png';
+
+Ett interface beskriver vad en klass ska kunna göra men inte hur den ska göra det.  
 Det fungerar som ett kontrakt. En klass som implementerar ett interface måste implementera alla metoder i interfacet.
 
 Vi använder interface för att:
 
-- minska beroenden
+- minska beroenden mellan klasser
 - göra koden mer flexibel
-- kunna byta implementation
+- kunna byta implementation utan att ändra övrig kod
+- låta olika klasser dela samma beteende utan att använda arv
 
 Interface används på två sätt:
 
 1. beskriva ett beteende
-1. beskriva ett samarbete mellan klasser
+1. beskriva ett samarbete mellan klasser och objekt
 
 ## Skillnad arv och interface
 
@@ -40,7 +45,13 @@ Interface används på två sätt:
 
 ## Exempel interface (beteende)
 
-Det här är ett exempel på ett interface som beskriver ett beteende, i det här fallet om djuret går att dressera eller inte.
+Det här är ett exempel på ett interface **ITrainable** som beskriver ett beteende. I det här fallet beskriver interfacet att ett djur går att dressera och kan utföra ett trick.
+
+<Figure
+    src={Interface}
+    caption="Interfacet ITrainable och klassen Animal."
+    width="500px"
+/>
 
 ```csharp title="Exempel interfacet ITrainable"
 public interface ITrainable
@@ -48,9 +59,10 @@ public interface ITrainable
     void PerformTrick();
 }
 ```
+
 Alla klasser som implementerar **ITrainable** måste implementera metoden `PerformTrick()`.
 
-### Implementera ett interface
+### Implementera ett interface (beteende)
 
 ```csharp title="Exempel klassen Dog implementerar interfacet ITrainable"
 public class Dog : Animal, ITrainable
@@ -58,17 +70,19 @@ public class Dog : Animal, ITrainable
     ...
     public void PerformTrick()
     {
-        Console.WriteLine($"{this._name} performs a trick!");
+        Console.WriteLine($"{base.GetName()} performs a trick!");
     }
 }
 ```
 
-### Testa interfacet
+Klassen Dog ärver från Animal och implementerar samtidigt interfacet ITrainable. En klass kan bara ärva från en basklass, men den kan implementera flera interface.
+
+### Testa interfacet (beteende)
 
 ```csharp title="Exempel i Program.cs
 List<Animal> animals = new List<Animal>();
 
-Dog dog = new Dog("Rex", "Labrador");
+Dog dog = new Dog("Rex", false);
 Cat cat = new Cat("Misse");
 
 animals.Add(dog);
@@ -76,26 +90,28 @@ animals.Add(cat);
 
 Console.WriteLine("\nTricks:");
 
-    foreach (Animal animal in animals)
+foreach (Animal animal in animals)
+{
+    animal.ShowInfo();
+    // Här måste du kontrollera om djuret kan tricks
+    if (animal is ITrainable trainable)
     {
-        animal.ShowInfo();
-        // Här måste du kontrollera om djuret kan tricks
-        if (animal is ITrainable trainable)
-        {
-            trainable.PerformTrick();
-        }
+        trainable.PerformTrick();
     }
+}
 
 // ger utskriften:
 // Name: Rex
-// Breed: Labrador
+// The dog is not yet trained.
 // Rex performs a trick!
 // Name: Misse
 ```
 
+Variabeln animal har typen Animal, men alla djur är inte träningsbara. Med hjälp av **is** kontrollerar programmet om objektet implementerar ITrainable. Om det gör det anropas PerformTrick().
+
 ## Exempel interface (samarbete)
 
-Det här är ett exempel på ett interface som beskriver ett samarbete, i det här fallet mellan en klass **AnimalHandler** och en annan klass.
+Det här är ett exempel på ett interface som beskriver ett samarbete mellan klasser. Interfacet definierar vilka funktioner en djurhanterare ska erbjuda, utan att bestämma hur funktionerna ska implementeras.
 
 ```csharp title="Exempel interfacet IAnimalHandler"
 public interface IAnimalHandler
@@ -106,9 +122,10 @@ public interface IAnimalHandler
     void PerformAllTricks();
 }
 ```
+
 Alla klasser som implementerar **IAnimalHandler** måste implementera alla metoderna.
 
-### Implementera ett interface
+### Implementera ett interface (samarbete)
 
 ```csharp title="Exempel klassen AnimalHandler implementerar interfacet IAnimalHandler"
 public class AnimalHandler : IAnimalHandler
@@ -146,19 +163,28 @@ public class AnimalHandler : IAnimalHandler
 }
 ```
 
-###  Testa interfacet
+### Testa interfacet (samarbete)
 
-```csharp title="Exempel i Program.cs
+Variabeln deklareras som IAnimalHandler istället för AnimalHandler. Koden blir då beroende av interfacet och inte den konkreta klassen. Om en annan klass senare implementerar IAnimalHandler kan den användas utan att övrig kod behöver ändras.
+
+```csharp title="Exempel i Program.cs"
 IAnimalHandler handler = new AnimalHandler();
 
-handler.AddAnimal(new Dog("Rex", "Labrador"));
+handler.AddAnimal(new Dog("Rex", false));
 handler.AddAnimal(new Cat("Misse"));
 
 Console.WriteLine("Sounds:");
 handler.MakeAllSounds();
+// Ger utskriften:
+// Sounds:
+// Woof!
+// Meow!
 
 Console.WriteLine("\nTricks:");
 handler.PerformAllTricks();
+// Ger utskriften:
+// Tricks:
+// Rex performs a trick!
 
 ```
 
@@ -169,9 +195,16 @@ Vi kan byta ut klassen **AnimalHandler** mot en annan klass som också implement
 ## Sammanfattning
 
 - **Interface** = kontrakt
-- Beskriver funktionalitet, inte implementation
+- Interface beskriver vad en klass ska kunna göra, inte hur det görs
 - En klass kan implementera flera interface
-- Används för att koppla ihop olika delar av ett program
+- Kan beskriva både beteenden och samarbete mellan klasser
+- Används för att minska beroenden och koppla ihop olika delar av ett program
 - Minnesregel: 
-    Arv - vad något är  
-    Interface - vad något kan göra
+    - Arv - *är en* 
+    - Interface - *kan göra / kan användas som*
+    - Komposition - *har en*
+
+<LinkCard 
+  title="Tillbaka till - Kmom05"
+  href="/kmom/kmom05#artiklar"
+/>

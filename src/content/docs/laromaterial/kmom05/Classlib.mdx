@@ -15,21 +15,15 @@ head:
           inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-Tidigare har vi enbart skapat körbara konsolprojekt med `dotnet new console`. Ibland vill vi skapa klassbibliotek som fler projekt kan använda. Då kan vi skapa biblioteksprojekt med `dotnet new classlib`. Biblioteksprojekten är inte körbara utan används i konsolprojekt. 
+Tidigare har vi enbart skapat körbara konsolprojekt med `dotnet new console`. Ibland vill vi skapa klassbibliotek med återanvändbar kod som fler projekt kan använda. Då kan vi skapa biblioteksprojekt med `dotnet new classlib`. Biblioteksprojekten är inte körbara utan används i konsolprojekt.
 
-Genom att dela upp programmet i ett consoleprojekt och ett class library separerar vi användargränssnittet från logiken. Menu visar information och tar emot input, medan klasserna i class library gör själva arbetet.
+Genom att dela upp programmet i ett konsolprojekt och ett klassbibliotek (class library) separerar vi användargränssnittet från logiken. Menu visar information och tar emot input, medan klasserna i MyLibrary gör själva arbetet. Klassbiblioteket MyLibrary blir ingen körbar applikation som kan köras med `dotnet run`. Filerna kompileras istället till en DLL-fil (Dynamic Link Library). Denna DLL-fil kan användas av konsolprojektet. Konsoleprojektet är körbart med `dotnet run` och byggs till EXE (Executable).
 
 ## Skapa ett klassbibliotek
 
-Vi börjar med att skapa en katalog "classlibPractice" i "dbwebb-kurser/csharp/kmom05" och går ner i den.
-
-Det ser ut så här i terminalen. `$HOME` motsvarar katalogen som du skapade "dbwebb-kurser" i.
-
-```bash
-pwd
-// ger utskriften: $HOME/dbwebb-kurser/csharp/kmom06/classlibPractice
-```
+Vi börjar med att skapa en katalog `classlibPractice` i `kmom05/practice`-katalogen och går ner i den.
 
 Vi skapar ett klassbibliotek med följande kommando:
 
@@ -44,13 +38,11 @@ tree -L 2
 // │   ├── MyLibrary.csproj
 // │   ├── bin
 // │   └── obj
-// └── classlibPractice.sln
 ```
 
 Vi byter namn på klassen och filen (Class1.cs) till `Calculator` och lägger till en metod.
 
-```csharp
-// I MyLibrary/Calculator.cs
+```csharp title="Klassen Calculator.cs i klassbiblioteket MyLibrary"
 namespace MyLibrary;
 
 public class Calculator
@@ -59,16 +51,14 @@ public class Calculator
     {
         return a + b;
     }
-
-    //public static int Add(int a, int b) => a + b;
 }
 ```
 
 ## Skapa konsolprojekt
 
-Nu skapar vi konsolprojektet som ska använda klassbiblioteket `MyLibrary`.
+Nu skapar vi konsolprojektet `MyApp` i `classlibPractice`-katalogen som du skapade i `kmom05/practice`-katalogen. Konsolprojektet `MyApp` ska använda klassbiblioteket `MyLibrary`.
 
-```bash
+```bash title="Terminalen"
 dotnet new console -n MyApp
 
 tree -L 2
@@ -77,6 +67,7 @@ tree -L 2
 // ├── MyApp
 // │   ├── MyApp.csproj
 // │   ├── Program.cs
+// │   └── bin
 // │   └── obj
 // ├── MyLibrary
 // │   ├── Calculator.cs
@@ -87,7 +78,7 @@ tree -L 2
 
 Vi lägger till en referens till klassbiblioteket `MyLibrary` i konsolprojektet `MyApp` i terminalen.
 
-```bash
+```bash title="Terminalen"
 cd MyApp
 dotnet add reference ../MyLibrary/MyLibrary.csproj
 ```
@@ -96,26 +87,22 @@ Vi kontrollerar att referensen till klassbiblioteket finns i "MyApp/MyApp.csproj
 
 ## Kör konsolprojektet
 
-Vi uppdaterar först konsolprojektet med kod som anropar klassbiblioteket.
+Vi uppdaterar först konsolprojektet med kod som anropar klassbiblioteket och därefter testkör vi.
 
-```csharp title="I MyApp/MyApp.cs
+```csharp title="I MyApp/Program.cs"
 using MyLibrary;
 
 Console.WriteLine($"2 + 3 = {Calculator.Add(2, 3)}");
-```
+// Ger utskriften:
+// 2 + 3 = 5
 
-Då är det dags att testköra konsolprojektet i terminalen:
-
-```bash
-dotnet run
-// ger utskriften: 2 + 3 = 5
 ```
 
 ## Skapa ett testprojekt som testar klassbiblioteket
 
-Vi skapar ett testprojekt i katalogen "classlibPractice" med terminalen. Vi lägger också till en referens till klassbiblioteket "MyLibrary".
+Vi skapar ett testprojekt i katalogen `classlibPractice`. Vi lägger också till en referens till klassbiblioteket "MyLibrary".
 
-```bash
+```bash title="Terminalen"
 dotnet new nunit -n MyLibrary.Tests
 dotnet add MyLibrary.Tests/MyLibrary.Tests.csproj reference MyLibrary/MyLibrary.csproj
 tree -L 1
@@ -129,30 +116,53 @@ tree -L 1
 
 ### Lägg till ett testfall
 
-Vi uppdaterar "MyLibrary.Tests/UnitTest1.cs och byter namn på klassen till **CalculatorTests** och därmed också på filen till `CalculatorTests.cs`:
+Vi uppdaterar `MyLibrary.Tests/UnitTest1.cs` och byter namn på testklassen till **CalculatorTest** och därmed också på filen till `CalculatorTest.cs`:
 
-```csharp title="Enhetstester i klassen CalculatorTests"
-using NUnit.Framework;
+```csharp title="Enhetstester i klassen CalculatorTest"
 using MyLibrary;
 
 namespace MyLibrary.Tests;
 
-public class CalculatorTests
+public class CalculatorTest
 {
     [Test]
-    public void Add_ReturnsCorrectSum()
+    public void TestAddPositiveNumbers()
     {
-        Assert.That(Calculator.Add(6, 4), Is.EqualTo(10));
+        Assert.That(Calculator.Add(6, 4), Is.EqualTo(10), "The sum should be 10.");
+    }
+
+    [Test]
+    public void TestAddNegativeNumbers()
+    {
+        Assert.That(Calculator.Add(6, -4), Is.EqualTo(2), "The sum should be 2.");
     }
 }
 
 ```
 
-Vi kör testfallet med `dotnet test`.
+Vi kör testfallet med `dotnet test MyLibrary.Tests/MyLibrary.Tests.csproj` eller gå ner i `MyLibrary.Tests`-katalogen och kör `dotnet test`.
+
+```bash title="Terminalen"
+dotnet test MyLibrary.Tests/MyLibrary.Tests.csproj
+// ger utskriften:
+// Restore complete (0.5s)
+//   MyLibrary net10.0 succeeded (0.2s) → MyLibrary/bin/Debug/net10.0/MyLibrary.dll
+//   MyLibrary.Tests net10.0 succeeded (4.6s) → MyLibrary.Tests/bin/Debug/net10.0/MyLibrary.Tests.dll
+// NUnit Adapter 5.0.0.0: Test execution started
+// Running all tests in /Users/grm/dbwebb-kurser/csharp-grmstud/kmom05/practice/classlibPractice/MyLibrary.Tests/bin/Debug/net10.0/MyLibrary.Tests.dll
+//    NUnit3TestExecutor discovered 1 of 1 NUnit test cases using Current Discovery mode, Non-Explicit run
+// NUnit Adapter 5.0.0.0: Test execution complete
+//   MyLibrary.Tests test net10.0 succeeded (4.1s)
+
+// Test summary: total: 2, failed: 0, succeeded: 2, skipped: 0, duration: 4.1s
+// Build succeeded in 10.1s
+```
 
 ## Sammanfattning
 
-Då har vi tittat på hur vi kan göra ett klassbibliotek (classlib) som vi kan använda i ett konsolprojekt (console).
+Då har vi tittat på hur vi kan skapa ett klassbibliotek (classlib) som vi kan använda i ett konsolprojekt (console). Dessutom har vi skapat ett testprojekt för att testa klassbiblioteket (nunit).
 
-Om du vill titta på koden i sin helhet och ladda ner den så kör du `task download-code -- kmom05/classlibPractice`
-
+<LinkCard 
+  title="Tillbaka till - Kmom05"
+  href="/kmom/kmom05#artiklar"
+/>

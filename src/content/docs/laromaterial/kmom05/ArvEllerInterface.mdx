@@ -15,6 +15,8 @@ head:
           inset-inline-start: 0px;};}
 ---
 
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
 
 Öva på att avgöra om ett problem ska lösas med:
 
@@ -45,12 +47,13 @@ Ska detta lösas med arv eller interface?
 <details>
 
 <summary>
-**Svar - Exempel 1**
+##### Svar - Exempel 1
 </summary>
-**Arv**: Animal → Dog/Cat/Bird
+**Arv**: Basklassen Animal och subklasserna Dog, Cat och Bird ärver Animal.
 
-✔️ Gemensam data + beteende
-✔️ “är en”-relation
+- gemensam data + beteende.  
+- “är en”-relation
+
 </details>
 
 ## Exempel 2
@@ -66,12 +69,14 @@ Ska detta lösas med arv eller interface?
 <details>
 
 <summary>
-**Svar - Exempel 2**
+##### Svar - Exempel 2
 </summary>
-**Interface**: ITrainable
+**Interface**: ITrainable. Dog implementerar ITrainable.
 
-✔️ Alla djur är inte träningsbara
-✔️ Beskriver förmåga, inte identitet
+- Beskriver en förmåga
+- Alla djur kan inte tränas
+- Kan även användas av andra klasser senare
+
 </details>
 
 ## Exempel 3
@@ -93,17 +98,22 @@ Arv eller interface?
 <details>
 
 <summary>
-**Svar - Exempel 3**
+##### Svar - Exempel 3
 </summary>
-**Arv**: Vehicle → Car/Bike/Truck
+**Arv**: Basklassen Vehicle och subklasserna Car, Bike och Truck som ärver Vehicle.
 
-✔️ De är alla typer av fordon
-✔️ delar struktur
+- De är alla typer av fordon
+- Gemensamma data (Speed)
+- Gemensamt beteende (Start)
+
+Men "kan starta" skulle kunna vara ett interface då det är ett gemensamt beteende.
+
 </details>
 
 ## Exempel 4
 
 Vissa fordon kan köras elektriskt:
+
 - ElectricCar ✅
 - ElectricScooter ✅
 - Bike ❌
@@ -114,46 +124,61 @@ Arv eller interface?
 <details>
 
 <summary>
-**Svar - Exempel 4**
+##### Svar - Exempel 4
 </summary>
-**Interface**: Electric
+**Interface**: IElectric
 
-✔️ flera olika klasser kan vara “elektriska”
-✔️ ingen gemensam basklass behövs
+- Förmåga som kan finnas i flera olika hierarkier
+- ElectricCar och ElectricScooter behöver inte ha samma basklass men båda implementerar IElectric.
+
 </details>
 
 ## Exempel 5
 
-Du vill skapa en klass som:
+Vissa saker kan sparas till fil:
 
-- lagrar en lista av Animal
-- kan lägga till och hämta djur
+- Animal ✅
+- Customer ✅
+- Order ✅
 
-Fråga:
-Ska du använda interface här?
+Fråga: Arv eller interface?
 
 <details>
 
 <summary>
-**Svar - Exempel 5**
+##### Svar - Exempel 5
 </summary>
-**Interface + klass**: Handler
+**Interface**: ISaveable
 
-✔️ Interface → kontrakt (IAnimalHandler)
-✔️ Klass → implementation
+- Gemensam förmåga
+- Klasserna är inte samma typ av objekt
+
 </details>
 
 ## Extra reflektionsfråga
 
 Kan en klass använda både arv och interface samtidigt? Förklara.
+Vi har Bird, Eagle och Penguin. Alla är fåglar.
+
+Vissa kan flyga:
+
+- Eagle ✅
+- Penguin ❌
 
 Svar:
 
-- Ja
-- arv → vad den är
-- interface → vad den kan göra
+- Ja, en klass kan använda både arv och interface samtidigt.
+- Arv används för gemensamma egenskaper och beteenden. Alla fåglar kan ha en art och antal vingar.
+- Interface används för särskilda förmågor som bara vissa klasser har. Bara Eagle kan flyga.
+
+Alla fåglar har vingar och kan därför ärva basklassen Bird men endast Eagle kan flyga och därför implementerar Eagle även IFlyable. Alltså Eagle *är en* Bird och *kan* flyga.
 
 ## Enkel minnesregel
 
 **Arv** = vad något är  
 **Interface** = vad något kan göra
+
+<LinkCard 
+  title="Tillbaka till - Kmom05"
+  href="/kmom/kmom05#övningar"
+/>

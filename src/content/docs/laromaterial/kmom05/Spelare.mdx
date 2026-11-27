@@ -16,7 +16,7 @@ head:
 ---
 
 import Figure from '@components/CustomFigure.astro';
-
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
 Nu ska vi öva på arv och interface med hjälp av ett enkelt rollspel. Arbeta i `practice`-katalogen och kalla projektet `RollPlay`. Arv handlar om att beskriva en släktskapshierarki och det blir tydligt med spelkaraktärer.
 
@@ -74,8 +74,8 @@ Vi kan se att det är mycket upprepning av kod och det här är ett bra exempel 
 
 ## Basklass och subklass
 
-Basklass → den generella klassen  
-Subklass → en mer specifik version
+Basklass är den generella klassen.  
+Subklass är en mer specifik version.
 
 I vårt exempel är karaktären en generell klass, en basklass, som vi kan kalla **Character**. De olika typerna av karaktärer är våra specifika klasser, subklasser, och vi kallar dem **Warrior**, **Mage** och **Archer**. **Warrior**, **Mage** och **Archer** är alla olika typer av karaktärer. Därför flyttar vi den kod som är gemensam till basklassen Character.
 
@@ -132,6 +132,18 @@ Mage **är en** Character.
 Archer **är en** Character.
 
 Detta är själva grundidén bakom arv. Alla subklasser återanvänder den kod som redan finns i basklassen. Senare kan vi låta varje subklass få egna attribut och metoder som gör dem unika.
+En bågskytt har pilar och kan skjuta iväg pilarna.
+
+1. Gör subklasserna **Warrior**, **Mage** och **Archer** och testa dem med basklassens metoder.
+1. Vad är unikt för vår krigare? Ja, en sköld att skydda sig med. Lägg till attributet `_armor` och metoden `ShieldBlock()`. Lägg bara till en utskrift i metoden.
+1. Mana är den magiska energi eller kraftkälla som en mage (magiker) förbrukar för att kunna kasta sina trollformler. Lägg till attributet `_mana` och metoden `CastSpell()`. Lägg bara till en utskrift i metoden.
+1. En bågskytt har pilar och kan skjuta iväg pilarna. Lägg till attributet `_arrows` och metoden `ShootArrow()`. Lägg bara till en utskrift i metoden.
+
+<details>
+
+<summary>
+##### Svar - Lösningsförslag
+</summary>
 
 ```csharp title="Rollspelet med arv, subklassen Warrior"
 public class Warrior : Character
@@ -179,8 +191,6 @@ Console.WriteLine(mage.GetHealth());  // ger utskriften 75
 
 ## Specialisera subklasserna
 
-Vad är unikt för vår krigare? Ja, en sköld att skydda sig med.
-
 ```csharp title="Rollspelet med arv, subklassen Warrior specialiserad"
 public class Warrior : Character
 {
@@ -205,8 +215,6 @@ public class Warrior : Character
 }
 ```
 
-Mana är den magiska energi eller kraftkälla som en mage (magiker) förbrukar för att kunna kasta sina trollformler.
-
 ```csharp title="Rollspelet med arv, subklassen Mage specialiserad"
 public class Mage : Character
 {
@@ -230,8 +238,6 @@ public class Mage : Character
     }
 }
 ```
-
-En bågskytt har pilar och kan skjuta iväg pilarna.
 
 ```csharp title="Rollspelet med arv, subklassen Archer specialiserad"
 public class Archer : Character
@@ -272,6 +278,8 @@ archer.Attack(); // ger utskriften Robin attacks!
 archer.ShootArrow(); // ger utskriften The archer shoots an arrow!
 ```
 
+</details>
+
 ### Klassdiagram
 
 import classdiagramRollPlay1 from '@assets/img/kmom05/classdiagramRollPlay1.png';
@@ -286,8 +294,16 @@ import classdiagramRollPlay1 from '@assets/img/kmom05/classdiagramRollPlay1.png'
 
 Polymorfism betyder "många former". Det innebär att olika klasser kan dela samma basklass, men ändå ha unika implementationer av samma metod. **override** används för att ändra beteendet i en subklass. **virtual** i basklassen visar att subklassen kan ändra beteendet.
 
-Alla karaktärer har en metod som heter `Attack()` men de olika karaktärerna gör ju attacker på olika sätt. En krigare slåss med svärd. En magiker kastar besvärjelser. En bågskytt skjuter pilar.  
-För att möjliggöra detta markerar vi metoden `Attack()` som **virtual**.
+Alla karaktärer har en metod som heter `Attack()` men de olika karaktärerna gör ju attacker på olika sätt. En krigare slåss med svärd. En magiker kastar besvärjelser. En bågskytt skjuter pilar. 
+
+Implementera `Attack()` i arvshierarkin.
+
+<details>
+
+<summary>
+##### Svar - Lösningsförslag
+</summary>
+För att möjliggöra detta markerar vi metoden `Attack()` som **virtual** i basklassen.
 
 ```csharp title="Rollspelet med arv, basklassen Character med virtual"
 public class Character
@@ -337,9 +353,11 @@ foreach (Character character in party)
 // Robin shoots an arrow!
 ```
 
+</details>
+
 ## Information hiding
 
-Vi försöker att ha alla klassens attribut privata och låta klassen själv ta ansvar för att ändra attributen. Detta kallas **information hiding**. Attributet `_name` är privat i basklassen **Character** därför använder vi metoden `GetName()` för att hämta namnet.
+Vi försöker att ha alla klassernas attribut privata och låta klassen själv ta ansvar för att ändra attributen. Detta kallas **information hiding**. Attributet `_name` är privat i basklassen **Character** därför använder vi metoden `GetName()` för att hämta namnet.
 
 ## Interface
 
@@ -351,6 +369,12 @@ public interface ISuperPower
     void Activate();
 }
 ```
+
+<details>
+
+<summary>
+##### Svar - Lösningsförslag
+</summary>
 
 Alla som implementerar interfacet **ISuperPower** måste ha en metod som heter `Activate()`.
 
@@ -445,6 +469,8 @@ mage.UseSuperPower();
 // Fireball activated with power 50!
 ```
 
+</details>
+
 ### Klassdiagram
 
 import classdiagramRollPlay2 from '@assets/img/kmom05/classdiagramRollPlay2.png';
@@ -460,3 +486,8 @@ import classdiagramRollPlay2 from '@assets/img/kmom05/classdiagramRollPlay2.png'
 - Subklasser kan ändra beteende med **override** om basklassen tillåter det med **virtual**
 - **base** återanvänder kod i basklassen
 - **Polymorfism** - Samma metodanrop kan ge olika beteenden beroende på objektets verkliga typ.
+
+<LinkCard 
+  title="Tillbaka till - Kmom05"
+  href="/kmom/kmom05#övningar"
+/>
